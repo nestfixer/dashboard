@@ -1,0 +1,164 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           Int      @id @default(autoincrement())
+  username     String   @unique
+  passwordHash String
+  displayName  String
+  color        String   @default("#6366f1")
+  createdAt    DateTime @default(now())
+
+  assignedWOs   WorkOrder[]           @relation("AssignedTo")
+  createdWOs    WorkOrder[]           @relation("CreatedBy")
+  comments      Comment[]
+  timeEntries   TimeEntry[]
+  editRequests  CalendarEditRequest[] @relation("RequestedBy")
+  editApprovals CalendarEditRequest[] @relation("RequestedTo")
+}
+
+model Customer {
+  id         Int        @id @default(autoincrement())
+  name       String
+  phone      String?
+  email      String?
+  address    String?
+  notes      String?
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+  workOrders WorkOrder[]
+}
+
+model WorkOrder {
+  id           Int       @id @default(autoincrement())
+  title        String
+  description  String?
+  status       String    @default("Pending")
+  priority     String    @default("Medium")
+  dueDate      DateTime?
+  remarks      String?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  acceptedAt   DateTime?
+
+  customerId   Int?
+  customer     Customer? @relation(fields: [customerId], references: [id])
+  createdById  Int
+  createdBy    User      @relation("CreatedBy", fields: [createdById], references: [id])
+  assignedToId Int?
+  assignedTo   User?     @relation("AssignedTo", fields: [assignedToId], references: [id])
+
+  materials    Material[]
+  images       WorkOrderImage[]
+  comments     Comment[]
+  timeEntries  TimeEntry[]
+  invoices     Invoice[]
+  editRequests CalendarEditRequest[]
+  subTasks     SubTask[]
+}
+
+model SubTask {
+  id          Int       @id @default(autoincrement())
+  workOrderId Int
+  workOrder   WorkOrder @relation(fields: [workOrderId], references: [id], onDelete: Cascade)
+  title       String
+  completed   Boolean   @default(false)
+  position    Int       @default(0)
+  createdAt   DateTime  @default(now())
+}
+
+model Material {
+  id          Int       @id @default(autoincrement())
+  workOrderId Int
+  workOrder   WorkOrder @relation(fields: [workOrderId], references: [id], onDelete: Cascade)
+  name        String
+  quantity    Float     @default(1)
+  unitCost    Float     @default(0)
+  createdAt   DateTime  @default(now())
+}
+
+model WorkOrderImage {
+  id           Int       @id @default(autoincrement())
+  workOrderId  Int
+  workOrder    WorkOrder @relation(fields: [workOrderId], references: [id], onDelete: Cascade)
+  filename     String
+  originalName String
+  url          String
+  uploadedAt   DateTime  @default(now())
+}
+
+model Comment {
+  id          Int       @id @default(autoincrement())
+  workOrderId Int
+  workOrder   WorkOrder @relation(fields: [workOrderId], references: [id], onDelete: Cascade)
+  authorId    Int
+  author      User      @relation(fields: [authorId], references: [id])
+  body        String
+  createdAt   DateTime  @default(now())
+  editedAt    DateTime?
+}
+
+model TimeEntry {
+  id           Int       @id @default(autoincrement())
+  workOrderId  Int
+  workOrder    WorkOrder @relation(fields: [workOrderId], references: [id], onDelete: Cascade)
+  userId       Int
+  user         User      @relation(fields: [userId], references: [id])
+  entryType    String    @default("manual")
+  startTime    DateTime?
+  endTime      DateTime?
+  durationMins Int?
+  date         DateTime  @default(now())
+  notes        String?
+}
+
+model Invoice {
+  id            Int           @id @default(autoincrement())
+  workOrderId   Int
+  workOrder     WorkOrder     @relation(fields: [workOrderId], references: [id])
+  invoiceNumber String        @unique
+  status        String        @default("Draft")
+  bufferPct     Float         @default(0)
+  laborRate     Float         @default(0)
+  laborHours    Float         @default(0)
+  materialTotal Float         @default(0)
+  laborTotal    Float         @default(0)
+  bufferAmount  Float         @default(0)
+  grandTotal    Float         @default(0)
+  notes         String?
+  issuedAt      DateTime      @default(now())
+  paidAt        DateTime?
+  lines         InvoiceLine[]
+}
+
+model InvoiceLine {
+  id          Int     @id @default(autoincrement())
+  invoiceId   Int
+  invoice     Invoice @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+  description String
+  quantity    Float
+  unitCost    Float
+  lineTotal   Float
+  lineType    String  @default("material")
+}
+
+model CalendarEditRequest {
+  id            Int       @id @default(autoincrement())
+  workOrderId   Int
+  workOrder     WorkOrder @relation(fields: [workOrderId], references: [id], onDelete: Cascade)
+  requestedById Int
+  requestedBy   User      @relation("RequestedBy", fields: [requestedById], references: [id])
+  requestedToId Int
+  requestedTo   User      @relation("RequestedTo", fields: [requestedToId], references: [id])
+  newDueDate    DateTime
+  reason        String?
+  status        String    @default("Pending")
+  createdAt     DateTime  @default(now())
+  resolvedAt    DateTime?
+}
