@@ -3,8 +3,6 @@ import { requireAuth } from "@/lib/auth-helpers"
 import Link from "next/link"
 import { format } from "date-fns"
 import { PageHeader } from "@/components/layout/PageHeader"
-import { EmptyState } from "@/components/shared/EmptyState"
-import Button from "@/components/ui/Button"
 
 export default async function CustomersPage({
   searchParams,
@@ -18,9 +16,9 @@ export default async function CustomersPage({
     where: search
       ? {
           OR: [
-            { name: { contains: search } },
-            { phone: { contains: search } },
-            { email: { contains: search } },
+            { name: { contains: search, mode: "insensitive" } },
+            { phone: { contains: search, mode: "insensitive" } },
+            { email: { contains: search, mode: "insensitive" } },
           ],
         }
       : undefined,
@@ -30,15 +28,17 @@ export default async function CustomersPage({
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-6">
-        <h2 className="text-xl font-semibold text-gray-900">Customers</h2>
-        <Link
-          href="/customers/new"
-          className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium rounded-lg transition-colors"
-        >
-          + New Customer
-        </Link>
-      </div>
+      <PageHeader
+        title="Customers"
+        action={
+          <Link
+            href="/customers/new"
+            className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium rounded-lg transition-colors"
+          >
+            + New Customer
+          </Link>
+        }
+      />
 
       <form className="mb-4">
         <input

@@ -7,8 +7,9 @@ import { DueDateBadge } from "@/components/shared/DueDateBadge"
 import { getDueDateStatus, dueDateRowClasses } from "@/lib/due-date"
 import { WorkOrderFilters } from "@/components/work-orders/WorkOrderFilters"
 import { PageHeader } from "@/components/layout/PageHeader"
-import { EmptyState } from "@/components/shared/EmptyState"
-import Button from "@/components/ui/Button"
+import { UserAvatar } from "@/components/shared/UserAvatar"
+import { WorkOrderStatus, WorkOrderPriority } from "@/types"
+import { Prisma } from "@prisma/client"
 
 export default async function WorkOrdersPage({
   searchParams,
@@ -19,11 +20,11 @@ export default async function WorkOrdersPage({
 
   const { search = "", status = "", assignedTo = "", sort = "createdAt", order = "desc" } = searchParams
 
-  const where: any = {}
+  const where: Prisma.WorkOrderWhereInput = {}
   if (search) {
     where.OR = [
-      { title: { contains: search } },
-      { customer: { name: { contains: search } } },
+      { title: { contains: search, mode: "insensitive" } },
+      { customer: { name: { contains: search, mode: "insensitive" } } },
     ]
   }
   if (status) where.status = status
@@ -41,22 +42,24 @@ export default async function WorkOrdersPage({
         assignedTo: { select: { id: true, displayName: true, color: true } },
         _count: { select: { comments: true, timeEntries: true } },
       },
-      orderBy: { [sortField]: order as "asc" | "desc" },
+      orderBy: { [sortField as any]: order as "asc" | "desc" },
     }),
     prisma.user.findMany({ select: { id: true, displayName: true } }),
   ])
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-6">
-        <h2 className="text-xl font-semibold text-gray-900">Work Orders</h2>
-        <Link
-          href="/work-orders/new"
-          className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium rounded-lg transition-colors"
-        >
-          + New Work Order
-        </Link>
-      </div>
+      <PageHeader
+        title="Work Orders"
+        action={
+          <Link
+            href="/work-orders/new"
+            className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium rounded-lg transition-colors"
+          >
+            + New Work Order
+          </Link>
+        }
+      />
 
       <WorkOrderFilters users={users} />
 
@@ -102,20 +105,15 @@ export default async function WorkOrdersPage({
                       </Link>
                     </td>
                     <td className="px-4 py-3 text-gray-600">{wo.customer?.name ?? "—"}</td>
-                    <td className="px-4 py-3"><StatusBadge status={wo.status as any} /></td>
-                    <td className="px-4 py-3"><PriorityBadge priority={wo.priority as any} /></td>
+                    <td className="px-4 py-3"><StatusBadge status={wo.status as WorkOrderStatus} /></td>
+                    <td className="px-4 py-3"><PriorityBadge priority={wo.priority as WorkOrderPriority} /></td>
                     <td className="px-4 py-3">
                       {wo.status !== "Completed" ? <DueDateBadge dueDate={wo.dueDate} /> : <span className="text-xs text-gray-400">—</span>}
                     </td>
                     <td className="px-4 py-3">
                       {wo.assignedTo ? (
                         <div className="flex items-center gap-1.5">
-                          <div
-                            className="w-5 h-5 rounded-full flex items-center justify-center text-white text-xs font-bold"
-                            style={{ backgroundColor: wo.assignedTo.color }}
-                          >
-                            {wo.assignedTo.displayName[0]}
-                          </div>
+                          <UserAvatar user={wo.assignedTo} size="sm" />
                           <span className="text-gray-600">{wo.assignedTo.displayName}</span>
                         </div>
                       ) : <span className="text-gray-400">Unassigned</span>}

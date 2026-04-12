@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { format } from "date-fns"
-import Button from "@/components/ui/Button"
+import { UserAvatar } from "@/components/shared/UserAvatar"
 
 interface Comment {
   id: number
@@ -50,12 +50,7 @@ export function CommentThread({ workOrderId, initialComments, currentUserId }: P
         )}
         {comments.map((c) => (
           <div key={c.id} className="flex gap-3">
-            <div
-              className="w-7 h-7 rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0 mt-0.5"
-              style={{ backgroundColor: c.author.color }}
-            >
-              {c.author.displayName[0]}
-            </div>
+            <UserAvatar user={c.author} size="md" className="mt-0.5" />
             <div className="flex-1 bg-gray-50 rounded-lg px-3 py-2">
               <div className="flex items-center gap-2 mb-1">
                 <span className="text-xs font-semibold text-gray-900">{c.author.displayName}</span>

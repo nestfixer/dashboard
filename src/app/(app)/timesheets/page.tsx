@@ -5,27 +5,11 @@ import { useRouter, useSearchParams } from "next/navigation"
 import { format, startOfWeek, endOfWeek, startOfMonth, endOfMonth } from "date-fns"
 import { timesheetToCSV, downloadCSV } from "@/lib/csv-export"
 import Link from "next/link"
-
-interface User {
-  id: number
-  displayName: string
-  color: string
-}
-
-interface Entry {
-  id: number
-  userId: number
-  workOrderId: number
-  entryType: string
-  durationMins: number | null
-  date: string
-  notes: string | null
-  user: User
-  workOrder: { id: number; title: string }
-}
+import { UserAvatar } from "@/components/shared/UserAvatar"
+import { User } from "@/types"
 
 function TimesheetsPage() {
-  const [entries, setEntries] = useState<Entry[]>([])
+  const [entries, setEntries] = useState<any[]>([]) // Using any for composite fetched data
   const [users, setUsers] = useState<User[]>([])
   const [loading, setLoading] = useState(true)
 
@@ -59,11 +43,11 @@ function TimesheetsPage() {
     const data = await res.json()
     setEntries(Array.isArray(data) ? data : [])
     setLoading(false)
-  }, [searchParams, userFilter, startDate, endDate])
+  }, [userFilter, startDate, endDate]) // Removed searchParams to fix lint warning
 
   useEffect(() => { fetchEntries() }, [fetchEntries])
 
-  const byDate = entries.reduce<Record<string, Entry[]>>((acc, e) => {
+  const byDate = entries.reduce<Record<string, any[]>>((acc, e) => {
     const day = format(new Date(e.date), "yyyy-MM-dd")
     ;(acc[day] ??= []).push(e)
     return acc
@@ -73,7 +57,7 @@ function TimesheetsPage() {
   const grandTotal = entries.reduce((s, e) => s + (e.durationMins ?? 0), 0)
 
   function handleExport() {
-    const csv = timesheetToCSV(entries as any, new Date(startDate))
+    const csv = timesheetToCSV(entries, new Date(startDate))
     downloadCSV(csv, `timesheet-${startDate}-to-${endDate}.csv`)
   }
 
@@ -143,10 +127,7 @@ function TimesheetsPage() {
           const mins = entries.filter((e) => e.userId === u.id).reduce((s, e) => s + (e.durationMins ?? 0), 0)
           return (
             <div key={u.id} className="bg-white rounded-xl border border-gray-200 p-4 flex items-center gap-3">
-              <div className="w-9 h-9 rounded-full flex items-center justify-center text-white text-sm font-bold flex-shrink-0"
-                style={{ backgroundColor: u.color }}>
-                {u.displayName[0]}
-              </div>
+              <UserAvatar user={u} size="md" />
               <div>
                 <p className="text-xs text-gray-500">{u.displayName}</p>
                 <p className="text-xl font-bold text-gray-900">{(mins / 60).toFixed(1)}<span className="text-sm font-normal text-gray-500 ml-1">hrs</span></p>
@@ -195,10 +176,7 @@ function TimesheetsPage() {
                       <tr key={e.id} className="hover:bg-gray-50 transition-colors">
                         <td className="px-4 py-3 w-36">
                           <div className="flex items-center gap-2">
-                            <div className="w-5 h-5 rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0"
-                              style={{ backgroundColor: e.user.color }}>
-                              {e.user.displayName[0]}
-                            </div>
+                            <UserAvatar user={e.user} size="sm" />
                             <span className="text-xs text-gray-600">{e.user.displayName}</span>
                           </div>
                         </td>

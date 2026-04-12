@@ -20,8 +20,8 @@ export async function GET(req: NextRequest) {
   const where: any = {}
   if (search) {
     where.OR = [
-      { title: { contains: search } },
-      { customer: { name: { contains: search } } },
+      { title: { contains: search, mode: "insensitive" } },
+      { customer: { name: { contains: search, mode: "insensitive" } } },
     ]
   }
   if (status) where.status = status
