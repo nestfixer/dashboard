@@ -97,7 +97,7 @@ export default async function WorkOrderDetailPage({ params }: { params: { id: st
         </p>
 
         {/* Info bar */}
-        <div className="grid grid-cols-3 divide-x divide-gray-100 border border-gray-100 rounded-lg bg-gray-50">
+        <div className="grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-gray-100 border border-gray-100 rounded-lg bg-gray-50">
           {/* Assigned Tech */}
           <div className="flex items-center gap-3 px-5 py-3.5">
             <div className="w-8 h-8 rounded-full bg-indigo-50 flex items-center justify-center flex-shrink-0">
@@ -146,7 +146,7 @@ export default async function WorkOrderDetailPage({ params }: { params: { id: st
       </div>
 
       {/* ── Body ── */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
         {/* Left: main content */}
         <div className="lg:col-span-2 space-y-5">

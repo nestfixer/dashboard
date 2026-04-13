@@ -85,7 +85,7 @@ export default async function DashboardPage() {
         myWOs={myWOs}
       />
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
         <div className="lg:col-span-2">
           <DashboardCalendar />
         </div>

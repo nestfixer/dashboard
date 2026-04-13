@@ -64,6 +64,7 @@ export default async function WorkOrdersPage({
       <WorkOrderFilters users={users} />
 
       <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+        <div className="overflow-x-auto">
         {workOrders.length === 0 ? (
           <div className="py-16 text-center flex flex-col items-center gap-3">
             <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center">
@@ -90,7 +91,7 @@ export default async function WorkOrdersPage({
                 <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600 uppercase tracking-wide">Status</th>
                 <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600 uppercase tracking-wide">Priority</th>
                 <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600 uppercase tracking-wide">Due Date</th>
-                <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600 uppercase tracking-wide">Assigned To</th>
+                <th className="hidden md:table-cell text-left px-4 py-3 text-xs font-semibold text-gray-600 uppercase tracking-wide">Assigned To</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-50">
@@ -110,7 +111,7 @@ export default async function WorkOrdersPage({
                     <td className="px-4 py-3">
                       {wo.status !== "Completed" ? <DueDateBadge dueDate={wo.dueDate} /> : <span className="text-xs text-gray-400">—</span>}
                     </td>
-                    <td className="px-4 py-3">
+                    <td className="hidden md:table-cell px-4 py-3">
                       {wo.assignedTo ? (
                         <div className="flex items-center gap-1.5">
                           <UserAvatar user={wo.assignedTo} size="sm" />
@@ -124,6 +125,7 @@ export default async function WorkOrdersPage({
             </tbody>
           </table>
         )}
+        </div>
       </div>
     </div>
   )

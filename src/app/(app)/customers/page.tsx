@@ -50,6 +50,7 @@ export default async function CustomersPage({
       </form>
 
       <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+        <div className="overflow-x-auto">
         {customers.length === 0 ? (
           <div className="py-16 text-center flex flex-col items-center gap-3">
             <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center">
@@ -72,10 +73,10 @@ export default async function CustomersPage({
             <thead className="bg-gray-50 border-b border-gray-200">
               <tr>
                 <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600 uppercase tracking-wide">Name</th>
-                <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600 uppercase tracking-wide">Phone</th>
-                <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600 uppercase tracking-wide">Email</th>
+                <th className="hidden sm:table-cell text-left px-4 py-3 text-xs font-semibold text-gray-600 uppercase tracking-wide">Phone</th>
+                <th className="hidden sm:table-cell text-left px-4 py-3 text-xs font-semibold text-gray-600 uppercase tracking-wide">Email</th>
                 <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600 uppercase tracking-wide">Work Orders</th>
-                <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600 uppercase tracking-wide">Added</th>
+                <th className="hidden sm:table-cell text-left px-4 py-3 text-xs font-semibold text-gray-600 uppercase tracking-wide">Added</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
@@ -89,14 +90,14 @@ export default async function CustomersPage({
                       <p className="text-xs text-gray-400 truncate max-w-xs mt-0.5">{c.address}</p>
                     )}
                   </td>
-                  <td className="px-4 py-3 text-gray-600">{c.phone ?? <span className="text-gray-300">—</span>}</td>
-                  <td className="px-4 py-3 text-gray-600">{c.email ?? <span className="text-gray-300">—</span>}</td>
+                  <td className="hidden sm:table-cell px-4 py-3 text-gray-600">{c.phone ?? <span className="text-gray-300">—</span>}</td>
+                  <td className="hidden sm:table-cell px-4 py-3 text-gray-600">{c.email ?? <span className="text-gray-300">—</span>}</td>
                   <td className="px-4 py-3">
                     <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-indigo-50 text-indigo-700">
                       {c._count.workOrders}
                     </span>
                   </td>
-                  <td className="px-4 py-3 text-gray-500 text-xs">
+                  <td className="hidden sm:table-cell px-4 py-3 text-gray-500 text-xs">
                     {format(new Date(c.createdAt), "MMM d, yyyy")}
                   </td>
                 </tr>
@@ -104,6 +105,7 @@ export default async function CustomersPage({
             </tbody>
           </table>
         )}
+        </div>
       </div>
     </div>
   )
