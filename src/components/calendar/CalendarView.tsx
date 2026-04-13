@@ -340,6 +340,5 @@ export function CalendarView({ compact = false }: { compact?: boolean }) {
         .fc-event-external:active { cursor: grabbing; z-index: 9999; }
       `}</style>
     </div>
-    </div>
   )
 }

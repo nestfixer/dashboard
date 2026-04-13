@@ -10,7 +10,7 @@ export default async function NewWorkOrderPage() {
   ])
   return (
     <div className="max-w-2xl">
-      <h2 className="text-xl font-semibold text-gray-900 mb-6">New Work Order</h2>
+      <h2 className="text-xl font-semibold text-white mb-6">New Work Order</h2>
       <WorkOrderForm customers={customers} users={users} currentUserId={userId} />
     </div>
   )

@@ -299,6 +299,5 @@ export default async function WorkOrderDetailPage({ params }: { params: { id: st
         </div>
       </div>
     </div>
-    </div>
   )
 }

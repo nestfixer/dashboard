@@ -39,68 +39,68 @@ export default function NewCustomerPage() {
   return (
     <div className="max-w-lg">
       <div className="flex items-center gap-3 mb-6">
-        <Link href="/customers" className="text-sm text-gray-500 hover:text-gray-700 transition-colors">
+        <Link href="/customers" className="text-sm text-muted hover:text-white transition-colors">
           ← Customers
         </Link>
-        <h2 className="text-xl font-semibold text-gray-900">New Customer</h2>
+        <h2 className="text-xl font-semibold text-white">New Customer</h2>
       </div>
 
-      <div className="bg-white rounded-xl border border-gray-200 p-6">
+      <div className="bg-card rounded-xl border border-border p-6">
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-xs font-medium text-gray-600 mb-1">Name *</label>
+            <label className="block text-xs font-medium text-muted mb-1">Name *</label>
             <input
               name="name"
               required
-              className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="w-full rounded-lg border border-border bg-card text-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent-blue placeholder-gray-600"
               placeholder="Customer name"
             />
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-medium text-gray-600 mb-1">Phone</label>
+              <label className="block text-xs font-medium text-muted mb-1">Phone</label>
               <input
                 name="phone"
                 type="tel"
-                className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                className="w-full rounded-lg border border-border bg-card text-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent-blue"
               />
             </div>
             <div>
-              <label className="block text-xs font-medium text-gray-600 mb-1">Email</label>
+              <label className="block text-xs font-medium text-muted mb-1">Email</label>
               <input
                 name="email"
                 type="email"
-                className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                className="w-full rounded-lg border border-border bg-card text-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent-blue"
               />
             </div>
           </div>
           <div>
-            <label className="block text-xs font-medium text-gray-600 mb-1">Address</label>
+            <label className="block text-xs font-medium text-muted mb-1">Address</label>
             <input
               name="address"
-              className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="w-full rounded-lg border border-border bg-card text-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent-blue"
             />
           </div>
           <div>
-            <label className="block text-xs font-medium text-gray-600 mb-1">Notes</label>
+            <label className="block text-xs font-medium text-muted mb-1">Notes</label>
             <textarea
               name="notes"
               rows={3}
-              className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none"
+              className="w-full rounded-lg border border-border bg-card text-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent-blue resize-none"
             />
           </div>
-          {error && <p className="text-sm text-red-600">{error}</p>}
+          {error && <p className="text-sm text-red-400">{error}</p>}
           <div className="flex gap-3 pt-2">
             <button
               type="submit"
               disabled={saving}
-              className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 text-white text-sm font-medium rounded-lg transition-colors"
+              className="px-4 py-2 bg-accent-blue hover:bg-accent-blue/90 disabled:opacity-50 text-white text-sm font-medium rounded-lg transition-colors"
             >
               {saving ? "Saving…" : "Create Customer"}
             </button>
             <Link
               href="/customers"
-              className="px-4 py-2 text-sm text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+              className="px-4 py-2 text-sm text-muted hover:bg-white/10 rounded-lg transition-colors"
             >
               Cancel
             </Link>

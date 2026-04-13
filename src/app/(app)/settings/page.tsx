@@ -87,25 +87,25 @@ export default function SettingsPage() {
 
   return (
     <div className="max-w-lg space-y-8">
-      <h2 className="text-xl font-semibold text-gray-900">Profile &amp; Settings</h2>
+      <h2 className="text-xl font-semibold text-white">Profile &amp; Settings</h2>
 
       {/* Profile */}
-      <div className="bg-white rounded-xl border border-gray-200 p-6">
-        <h3 className="text-sm font-semibold text-gray-900 mb-4">Profile</h3>
+      <div className="bg-card rounded-xl border border-border p-6">
+        <h3 className="text-sm font-semibold text-white mb-4">Profile</h3>
         <form onSubmit={saveProfile} className="space-y-4">
           <div>
-            <label className="block text-xs font-medium text-gray-600 mb-1">Display Name</label>
+            <label className="block text-xs font-medium text-muted mb-1">Display Name</label>
             <input
               type="text"
               value={displayName}
               onChange={(e) => setDisplayName(e.target.value)}
-              className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="w-full rounded-lg border border-border bg-card text-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent-blue"
               required
             />
           </div>
 
           <div>
-            <label className="block text-xs font-medium text-gray-600 mb-2">Color</label>
+            <label className="block text-xs font-medium text-muted mb-2">Color</label>
             <div className="flex items-center gap-2 flex-wrap">
               {PRESET_COLORS.map((c) => (
                 <button
@@ -124,7 +124,7 @@ export default function SettingsPage() {
                 type="color"
                 value={color}
                 onChange={(e) => setColor(e.target.value)}
-                className="w-7 h-7 rounded cursor-pointer border border-gray-300"
+                className="w-7 h-7 rounded cursor-pointer border border-border"
                 title="Custom color"
               />
               <div
@@ -137,7 +137,7 @@ export default function SettingsPage() {
           </div>
 
           {profileMsg && (
-            <p className={`text-xs ${profileMsg.type === "success" ? "text-green-600" : "text-red-600"}`}>
+            <p className={`text-xs ${profileMsg.type === "success" ? "text-green-400" : "text-red-400"}`}>
               {profileMsg.text}
             </p>
           )}
@@ -145,7 +145,7 @@ export default function SettingsPage() {
           <button
             type="submit"
             disabled={profileSaving}
-            className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 text-white text-sm font-medium rounded-lg transition-colors"
+            className="px-4 py-2 bg-accent-blue hover:bg-accent-blue/90 disabled:opacity-50 text-white text-sm font-medium rounded-lg transition-colors"
           >
             {profileSaving ? "Saving…" : "Save Profile"}
           </button>
@@ -153,44 +153,44 @@ export default function SettingsPage() {
       </div>
 
       {/* Password */}
-      <div className="bg-white rounded-xl border border-gray-200 p-6">
-        <h3 className="text-sm font-semibold text-gray-900 mb-4">Change Password</h3>
+      <div className="bg-card rounded-xl border border-border p-6">
+        <h3 className="text-sm font-semibold text-white mb-4">Change Password</h3>
         <form onSubmit={savePassword} className="space-y-4">
           <div>
-            <label className="block text-xs font-medium text-gray-600 mb-1">Current Password</label>
+            <label className="block text-xs font-medium text-muted mb-1">Current Password</label>
             <input
               type="password"
               value={currentPassword}
               onChange={(e) => setCurrentPassword(e.target.value)}
-              className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="w-full rounded-lg border border-border bg-card text-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent-blue"
               required
             />
           </div>
           <div>
-            <label className="block text-xs font-medium text-gray-600 mb-1">New Password</label>
+            <label className="block text-xs font-medium text-muted mb-1">New Password</label>
             <input
               type="password"
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
-              className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="w-full rounded-lg border border-border bg-card text-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent-blue"
               required
               minLength={6}
             />
           </div>
           <div>
-            <label className="block text-xs font-medium text-gray-600 mb-1">Confirm New Password</label>
+            <label className="block text-xs font-medium text-muted mb-1">Confirm New Password</label>
             <input
               type="password"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
-              className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="w-full rounded-lg border border-border bg-card text-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent-blue"
               required
               minLength={6}
             />
           </div>
 
           {passwordMsg && (
-            <p className={`text-xs ${passwordMsg.type === "success" ? "text-green-600" : "text-red-600"}`}>
+            <p className={`text-xs ${passwordMsg.type === "success" ? "text-green-400" : "text-red-400"}`}>
               {passwordMsg.text}
             </p>
           )}
@@ -198,7 +198,7 @@ export default function SettingsPage() {
           <button
             type="submit"
             disabled={passwordSaving}
-            className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 text-white text-sm font-medium rounded-lg transition-colors"
+            className="px-4 py-2 bg-accent-blue hover:bg-accent-blue/90 disabled:opacity-50 text-white text-sm font-medium rounded-lg transition-colors"
           >
             {passwordSaving ? "Updating…" : "Update Password"}
           </button>

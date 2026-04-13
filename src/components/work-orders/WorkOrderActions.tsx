@@ -42,6 +42,44 @@ export function WorkOrderActions({ workOrderId, status, assignedToId, currentUse
 
   return (
     <>
+      <div className="flex flex-wrap gap-2">
+        {status === "Pending" && (
+          <button
+            onClick={() => post("accept")}
+            disabled={loading === "accept"}
+            className="flex-1 px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-white bg-accent-blue hover:bg-accent-blue/90 disabled:opacity-50 rounded-xl transition-all shadow-[0_0_15px_rgba(74,144,226,0.2)] active:scale-95"
+          >
+            {loading === "accept" ? "…" : "Accept"}
+          </button>
+        )}
+        {status === "Accepted" && (
+          <button
+            onClick={() => post("complete")}
+            disabled={loading === "complete"}
+            className="flex-1 px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-white bg-accent-green/80 hover:bg-accent-green disabled:opacity-50 rounded-xl transition-all active:scale-95"
+          >
+            {loading === "complete" ? "…" : "Mark Complete"}
+          </button>
+        )}
+        {status === "Completed" && (
+          <button
+            onClick={() => post("reopen")}
+            disabled={loading === "reopen"}
+            className="flex-1 px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-white/80 bg-white/10 hover:bg-white/20 disabled:opacity-50 rounded-xl transition-all active:scale-95"
+          >
+            {loading === "reopen" ? "…" : "Reopen"}
+          </button>
+        )}
+        <button
+          onClick={() => setShowReassign(!showReassign)}
+          className="px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-white/80 bg-white/5 hover:bg-white/10 rounded-xl transition-all border border-white/10 active:scale-95"
+        >
+          Reassign
+        </button>
+        <button
+          onClick={() => setConfirmDelete(true)}
+          className="px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-red-400 bg-red-500/10 hover:bg-red-500/20 rounded-xl transition-all border border-red-500/20 active:scale-95"
+        >
           Delete
         </button>
       </div>
@@ -49,7 +87,7 @@ export function WorkOrderActions({ workOrderId, status, assignedToId, currentUse
       {showReassign && (
         <div className="flex items-center gap-2 mt-2">
           <select
-            className="px-3 py-1.5 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            className="px-3 py-1.5 text-sm border border-border bg-card text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-blue"
             onChange={(e) => setReassignTo(parseInt(e.target.value))}
           >
             <option value="">Select user…</option>
@@ -60,7 +98,7 @@ export function WorkOrderActions({ workOrderId, status, assignedToId, currentUse
           <button
             onClick={() => { if (reassignTo) post("reassign", { assignedToId: reassignTo }); setShowReassign(false) }}
             disabled={!reassignTo}
-            className="px-3 py-1.5 text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 disabled:bg-indigo-400 rounded-lg"
+            className="px-3 py-1.5 text-sm font-medium text-white bg-accent-blue hover:bg-accent-blue/90 disabled:opacity-50 rounded-lg"
           >
             Confirm
           </button>

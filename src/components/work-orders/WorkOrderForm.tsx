@@ -339,93 +339,21 @@ export function WorkOrderForm({ customers, users, currentUserId, defaultValues }
 
         <div className="flex gap-3 pt-2">
           <button
+            type="submit"
+            disabled={loading}
+            className="px-4 py-2 bg-accent-blue hover:bg-accent-blue/90 disabled:opacity-50 text-white text-sm font-medium rounded-lg transition-colors"
+          >
+            {loading ? "Saving…" : defaultValues?.id ? "Update Work Order" : "Create Work Order"}
+          </button>
+          <button
             type="button"
-            </div>
-
-            <div className="space-y-2">
-              <label className="text-[10px] font-black uppercase tracking-[0.15em] text-muted mb-2 block">Assigned Technician</label>
-              <select
-                name="assignedToId"
-                defaultValue={initialData?.assignedToId}
-                className="w-full bg-[#0a0a0a] border border-border rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-accent-blue/50 focus:border-accent-blue transition-all text-foreground appearance-none cursor-pointer"
-              >
-                <option value="">Select Technician...</option>
-                {users.map(u => (
-                  <option key={u.id} value={u.id}>{u.name}</option>
-                ))}
-              </select>
-            </div>
-          </div>
+            onClick={() => window.history.back()}
+            className="px-4 py-2 text-sm text-muted hover:bg-white/10 rounded-lg transition-colors"
+          >
+            Cancel
+          </button>
         </div>
-      </div>
-
-      <div className="bg-card rounded-2xl border border-border overflow-hidden shadow-sm">
-        <div className="px-8 py-5 border-b border-white/5 bg-white/[0.01]">
-          <h2 className="text-sm font-black uppercase tracking-[0.2em] text-foreground flex items-center gap-3">
-            <span className="w-2 h-2 rounded-full bg-accent-blue shadow-[0_0_8px_#4a90e2]" />
-            Customer Contact
-          </h2>
-        </div>
-        <div className="p-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div className="space-y-2">
-              <label className="text-[10px] font-black uppercase tracking-[0.15em] text-muted mb-2 block">Full Name</label>
-              <input
-                name="customerName"
-                defaultValue={initialData?.customerName}
-                className="w-full bg-[#0a0a0a] border border-border rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-accent-blue/50 focus:border-accent-blue transition-all text-foreground placeholder-muted"
-                placeholder="Jane Cooper"
-              />
-            </div>
-            <div className="space-y-2">
-              <label className="text-[10px] font-black uppercase tracking-[0.15em] text-muted mb-2 block">Phone Number</label>
-              <input
-                name="customerPhone"
-                defaultValue={initialData?.customerPhone}
-                className="w-full bg-[#0a0a0a] border border-border rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-accent-blue/50 focus:border-accent-blue transition-all text-foreground placeholder-muted tabular-nums"
-                placeholder="(555) 000-0000"
-              />
-            </div>
-            <div className="space-y-2 md:col-span-2 lg:col-span-1">
-              <label className="text-[10px] font-black uppercase tracking-[0.15em] text-muted mb-2 block">Email Address</label>
-              <input
-                name="customerEmail"
-                type="email"
-                defaultValue={initialData?.customerEmail}
-                className="w-full bg-[#0a0a0a] border border-border rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-accent-blue/50 focus:border-accent-blue transition-all text-foreground placeholder-muted"
-                placeholder="jane.cooper@example.com"
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="flex flex-col sm:flex-row items-center justify-end gap-4 pt-6">
-        <button
-          type="button"
-          onClick={() => window.history.back()}
-          className="w-full sm:w-auto px-8 py-3 text-[11px] font-black uppercase tracking-[0.2em] text-muted hover:text-foreground transition-all active:scale-95"
-        >
-          Discard Changes
-        </button>
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full sm:w-auto px-12 py-4 bg-accent-blue hover:bg-accent-blue/80 text-white text-xs font-black uppercase tracking-[0.2em] rounded-xl transition-all shadow-[0_10px_30px_rgba(74,144,226,0.3)] hover:shadow-[0_15px_40px_rgba(74,144,226,0.4)] active:scale-95 disabled:opacity-50 flex items-center justify-center gap-3 group"
-        >
-          {loading ? (
-            <div className="w-5 h-5 border-2 border-white/20 border-t-white rounded-full animate-spin" />
-          ) : (
-            <>
-              {initialData ? 'Update Work Order' : 'Create Work Order'}
-              <svg className="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13 5l7 7m0 0l-7 7m7-7H6" />
-              </svg>
-            </>
-          )}
-        </button>
-      </div>
-    </form>
+      </form>
     </div>
   )
 }
