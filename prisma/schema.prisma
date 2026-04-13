@@ -21,6 +21,7 @@ model User {
   timeEntries   TimeEntry[]
   editRequests  CalendarEditRequest[] @relation("RequestedBy")
   editApprovals CalendarEditRequest[] @relation("RequestedTo")
+  calendarTasks CalendarTask[]
 }
 
 model Customer {
@@ -71,6 +72,20 @@ model SubTask {
   completed   Boolean   @default(false)
   position    Int       @default(0)
   createdAt   DateTime  @default(now())
+}
+
+model CalendarTask {
+  id          Int       @id @default(autoincrement())
+  title       String
+  description String?
+  date        DateTime
+  allDay      Boolean   @default(true)
+  color       String    @default("#50e3c2")
+  completed   Boolean   @default(false)
+  createdById Int
+  createdBy   User      @relation(fields: [createdById], references: [id])
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 }
 
 model Material {
