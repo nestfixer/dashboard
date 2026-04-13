@@ -103,7 +103,7 @@ export function MaterialsTable({ workOrderId, initialMaterials, readonly }: Prop
 
   return (
     <div className="bg-card rounded-xl border border-border shadow-sm overflow-hidden">
-      <div className="flex items-center justify-between px-6 py-4 border-b border-white/5 bg-white/[0.01]">
+      <div className="flex items-center justify-between px-6 py-4 border-b border-white/15 bg-white/[0.05]">
         <h3 className="text-sm font-semibold text-foreground flex items-center gap-2">
           <svg className="w-4 h-4 text-accent-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
@@ -157,13 +157,13 @@ export function MaterialsTable({ workOrderId, initialMaterials, readonly }: Prop
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
               </svg>
             </div>
-            <p className="text-sm text-muted">No materials or expenses logged for this order.</p>
+            <p className="text-sm text-gray-400">No materials or expenses logged for this order.</p>
           </div>
         )}
         {materials.length > 0 && (
           <table className="w-full text-sm mb-4">
             <thead>
-              <tr className="text-[10px] font-bold text-muted uppercase tracking-widest border-b border-white/5">
+              <tr className="text-[10px] font-bold text-gray-400 uppercase tracking-widest border-b border-white/15">
                 <th className="text-left pb-3 font-bold">Item Description</th>
                 <th className="text-right pb-3 font-bold">Qty</th>
                 <th className="text-right pb-3 font-bold">Unit Cost</th>
@@ -175,8 +175,8 @@ export function MaterialsTable({ workOrderId, initialMaterials, readonly }: Prop
               {materials.map((m) => (
                 <tr key={m.id} className="group transition-all hover:bg-white/[0.01]">
                   <td className="py-3.5 font-medium text-foreground">{m.name}</td>
-                  <td className="py-3.5 text-right text-muted tabular-nums">{m.quantity}</td>
-                  <td className="py-3.5 text-right text-muted tabular-nums">${m.unitCost.toFixed(2)}</td>
+                  <td className="py-3.5 text-right text-gray-300 tabular-nums">{m.quantity}</td>
+                  <td className="py-3.5 text-right text-gray-300 tabular-nums">${m.unitCost.toFixed(2)}</td>
                   <td className="py-3.5 text-right font-bold text-foreground tabular-nums">${(m.quantity * m.unitCost).toFixed(2)}</td>
                   {!readonly && (
                     <td className="py-3.5 text-right">
@@ -197,7 +197,7 @@ export function MaterialsTable({ workOrderId, initialMaterials, readonly }: Prop
             <tfoot>
               <tr>
                 <td colSpan={3} className="pt-6 text-right">
-                  <span className="text-[10px] font-bold text-muted uppercase tracking-widest">Total Materials</span>
+                  <span className="text-[10px] font-bold text-gray-300 uppercase tracking-widest">Total Materials</span>
                 </td>
                 <td className="pt-6 text-right">
                   <span className="text-xl font-black text-foreground tabular-nums tracking-tighter shadow-accent-blue/10">
@@ -225,7 +225,7 @@ export function MaterialsTable({ workOrderId, initialMaterials, readonly }: Prop
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 items-end">
               <div className="sm:col-span-2">
-                <label className="text-[10px] font-bold text-muted uppercase tracking-widest mb-1.5 block">Item name</label>
+                <label className="text-[10px] font-bold text-gray-300 uppercase tracking-widest mb-1.5 block">Item name</label>
                 <input
                   value={newName}
                   onChange={(e) => setNewName(e.target.value)}
@@ -234,7 +234,7 @@ export function MaterialsTable({ workOrderId, initialMaterials, readonly }: Prop
                 />
               </div>
               <div>
-                <label className="text-[10px] font-bold text-muted uppercase tracking-widest mb-1.5 block">Quantity</label>
+                <label className="text-[10px] font-bold text-gray-300 uppercase tracking-widest mb-1.5 block">Quantity</label>
                 <input
                   type="number"
                   min="0"
@@ -245,7 +245,7 @@ export function MaterialsTable({ workOrderId, initialMaterials, readonly }: Prop
                 />
               </div>
               <div>
-                <label className="text-[10px] font-bold text-muted uppercase tracking-widest mb-1.5 block">Unit cost</label>
+                <label className="text-[10px] font-bold text-gray-300 uppercase tracking-widest mb-1.5 block">Unit cost</label>
                 <div className="relative">
                   <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted text-xs">$</span>
                   <input

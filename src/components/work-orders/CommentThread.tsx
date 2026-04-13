@@ -41,14 +41,14 @@ export function CommentThread({ workOrderId, initialComments, currentUserId }: P
 
   return (
     <div className="bg-card rounded-xl border border-border shadow-sm flex flex-col h-[600px] overflow-hidden">
-      <div className="px-6 py-4 border-b border-white/5 bg-white/[0.01] flex items-center justify-between">
+      <div className="px-6 py-4 border-b border-white/15 bg-white/[0.05] flex items-center justify-between">
         <h3 className="text-sm font-semibold text-foreground flex items-center gap-2">
           <svg className="w-4 h-4 text-accent-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
           </svg>
           Activity & Comments
         </h3>
-        <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-white/5 text-muted border border-white/10 uppercase tracking-widest">
+        <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-white/8 text-gray-300 border border-white/15 uppercase tracking-widest">
           {comments.length} Messages
         </span>
       </div>
@@ -61,7 +61,7 @@ export function CommentThread({ workOrderId, initialComments, currentUserId }: P
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
               </svg>
             </div>
-            <p className="text-sm text-muted italic">Start the conversation...<br/>Log important updates here.</p>
+            <p className="text-sm text-gray-400 italic">Start the conversation...<br/>Log important updates here.</p>
           </div>
         ) : (
           comments.map((comment) => (
@@ -70,13 +70,13 @@ export function CommentThread({ workOrderId, initialComments, currentUserId }: P
                 <UserAvatar user={comment.user} size="sm" className="mt-1 shadow-lg shadow-black/20 shrink-0 ring-1 ring-white/10" />
                 <div className="flex-1 space-y-1">
                   <div className="flex items-center gap-2">
-                    <span className="text-sm font-bold text-foreground">{comment.user.name}</span>
-                    <span className="text-[10px] font-medium text-muted/60 tabular-nums">
+                    <span className="text-sm font-bold text-white font-semibold">{comment.user.name}</span>
+                    <span className="text-[10px] font-medium text-gray-400 tabular-nums">
                       {formatDistanceToNow(new Date(comment.createdAt), { addSuffix: true })}
                     </span>
                   </div>
                   <div className="relative group/msg">
-                    <div className="p-3.5 bg-white/[0.03] border border-white/5 rounded-2xl rounded-tl-none text-sm text-foreground/90 leading-relaxed shadow-sm group-hover:bg-white/[0.05] group-hover:border-white/10 transition-all">
+                    <div className="p-3.5 bg-white/[0.06] border border-white/12 rounded-2xl rounded-tl-none text-sm text-white leading-relaxed shadow-sm group-hover:bg-white/[0.08] group-hover:border-white/15 transition-all">
                       {comment.content}
                     </div>
                   </div>
@@ -118,7 +118,7 @@ export function CommentThread({ workOrderId, initialComments, currentUserId }: P
             </button>
           </div>
         </form>
-        <p className="mt-2 text-[10px] text-muted text-center flex items-center justify-center gap-1 opacity-50">
+        <p className="mt-2 text-[10px] text-gray-400 text-center flex items-center justify-center gap-1 opacity-75">
           <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>

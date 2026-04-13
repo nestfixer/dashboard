@@ -73,7 +73,7 @@ export function TopNav({ onMenuClick }: TopNavProps) {
           >
             {session?.user?.name?.[0]?.toUpperCase() ?? "?"}
           </div>
-          <span className="hidden sm:inline text-sm text-white/90">{session?.user?.name}</span>
+          <span className="hidden sm:inline text-sm text-white">{session?.user?.name}</span>
         </div>
       </div>
     </header>

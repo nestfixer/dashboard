@@ -7,13 +7,14 @@
   --foreground: #ffffff;
   --card: #1e1e2d;
   --card-foreground: #ffffff;
-  --muted: #a9a9b3;
-  --muted-foreground: #6b7280;
+  --muted: #c8c8d4;
+  --muted-foreground: #9ca3af;
   --accent-red: #ff4a5a;
   --accent-blue: #4a90e2;
   --accent-green: #50e3c2;
   --accent-yellow: #ffab00;
-  --border: #2d2d3d;
+  --border: #3d3d55;
+  --card: #20213a;
 }
 
 body {

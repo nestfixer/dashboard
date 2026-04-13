@@ -58,7 +58,7 @@ export function WorkOrderFilters({ users }: { users: User[] }) {
             className={`px-3 py-1.5 text-xs font-semibold rounded-md transition-all ${
               currentStatus === value
                 ? "bg-accent-blue scale-[1.02] text-white shadow-[0_0_15px_rgba(74,144,226,0.3)]"
-                : "text-muted-foreground hover:text-foreground hover:bg-white/5"
+                : "text-gray-400 hover:text-white hover:bg-white/10"
             }`}
           >
             {label}

@@ -1,9 +1,9 @@
 import { WorkOrderStatus } from "@/types"
 
 const colors: Record<WorkOrderStatus, string> = {
-  Pending: "bg-accent-yellow/10 text-accent-yellow border border-accent-yellow/20",
-  Accepted: "bg-accent-blue/10 text-accent-blue border border-accent-blue/20",
-  Completed: "bg-accent-green/10 text-accent-green border border-accent-green/20",
+  Pending: "bg-accent-yellow/15 text-accent-yellow border border-accent-yellow/25",
+  Accepted: "bg-accent-blue/15 text-accent-blue border border-accent-blue/25",
+  Completed: "bg-accent-green/15 text-accent-green border border-accent-green/25",
 }
 
 export function StatusBadge({ status }: { status: WorkOrderStatus }) {

@@ -19,7 +19,7 @@ export function PartnerWork({ user, workOrders }: PartnerWorkProps) {
         <h3 className="text-sm font-semibold text-foreground">{user.displayName}&apos;s Work</h3>
       </div>
       {workOrders.length === 0 ? (
-        <p className="text-sm text-muted-foreground px-5 py-4">No work orders due in the next 3 days.</p>
+        <p className="text-sm text-gray-400 px-5 py-4">No work orders due in the next 3 days.</p>
       ) : (
         <div className="divide-y divide-white/5">
           {workOrders.map((wo) => (

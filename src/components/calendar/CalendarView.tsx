@@ -406,7 +406,7 @@ export function CalendarView({ compact = false }: { compact?: boolean }) {
               <h3 className="text-base font-bold text-white">
                 {taskModal.task ? "Edit Task" : "New Task"}
               </h3>
-              <button onClick={() => setTaskModal({ open: false })} className="text-muted hover:text-white transition-colors">
+              <button onClick={() => setTaskModal({ open: false })} className="text-gray-400 hover:text-white transition-colors">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 </svg>
@@ -415,7 +415,7 @@ export function CalendarView({ compact = false }: { compact?: boolean }) {
 
             <div className="space-y-4">
               <div>
-                <label className="block text-xs font-semibold text-muted uppercase tracking-wider mb-1.5">Title *</label>
+                <label className="block text-xs font-semibold text-gray-300 uppercase tracking-wider mb-1.5">Title *</label>
                 <input
                   type="text"
                   value={taskForm.title}
@@ -423,17 +423,17 @@ export function CalendarView({ compact = false }: { compact?: boolean }) {
                   onKeyDown={e => e.key === "Enter" && saveTask()}
                   placeholder="Task title..."
                   autoFocus
-                  className="w-full bg-background border border-border rounded-lg px-3 py-2.5 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-accent-green focus:ring-1 focus:ring-accent-green"
+                  className="w-full bg-background border border-border rounded-lg px-3 py-2.5 text-sm text-white placeholder-gray-400 focus:outline-none focus:border-accent-green focus:ring-1 focus:ring-accent-green"
                 />
               </div>
               <div>
-                <label className="block text-xs font-semibold text-muted uppercase tracking-wider mb-1.5">Notes</label>
+                <label className="block text-xs font-semibold text-gray-300 uppercase tracking-wider mb-1.5">Notes</label>
                 <textarea
                   value={taskForm.description}
                   onChange={e => setTaskForm(f => ({ ...f, description: e.target.value }))}
                   placeholder="Optional notes..."
                   rows={3}
-                  className="w-full bg-background border border-border rounded-lg px-3 py-2.5 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-accent-green focus:ring-1 focus:ring-accent-green resize-none"
+                  className="w-full bg-background border border-border rounded-lg px-3 py-2.5 text-sm text-white placeholder-gray-400 focus:outline-none focus:border-accent-green focus:ring-1 focus:ring-accent-green resize-none"
                 />
               </div>
             </div>
@@ -449,7 +449,7 @@ export function CalendarView({ compact = false }: { compact?: boolean }) {
                 <>
                   <button
                     onClick={toggleTaskComplete}
-                    className="px-3 py-2.5 text-sm font-medium border border-border text-muted hover:text-white hover:border-white/30 rounded-lg transition-colors"
+                    className="px-3 py-2.5 text-sm font-medium border border-border text-gray-300 hover:text-white hover:border-white/30 rounded-lg transition-colors"
                     title={taskModal.task.completed ? "Mark incomplete" : "Mark complete"}
                   >
                     {taskModal.task.completed ? "↩ Undo" : "✓ Done"}
@@ -476,13 +476,13 @@ export function CalendarView({ compact = false }: { compact?: boolean }) {
         .fc-wrapper .fc-button:disabled { background: rgba(255, 255, 255, 0.03); opacity: 0.5; color: rgba(255, 255, 255, 0.4); }
 
         .fc-wrapper .fc-daygrid-day:hover { background: rgba(255, 255, 255, 0.02); cursor: pointer; }
-        .fc-wrapper .fc-col-header-cell { background: rgba(0, 0, 0, 0.2) !important; font-size: 0.7rem; font-weight: 800; color: rgba(255, 255, 255, 0.4); text-transform: uppercase; letter-spacing: 0.1em; padding: 12px 0 !important; border-bottom: 2px solid rgba(255, 255, 255, 0.05) !important; }
+        .fc-wrapper .fc-col-header-cell { background: rgba(0, 0, 0, 0.2) !important; font-size: 0.7rem; font-weight: 800; color: rgba(255, 255, 255, 0.65); text-transform: uppercase; letter-spacing: 0.1em; padding: 12px 0 !important; border-bottom: 2px solid rgba(255, 255, 255, 0.08) !important; }
 
         .fc-wrapper .fc-timegrid-slot { height: 3.5rem; border-bottom: 1px solid rgba(255, 255, 255, 0.03); }
-        .fc-wrapper .fc-timegrid-slot-label { font-size: 0.7rem; color: rgba(255, 255, 255, 0.3); font-weight: 500; }
+        .fc-wrapper .fc-timegrid-slot-label { font-size: 0.7rem; color: rgba(255, 255, 255, 0.55); font-weight: 500; }
         .fc-wrapper .fc-timegrid-axis-cbox { border-color: var(--fc-border-color); }
 
-        .fc-wrapper .fc-daygrid-day-number { font-size: 0.75rem; color: rgba(255, 255, 255, 0.5); padding: 8px 12px; font-weight: 500; }
+        .fc-wrapper .fc-daygrid-day-number { font-size: 0.75rem; color: rgba(255, 255, 255, 0.7); padding: 8px 12px; font-weight: 500; }
         .fc-wrapper .fc-day-today { background: rgba(74, 144, 226, 0.05) !important; }
         .fc-wrapper .fc-day-today .fc-daygrid-day-number { color: #4a90e2; font-weight: 800; text-shadow: 0 0 10px rgba(74, 144, 226, 0.4); }
 

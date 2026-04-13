@@ -93,7 +93,7 @@ export default function CustomerDetailPage({ params }: { params: { id: string } 
         </div>
         {!editing && (
           <div className="flex items-center gap-2">
-            <button onClick={() => setEditing(true)} className="px-3 py-1.5 text-sm text-white/80 border border-border hover:bg-white/5 rounded-lg transition-colors">Edit</button>
+            <button onClick={() => setEditing(true)} className="px-3 py-1.5 text-sm text-white border border-border hover:bg-white/10 rounded-lg transition-colors">Edit</button>
             <button onClick={() => setConfirmDelete(true)} className="px-3 py-1.5 text-sm text-red-400 border border-red-500/30 hover:bg-red-500/10 rounded-lg transition-colors">Delete</button>
           </div>
         )}
@@ -165,7 +165,7 @@ export default function CustomerDetailPage({ params }: { params: { id: string } 
             {customer.notes && (
               <div className="col-span-2">
                 <p className="text-xs font-medium text-muted mb-0.5">Notes</p>
-                <p className="text-white/80 whitespace-pre-wrap">{customer.notes}</p>
+                <p className="text-gray-100 whitespace-pre-wrap">{customer.notes}</p>
               </div>
             )}
           </div>

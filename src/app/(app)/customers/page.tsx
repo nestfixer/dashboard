@@ -45,7 +45,7 @@ export default async function CustomersPage({
           name="search"
           defaultValue={search}
           placeholder="Search by name, phone, or email…"
-          className="w-full max-w-sm rounded-lg border border-border bg-card text-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent-blue placeholder-gray-600"
+          className="w-full max-w-sm rounded-lg border border-border bg-card text-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent-blue placeholder-gray-400"
         />
       </form>
 
@@ -59,8 +59,8 @@ export default async function CustomersPage({
               </svg>
             </div>
             <div>
-              <p className="text-sm font-medium text-white/80">{search ? "No customers match your search" : "No customers yet"}</p>
-              <p className="text-xs text-muted mt-0.5">{search ? "Try a different name, phone, or email" : "Add your first customer to get started"}</p>
+              <p className="text-sm font-medium text-white">{search ? "No customers match your search" : "No customers yet"}</p>
+              <p className="text-xs text-gray-400 mt-0.5">{search ? "Try a different name, phone, or email" : "Add your first customer to get started"}</p>
             </div>
             {!search && (
               <Link href="/customers/new" className="mt-1 px-4 py-2 bg-accent-blue hover:bg-accent-blue/90 text-white text-sm font-medium rounded-lg transition-colors">
@@ -72,11 +72,11 @@ export default async function CustomersPage({
           <table className="w-full text-sm">
             <thead className="bg-background border-b border-border">
               <tr>
-                <th className="text-left px-4 py-3 text-xs font-semibold text-muted uppercase tracking-wide">Name</th>
-                <th className="hidden sm:table-cell text-left px-4 py-3 text-xs font-semibold text-muted uppercase tracking-wide">Phone</th>
-                <th className="hidden sm:table-cell text-left px-4 py-3 text-xs font-semibold text-muted uppercase tracking-wide">Email</th>
-                <th className="text-left px-4 py-3 text-xs font-semibold text-muted uppercase tracking-wide">Work Orders</th>
-                <th className="hidden sm:table-cell text-left px-4 py-3 text-xs font-semibold text-muted uppercase tracking-wide">Added</th>
+                <th className="text-left px-4 py-3 text-xs font-semibold text-gray-400 uppercase tracking-wide">Name</th>
+                <th className="hidden sm:table-cell text-left px-4 py-3 text-xs font-semibold text-gray-400 uppercase tracking-wide">Phone</th>
+                <th className="hidden sm:table-cell text-left px-4 py-3 text-xs font-semibold text-gray-400 uppercase tracking-wide">Email</th>
+                <th className="text-left px-4 py-3 text-xs font-semibold text-gray-400 uppercase tracking-wide">Work Orders</th>
+                <th className="hidden sm:table-cell text-left px-4 py-3 text-xs font-semibold text-gray-400 uppercase tracking-wide">Added</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-border">
@@ -87,17 +87,17 @@ export default async function CustomersPage({
                       {c.name}
                     </Link>
                     {c.address && (
-                      <p className="text-xs text-muted truncate max-w-xs mt-0.5">{c.address}</p>
+                      <p className="text-xs text-gray-400 truncate max-w-xs mt-0.5">{c.address}</p>
                     )}
                   </td>
-                  <td className="hidden sm:table-cell px-4 py-3 text-muted">{c.phone ?? <span className="text-muted">—</span>}</td>
-                  <td className="hidden sm:table-cell px-4 py-3 text-muted">{c.email ?? <span className="text-muted">—</span>}</td>
+                  <td className="hidden sm:table-cell px-4 py-3 text-gray-200">{c.phone ?? <span className="text-gray-400">—</span>}</td>
+                  <td className="hidden sm:table-cell px-4 py-3 text-gray-200">{c.email ?? <span className="text-gray-400">—</span>}</td>
                   <td className="px-4 py-3">
                     <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-accent-blue/10 text-accent-blue">
                       {c._count.workOrders}
                     </span>
                   </td>
-                  <td className="hidden sm:table-cell px-4 py-3 text-muted text-xs">
+                  <td className="hidden sm:table-cell px-4 py-3 text-gray-400 text-xs">
                     {format(new Date(c.createdAt), "MMM d, yyyy")}
                   </td>
                 </tr>

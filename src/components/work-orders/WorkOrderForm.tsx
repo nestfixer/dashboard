@@ -181,7 +181,7 @@ export function WorkOrderForm({ customers, users, currentUserId, defaultValues }
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
               </svg>
               <p className="text-sm font-medium text-accent-green">Extracted from <span className="font-semibold">{extractedFrom}</span></p>
-              <p className="text-xs text-muted-foreground">Review and edit the fields below, then save</p>
+              <p className="text-xs text-gray-400">Review and edit the fields below, then save</p>
             </>
           ) : (
             <>
@@ -189,7 +189,7 @@ export function WorkOrderForm({ customers, users, currentUserId, defaultValues }
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
               </svg>
               <p className="text-sm font-medium text-foreground">Drop a screenshot to auto-fill</p>
-              <p className="text-xs text-muted-foreground">or click to browse — works with Latchel, AppFolio, and similar apps</p>
+              <p className="text-xs text-gray-400">or click to browse — works with Latchel, AppFolio, and similar apps</p>
             </>
           )}
         </div>
@@ -201,7 +201,7 @@ export function WorkOrderForm({ customers, users, currentUserId, defaultValues }
 
       <form onSubmit={handleSubmit} className="space-y-5 bg-card rounded-xl border border-border p-6">
         <div>
-          <label className="block text-sm font-medium text-foreground mb-1">Title *</label>
+          <label className="block text-sm font-medium text-gray-300 mb-1">Title *</label>
           <input
             name="title"
             required
@@ -214,7 +214,7 @@ export function WorkOrderForm({ customers, users, currentUserId, defaultValues }
 
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium text-foreground mb-1">Priority</label>
+            <label className="block text-sm font-medium text-gray-300 mb-1">Priority</label>
             <select
               name="priority"
               value={priority}
@@ -228,7 +228,7 @@ export function WorkOrderForm({ customers, users, currentUserId, defaultValues }
             </select>
           </div>
           <div>
-            <label className="block text-sm font-medium text-foreground mb-1">Due Date</label>
+            <label className="block text-sm font-medium text-gray-300 mb-1">Due Date</label>
             <input
               name="dueDate"
               type="date"
@@ -240,7 +240,7 @@ export function WorkOrderForm({ customers, users, currentUserId, defaultValues }
 
         <div>
           <div className="flex items-center justify-between mb-1">
-            <label className="block text-sm font-medium text-foreground">Customer</label>
+            <label className="block text-sm font-medium text-gray-300">Customer</label>
             <button
               type="button"
               onClick={() => { setNewCustomerMode(!newCustomerMode); setSelectedCustomer(null); setCustomerSearch("") }}
@@ -312,7 +312,7 @@ export function WorkOrderForm({ customers, users, currentUserId, defaultValues }
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-foreground mb-1">Description</label>
+          <label className="block text-sm font-medium text-gray-300 mb-1">Description</label>
           <textarea
             name="description"
             rows={4}
@@ -324,7 +324,7 @@ export function WorkOrderForm({ customers, users, currentUserId, defaultValues }
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-foreground mb-1">Remarks</label>
+          <label className="block text-sm font-medium text-gray-300 mb-1">Remarks</label>
           <textarea
             name="remarks"
             rows={2}
@@ -348,7 +348,7 @@ export function WorkOrderForm({ customers, users, currentUserId, defaultValues }
           <button
             type="button"
             onClick={() => window.history.back()}
-            className="px-4 py-2 text-sm text-muted hover:bg-white/10 rounded-lg transition-colors"
+            className="px-4 py-2 text-sm text-gray-300 hover:bg-white/10 rounded-lg transition-colors"
           >
             Cancel
           </button>

@@ -31,7 +31,7 @@ function NavContent({ onLinkClick }: { onLinkClick?: () => void }) {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
             </svg>
           </div>
-          <span className="text-foreground font-semibold text-sm tracking-tight text-white/90">Field Dashboard</span>
+          <span className="text-foreground font-semibold text-sm tracking-tight text-white">Field Dashboard</span>
         </div>
       </div>
 
@@ -46,7 +46,7 @@ function NavContent({ onLinkClick }: { onLinkClick?: () => void }) {
               className={`flex items-center gap-3 px-4 py-2.5 text-sm transition-colors ${
                 active
                   ? "bg-accent-blue/10 text-accent-blue border-r-2 border-accent-blue"
-                  : "text-muted hover:text-white hover:bg-white/5"
+                  : "text-gray-300 hover:text-white hover:bg-white/10"
               }`}
             >
               <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -65,15 +65,15 @@ function NavContent({ onLinkClick }: { onLinkClick?: () => void }) {
             size="md"
           />
           <div className="min-w-0">
-            <p className="text-sm font-medium text-foreground truncate text-white/90">{session?.user?.name}</p>
-            <Link href="/settings" className="text-xs text-muted-foreground hover:text-accent-blue transition-colors">
+            <p className="text-sm font-medium text-foreground truncate text-white">{session?.user?.name}</p>
+            <Link href="/settings" className="text-xs text-gray-400 hover:text-accent-blue transition-colors">
               Profile &amp; Settings
             </Link>
           </div>
         </div>
         <button
           onClick={() => signOut({ callbackUrl: "/login" })}
-          className="flex items-center gap-3 text-sm text-muted-foreground hover:text-white transition-colors w-full group"
+          className="flex items-center gap-3 text-sm text-gray-400 hover:text-white transition-colors w-full group"
         >
           <svg className="w-4 h-4 group-hover:text-red-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />

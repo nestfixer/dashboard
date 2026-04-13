@@ -63,7 +63,7 @@ export default async function WorkOrderDetailPage({ params }: { params: { id: st
 
         {/* Top row: breadcrumb + status/elapsed */}
         <div className="flex items-center justify-between gap-4 mb-4">
-          <nav className="flex items-center gap-1.5 text-sm text-muted">
+          <nav className="flex items-center gap-1.5 text-sm text-gray-400">
             <Link href="/work-orders" className="hover:text-accent-blue transition-colors">
               Work Orders
             </Link>
@@ -88,7 +88,7 @@ export default async function WorkOrderDetailPage({ params }: { params: { id: st
         </h1>
 
         {/* Subtitle */}
-        <p className="text-sm text-muted mb-8">
+        <p className="text-sm text-gray-400 mb-8">
           {wo.dueDate
             ? `Scheduled for ${format(new Date(wo.dueDate), "MMMM d, yyyy")}`
             : "No due date set"}
@@ -98,13 +98,13 @@ export default async function WorkOrderDetailPage({ params }: { params: { id: st
 
         {/* Description - ALWAYS SHOW IF REQUESTED, but check if user meant they need it to be more obvious */}
         <div className="mb-8 p-5 bg-background/40 rounded-xl border border-border/50">
-          <p className="text-[10px] font-bold text-muted uppercase tracking-widest mb-2.5 flex items-center gap-2">
+          <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2.5 flex items-center gap-2">
             <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h7" />
             </svg>
             Work Order Description
           </p>
-          <p className="text-sm text-white/90 leading-relaxed whitespace-pre-wrap">
+          <p className="text-sm text-gray-100 leading-relaxed whitespace-pre-wrap">
             {wo.description || "No description provided."}
           </p>
         </div>
@@ -119,7 +119,7 @@ export default async function WorkOrderDetailPage({ params }: { params: { id: st
               </svg>
             </div>
             <div className="min-w-0">
-              <p className="text-[10px] font-bold text-muted uppercase tracking-widest mb-0.5">Assigned Tech</p>
+              <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-0.5">Assigned Tech</p>
               <p className="text-sm font-semibold text-white truncate">
                 {wo.assignedTo?.displayName ?? "Unassigned"}
               </p>
@@ -134,7 +134,7 @@ export default async function WorkOrderDetailPage({ params }: { params: { id: st
               </svg>
             </div>
             <div className="min-w-0">
-              <p className="text-[10px] font-bold text-muted uppercase tracking-widest mb-0.5">Priority</p>
+              <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-0.5">Priority</p>
               <p className="text-sm font-semibold text-white">{wo.priority}</p>
             </div>
           </div>
@@ -148,7 +148,7 @@ export default async function WorkOrderDetailPage({ params }: { params: { id: st
               </svg>
             </div>
             <div className="min-w-0">
-              <p className="text-[10px] font-bold text-muted uppercase tracking-widest mb-0.5">Customer</p>
+              <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-0.5">Customer</p>
               <p className="text-sm font-semibold text-white truncate">
                 {wo.customer?.name ?? "—"}
               </p>
@@ -176,7 +176,7 @@ export default async function WorkOrderDetailPage({ params }: { params: { id: st
           {/* Customer Contact card */}
           {wo.customer && (
             <div className="bg-card rounded-xl border border-border p-6 shadow-sm">
-              <p className="text-[10px] font-bold text-muted uppercase tracking-widest mb-4 flex items-center gap-2">
+              <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-4 flex items-center gap-2">
                 <svg className="w-3 h-3 text-accent-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                 </svg>
@@ -193,7 +193,7 @@ export default async function WorkOrderDetailPage({ params }: { params: { id: st
                 <div className="min-w-0">
                   <p className="font-bold text-foreground text-base leading-tight">{wo.customer.name}</p>
                   {wo.customer.notes && (
-                    <p className="text-xs text-muted-foreground truncate mt-1">{wo.customer.notes}</p>
+                    <p className="text-xs text-gray-400 truncate mt-1">{wo.customer.notes}</p>
                   )}
                 </div>
               </div>
@@ -238,10 +238,10 @@ export default async function WorkOrderDetailPage({ params }: { params: { id: st
 
               {wo.remarks && (
                 <div className="border-t border-white/5 pt-4">
-                  <p className="text-[10px] font-bold text-muted uppercase tracking-widest mb-1.5 leading-relaxed">
+                  <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1.5 leading-relaxed">
                     Account Remarks
                   </p>
-                  <p className="text-xs text-muted-foreground italic leading-relaxed">
+                  <p className="text-xs text-gray-300 italic leading-relaxed">
                     {wo.remarks}
                   </p>
                 </div>
@@ -259,7 +259,7 @@ export default async function WorkOrderDetailPage({ params }: { params: { id: st
           {/* Invoices */}
           {wo.invoices.length > 0 && (
             <div className="bg-card rounded-xl border border-border p-5 shadow-sm">
-              <p className="text-[10px] font-bold text-muted uppercase tracking-widest mb-4 flex items-center gap-2">
+              <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-4 flex items-center gap-2">
                 <svg className="w-3.5 h-3.5 text-accent-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                 </svg>
@@ -273,7 +273,7 @@ export default async function WorkOrderDetailPage({ params }: { params: { id: st
                     className="flex items-center justify-between p-2.5 -mx-1.5 rounded-lg text-sm text-foreground hover:bg-white/[0.03] transition-all group"
                   >
                     <span className="font-medium group-hover:text-accent-blue transition-colors">{inv.invoiceNumber}</span>
-                    <span className="text-muted tabular-nums decoration-white/20 ">${inv.grandTotal.toFixed(2)}</span>
+                    <span className="text-gray-300 tabular-nums">${inv.grandTotal.toFixed(2)}</span>
                   </Link>
                 ))}
               </div>

@@ -73,8 +73,8 @@ export default async function WorkOrdersPage({
               </svg>
             </div>
             <div>
-              <p className="text-sm font-medium text-white/80">{search ? "No work orders match your search" : "No work orders yet"}</p>
-              <p className="text-xs text-muted mt-0.5">{search ? "Try a different search term or filter" : "Create your first work order to get started"}</p>
+              <p className="text-sm font-medium text-white">{search ? "No work orders match your search" : "No work orders yet"}</p>
+              <p className="text-xs text-gray-400 mt-0.5">{search ? "Try a different search term or filter" : "Create your first work order to get started"}</p>
             </div>
             {!search && (
               <Link href="/work-orders/new" className="mt-1 px-4 py-2 bg-accent-blue hover:bg-accent-blue/90 text-white text-sm font-medium rounded-lg transition-colors">
@@ -86,12 +86,12 @@ export default async function WorkOrdersPage({
           <table className="w-full text-sm">
             <thead className="bg-background border-b border-border">
               <tr>
-                <th className="text-left px-4 py-3 text-xs font-semibold text-muted uppercase tracking-wide">Title</th>
-                <th className="text-left px-4 py-3 text-xs font-semibold text-muted uppercase tracking-wide">Customer</th>
-                <th className="text-left px-4 py-3 text-xs font-semibold text-muted uppercase tracking-wide">Status</th>
-                <th className="text-left px-4 py-3 text-xs font-semibold text-muted uppercase tracking-wide">Priority</th>
-                <th className="text-left px-4 py-3 text-xs font-semibold text-muted uppercase tracking-wide">Due Date</th>
-                <th className="hidden md:table-cell text-left px-4 py-3 text-xs font-semibold text-muted uppercase tracking-wide">Assigned To</th>
+                <th className="text-left px-4 py-3 text-xs font-semibold text-gray-400 uppercase tracking-wide">Title</th>
+                <th className="text-left px-4 py-3 text-xs font-semibold text-gray-400 uppercase tracking-wide">Customer</th>
+                <th className="text-left px-4 py-3 text-xs font-semibold text-gray-400 uppercase tracking-wide">Status</th>
+                <th className="text-left px-4 py-3 text-xs font-semibold text-gray-400 uppercase tracking-wide">Priority</th>
+                <th className="text-left px-4 py-3 text-xs font-semibold text-gray-400 uppercase tracking-wide">Due Date</th>
+                <th className="hidden md:table-cell text-left px-4 py-3 text-xs font-semibold text-gray-400 uppercase tracking-wide">Assigned To</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-border">
@@ -105,7 +105,7 @@ export default async function WorkOrdersPage({
                         {wo.title}
                       </Link>
                     </td>
-                    <td className="px-4 py-3 text-muted">{wo.customer?.name ?? "—"}</td>
+                    <td className="px-4 py-3 text-gray-200">{wo.customer?.name ?? "—"}</td>
                     <td className="px-4 py-3"><StatusBadge status={wo.status as WorkOrderStatus} /></td>
                     <td className="px-4 py-3"><PriorityBadge priority={wo.priority as WorkOrderPriority} /></td>
                     <td className="px-4 py-3">
@@ -115,9 +115,9 @@ export default async function WorkOrdersPage({
                       {wo.assignedTo ? (
                         <div className="flex items-center gap-1.5">
                           <UserAvatar user={wo.assignedTo} size="sm" />
-                          <span className="text-muted">{wo.assignedTo.displayName}</span>
+                          <span className="text-gray-200">{wo.assignedTo.displayName}</span>
                         </div>
-                      ) : <span className="text-muted">Unassigned</span>}
+                      ) : <span className="text-gray-200">Unassigned</span>}
                     </td>
                   </tr>
                 )
