@@ -7,7 +7,7 @@ async function main() {
   const morganHash = await bcrypt.hash("Blueleg5.", 10)
   await prisma.user.upsert({
     where: { username: "morgan" },
-    update: {},
+    update: { passwordHash: morganHash },
     create: {
       username: "morgan",
       passwordHash: morganHash,
@@ -20,7 +20,7 @@ async function main() {
   const neilHash = await bcrypt.hash("King123", 10)
   await prisma.user.upsert({
     where: { username: "neil" },
-    update: {},
+    update: { passwordHash: neilHash },
     create: {
       username: "neil",
       passwordHash: neilHash,
