@@ -7,8 +7,8 @@ const CalendarView = dynamic(
   {
     ssr: false,
     loading: () => (
-      <div className="flex items-center justify-center h-64 bg-white rounded-xl border border-gray-200">
-        <p className="text-sm text-gray-400">Loading calendar…</p>
+      <div className="flex items-center justify-center h-64 bg-card rounded-xl border border-border">
+        <p className="text-sm text-muted-foreground animate-pulse">Loading calendar…</p>
       </div>
     ),
   }

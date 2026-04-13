@@ -67,38 +67,43 @@ export function SubTaskList({ workOrderId, initialSubTasks }: Props) {
   }
 
   return (
-    <div className="bg-white rounded-xl border border-gray-200 p-5">
-      <div className="flex items-center justify-between mb-3">
-        <h3 className="text-sm font-semibold text-gray-900">Subtasks</h3>
+    <div className="bg-card rounded-xl border border-border p-5 shadow-sm">
+      <div className="flex items-center justify-between mb-4 pb-2 border-b border-white/5">
+        <h3 className="text-sm font-semibold text-foreground flex items-center gap-2">
+          <svg className="w-4 h-4 text-accent-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+          </svg>
+          Subtasks
+        </h3>
         {tasks.length > 0 && (
-          <span className="text-xs text-gray-500">{completed}/{tasks.length} done</span>
+          <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">{completed} / {tasks.length} completed</span>
         )}
       </div>
 
       {tasks.length > 0 && (
-        <div className="mb-4">
-          <div className="h-1.5 bg-gray-100 rounded-full overflow-hidden">
+        <div className="mb-6">
+          <div className="h-1.5 bg-white/5 rounded-full overflow-hidden">
             <div
-              className="h-full bg-indigo-500 rounded-full transition-all duration-300"
+              className="h-full bg-accent-blue rounded-full transition-all duration-500 shadow-[0_0_10px_rgba(74,144,226,0.3)]"
               style={{ width: `${pct}%` }}
             />
           </div>
         </div>
       )}
 
-      <div className="space-y-1 mb-3">
+      <div className="space-y-1 mb-4">
         {tasks.map((task) => (
-          <div key={task.id} className="group flex items-center gap-2.5 py-1.5 rounded-lg px-1 hover:bg-gray-50">
+          <div key={task.id} className="group flex items-center gap-3 py-2 rounded-lg px-2 hover:bg-white/[0.02] transition-all">
             <button
               onClick={() => toggleTask(task)}
-              className={`w-4 h-4 rounded border flex-shrink-0 flex items-center justify-center transition-colors ${
+              className={`w-5 h-5 rounded-md border flex-shrink-0 flex items-center justify-center transition-all ${
                 task.completed
-                  ? "bg-indigo-600 border-indigo-600"
-                  : "border-gray-300 hover:border-indigo-400"
+                  ? "bg-accent-blue border-accent-blue shadow-[0_0_10px_rgba(74,144,226,0.2)]"
+                  : "border-white/20 hover:border-accent-blue/50 bg-white/5"
               }`}
             >
               {task.completed && (
-                <svg className="w-2.5 h-2.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                 </svg>
               )}
@@ -108,15 +113,16 @@ export function SubTaskList({ workOrderId, initialSubTasks }: Props) {
               suppressContentEditableWarning
               onBlur={(e) => renameTask(task, e.currentTarget.textContent ?? "")}
               onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); e.currentTarget.blur() } }}
-              className={`flex-1 text-sm outline-none cursor-text rounded px-1 -mx-1 focus:bg-indigo-50 ${
-                task.completed ? "line-through text-gray-400" : "text-gray-800"
+              className={`flex-1 text-sm outline-none cursor-text rounded-md px-2 py-0.5 -mx-2 transition-colors focus:bg-white/5 ${
+                task.completed ? "line-through text-muted-foreground" : "text-foreground"
               }`}
             >
               {task.title}
             </span>
             <button
               onClick={() => deleteTask(task.id)}
-              className="opacity-0 group-hover:opacity-100 text-gray-400 hover:text-red-500 transition-all flex-shrink-0"
+              className="opacity-0 group-hover:opacity-100 text-muted-foreground hover:text-red-400 p-1 transition-all active:scale-90"
+              title="Delete task"
             >
               <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -127,19 +133,21 @@ export function SubTaskList({ workOrderId, initialSubTasks }: Props) {
       </div>
 
       <form onSubmit={addTask} className="flex items-center gap-2">
-        <input
-          ref={inputRef}
-          value={newTitle}
-          onChange={(e) => setNewTitle(e.target.value)}
-          placeholder="Add a subtask…"
-          className="flex-1 text-sm px-2 py-1.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-        />
+        <div className="relative flex-1 group">
+          <input
+            ref={inputRef}
+            value={newTitle}
+            onChange={(e) => setNewTitle(e.target.value)}
+            placeholder="Add a new subtask…"
+            className="w-full text-sm pl-3 pr-3 py-2 bg-card border border-border rounded-lg focus:outline-none focus:ring-1 focus:ring-accent-blue/50 focus:border-accent-blue transition-all"
+          />
+        </div>
         <button
           type="submit"
           disabled={adding || !newTitle.trim()}
-          className="px-3 py-1.5 text-xs font-medium bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg disabled:opacity-50 transition-colors"
+          className="px-4 py-2 text-xs font-bold uppercase tracking-wider bg-accent-blue hover:bg-accent-blue/80 text-white rounded-lg disabled:opacity-30 transition-all shadow-[0_0_15px_rgba(74,144,226,0.2)]"
         >
-          Add
+          {adding ? "…" : "Add"}
         </button>
       </form>
     </div>

@@ -24,14 +24,14 @@ function NavContent({ onLinkClick }: { onLinkClick?: () => void }) {
 
   return (
     <>
-      <div className="p-4 border-b border-gray-700">
+      <div className="p-4 border-b border-border bg-black/20">
         <div className="flex items-center gap-2">
-          <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center flex-shrink-0">
+          <div className="w-8 h-8 bg-accent-blue rounded-lg flex items-center justify-center flex-shrink-0 shadow-[0_0_15px_rgba(74,144,226,0.2)]">
             <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
             </svg>
           </div>
-          <span className="text-white font-semibold text-sm">Field Dashboard</span>
+          <span className="text-foreground font-semibold text-sm tracking-tight text-white/90">Field Dashboard</span>
         </div>
       </div>
 
@@ -45,8 +45,8 @@ function NavContent({ onLinkClick }: { onLinkClick?: () => void }) {
               onClick={onLinkClick}
               className={`flex items-center gap-3 px-4 py-2.5 text-sm transition-colors ${
                 active
-                  ? "bg-indigo-600 text-white"
-                  : "text-gray-400 hover:text-white hover:bg-gray-800"
+                  ? "bg-accent-blue/10 text-accent-blue border-r-2 border-accent-blue"
+                  : "text-muted hover:text-white hover:bg-white/5"
               }`}
             >
               <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -58,24 +58,24 @@ function NavContent({ onLinkClick }: { onLinkClick?: () => void }) {
         })}
       </nav>
 
-      <div className="p-4 border-t border-gray-700 space-y-3">
+      <div className="p-4 border-t border-border space-y-3 bg-black/10">
         <div className="flex items-center gap-2.5">
           <UserAvatar
             user={{ displayName: session?.user?.name ?? "", color: session?.user?.color }}
             size="md"
           />
           <div className="min-w-0">
-            <p className="text-sm font-medium text-white truncate">{session?.user?.name}</p>
-            <Link href="/settings" className="text-xs text-gray-400 hover:text-gray-200 transition-colors">
+            <p className="text-sm font-medium text-foreground truncate text-white/90">{session?.user?.name}</p>
+            <Link href="/settings" className="text-xs text-muted-foreground hover:text-accent-blue transition-colors">
               Profile &amp; Settings
             </Link>
           </div>
         </div>
         <button
           onClick={() => signOut({ callbackUrl: "/login" })}
-          className="flex items-center gap-3 text-sm text-gray-400 hover:text-white transition-colors w-full"
+          className="flex items-center gap-3 text-sm text-muted-foreground hover:text-white transition-colors w-full group"
         >
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-4 h-4 group-hover:text-red-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
           </svg>
           Sign Out
@@ -95,14 +95,14 @@ export function Sidebar({ open, onClose }: SidebarProps) {
             className="fixed inset-0 z-40 bg-black/50 md:hidden"
             onClick={onClose}
           />
-          <div className="fixed inset-y-0 left-0 z-50 w-64 md:hidden flex flex-col bg-gray-900">
+          <div className="fixed inset-y-0 left-0 z-50 w-64 md:hidden flex flex-col bg-[#13141b] border-r border-border">
             <NavContent onLinkClick={onClose} />
           </div>
         </>
       )}
 
       {/* Desktop sidebar */}
-      <aside className="hidden md:flex md:fixed md:inset-y-0 md:left-0 md:z-30 md:w-56 md:flex-col bg-gray-900">
+      <aside className="hidden md:flex md:fixed md:inset-y-0 md:left-0 md:z-30 md:w-56 md:flex-col bg-[#13141b] border-r border-border">
         <NavContent />
       </aside>
     </>

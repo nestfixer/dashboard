@@ -1,10 +1,10 @@
 import { WorkOrderPriority } from "@/types"
 
 const colors: Record<WorkOrderPriority, string> = {
-  Low: "bg-gray-100 text-gray-600 border border-gray-200",
-  Medium: "bg-blue-50 text-blue-700 border border-blue-200",
-  High: "bg-orange-100 text-orange-700 border border-orange-200",
-  Urgent: "bg-red-100 text-red-700 border border-red-200",
+  Low: "bg-white/5 text-muted-foreground border border-white/10",
+  Medium: "bg-accent-blue/10 text-accent-blue border border-accent-blue/20",
+  High: "bg-accent-yellow/10 text-accent-yellow border border-accent-yellow/20",
+  Urgent: "bg-accent-red/10 text-accent-red border border-accent-red/20",
 }
 
 export function PriorityBadge({ priority }: { priority: WorkOrderPriority }) {

@@ -102,9 +102,14 @@ export function MaterialsTable({ workOrderId, initialMaterials, readonly }: Prop
   }
 
   return (
-    <div className="bg-white rounded-xl border border-gray-200">
-      <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
-        <h3 className="text-sm font-semibold text-gray-900">Materials</h3>
+    <div className="bg-card rounded-xl border border-border shadow-sm overflow-hidden">
+      <div className="flex items-center justify-between px-6 py-4 border-b border-white/5 bg-white/[0.01]">
+        <h3 className="text-sm font-semibold text-foreground flex items-center gap-2">
+          <svg className="w-4 h-4 text-accent-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+          </svg>
+          Materials & Expenses
+        </h3>
         {!readonly && (
           <div className="flex items-center gap-2">
             <input
@@ -118,112 +123,151 @@ export function MaterialsTable({ workOrderId, initialMaterials, readonly }: Prop
             <button
               onClick={() => fileInputRef.current?.click()}
               disabled={isScanning}
-              className="text-xs px-2.5 py-1.5 bg-indigo-50 text-indigo-600 hover:bg-indigo-100 disabled:opacity-50 rounded-lg transition-all flex items-center gap-1.5"
+              className="px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider bg-accent-blue/10 text-accent-blue hover:bg-accent-blue/20 disabled:opacity-50 rounded-lg transition-all flex items-center gap-2 border border-accent-blue/20 active:scale-95"
             >
               {isScanning ? (
                 <>
-                  <div className="w-3 h-3 border-2 border-indigo-600 border-t-transparent rounded-full animate-spin" />
-                  Scanning...
+                  <div className="w-3 h-3 border-2 border-accent-blue border-t-transparent rounded-full animate-spin" />
+                  Processing...
                 </>
               ) : (
                 <>
-                  <span>📸</span>
+                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+                  </svg>
                   Scan Receipt
                 </>
               )}
             </button>
             <button
               onClick={() => setAdding(true)}
-              className="text-xs px-2.5 py-1.5 bg-gray-50 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
+              className="px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider bg-white/5 text-foreground hover:bg-white/10 rounded-lg transition-all border border-white/10 active:scale-95"
             >
               + Add Item
             </button>
           </div>
         )}
       </div>
-      <div className="p-5">
+      <div className="p-6">
         {materials.length === 0 && !adding && (
-          <p className="text-sm text-gray-500 text-center py-4">No materials added yet.</p>
+          <div className="text-center py-10">
+            <div className="w-12 h-12 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-4 border border-border">
+              <svg className="w-6 h-6 text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+              </svg>
+            </div>
+            <p className="text-sm text-muted">No materials or expenses logged for this order.</p>
+          </div>
         )}
         {materials.length > 0 && (
-          <table className="w-full text-sm mb-3">
+          <table className="w-full text-sm mb-4">
             <thead>
-              <tr className="text-xs text-gray-500 border-b border-gray-100">
-                <th className="text-left pb-2">Item</th>
-                <th className="text-right pb-2">Qty</th>
-                <th className="text-right pb-2">Unit Cost</th>
-                <th className="text-right pb-2">Total</th>
-                {!readonly && <th className="pb-2" />}
+              <tr className="text-[10px] font-bold text-muted uppercase tracking-widest border-b border-white/5">
+                <th className="text-left pb-3 font-bold">Item Description</th>
+                <th className="text-right pb-3 font-bold">Qty</th>
+                <th className="text-right pb-3 font-bold">Unit Cost</th>
+                <th className="text-right pb-3 font-bold">Total</th>
+                {!readonly && <th className="pb-3" />}
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-50">
+            <tbody className="divide-y divide-white/[0.03]">
               {materials.map((m) => (
-                <tr key={m.id}>
-                  <td className="py-2 font-medium">{m.name}</td>
-                  <td className="py-2 text-right text-gray-600">{m.quantity}</td>
-                  <td className="py-2 text-right text-gray-600">${m.unitCost.toFixed(2)}</td>
-                  <td className="py-2 text-right font-medium">${(m.quantity * m.unitCost).toFixed(2)}</td>
+                <tr key={m.id} className="group transition-all hover:bg-white/[0.01]">
+                  <td className="py-3.5 font-medium text-foreground">{m.name}</td>
+                  <td className="py-3.5 text-right text-muted tabular-nums">{m.quantity}</td>
+                  <td className="py-3.5 text-right text-muted tabular-nums">${m.unitCost.toFixed(2)}</td>
+                  <td className="py-3.5 text-right font-bold text-foreground tabular-nums">${(m.quantity * m.unitCost).toFixed(2)}</td>
                   {!readonly && (
-                    <td className="py-2 text-right">
-                      <button onClick={() => deleteMaterial(m.id)} className="text-gray-400 hover:text-red-500 text-xs ml-2">✕</button>
+                    <td className="py-3.5 text-right">
+                      <button 
+                        onClick={() => deleteMaterial(m.id)} 
+                        className="p-1 text-muted hover:text-red-400 opacity-0 group-hover:opacity-100 transition-all active:scale-90"
+                        title="Remove item"
+                      >
+                        <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                      </button>
                     </td>
                   )}
                 </tr>
               ))}
             </tbody>
             <tfoot>
-              <tr className="border-t border-gray-200 font-semibold">
-                <td colSpan={3} className="pt-2 text-right text-gray-700">Total</td>
-                <td className="pt-2 text-right">${total.toFixed(2)}</td>
-                {!readonly && <td />}
+              <tr>
+                <td colSpan={3} className="pt-6 text-right">
+                  <span className="text-[10px] font-bold text-muted uppercase tracking-widest">Total Materials</span>
+                </td>
+                <td className="pt-6 text-right">
+                  <span className="text-xl font-black text-foreground tabular-nums tracking-tighter shadow-accent-blue/10">
+                    ${total.toFixed(2)}
+                  </span>
+                </td>
+                {!readonly && <td className="pt-6" />}
               </tr>
             </tfoot>
           </table>
         )}
 
         {adding && !readonly && (
-          <div className="flex gap-2 items-end mt-2">
-            <div className="flex-1">
-              <label className="text-xs text-gray-500 mb-1 block">Item name</label>
-              <input
-                value={newName}
-                onChange={(e) => setNewName(e.target.value)}
-                className="w-full px-2 py-1.5 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                placeholder="e.g. PVC Pipe"
-              />
+          <div className="mt-8 p-5 bg-white/[0.03] border border-border rounded-xl shadow-inner relative overflow-hidden group">
+            <div className="absolute top-0 right-0 p-4">
+              <button 
+                onClick={() => setAdding(false)}
+                className="text-muted hover:text-foreground transition-colors"
+                title="Cancel"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
             </div>
-            <div className="w-20">
-              <label className="text-xs text-gray-500 mb-1 block">Qty</label>
-              <input
-                type="number"
-                min="0"
-                step="0.01"
-                value={newQty}
-                onChange={(e) => setNewQty(e.target.value)}
-                className="w-full px-2 py-1.5 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-              />
+            <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 items-end">
+              <div className="sm:col-span-2">
+                <label className="text-[10px] font-bold text-muted uppercase tracking-widest mb-1.5 block">Item name</label>
+                <input
+                  value={newName}
+                  onChange={(e) => setNewName(e.target.value)}
+                  className="w-full px-3 py-2 text-sm bg-card border border-border rounded-lg focus:outline-none focus:ring-1 focus:ring-accent-blue/50 focus:border-accent-blue text-foreground placeholder:text-muted transition-all"
+                  placeholder="e.g. 1/2-in PVC Compression Coupler"
+                />
+              </div>
+              <div>
+                <label className="text-[10px] font-bold text-muted uppercase tracking-widest mb-1.5 block">Quantity</label>
+                <input
+                  type="number"
+                  min="0"
+                  step="1"
+                  value={newQty}
+                  onChange={(e) => setNewQty(e.target.value)}
+                  className="w-full px-3 py-2 text-sm bg-card border border-border rounded-lg focus:outline-none focus:ring-1 focus:ring-accent-blue/50 focus:border-accent-blue text-foreground tabular-nums transition-all"
+                />
+              </div>
+              <div>
+                <label className="text-[10px] font-bold text-muted uppercase tracking-widest mb-1.5 block">Unit cost</label>
+                <div className="relative">
+                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted text-xs">$</span>
+                  <input
+                    type="number"
+                    min="0"
+                    step="0.01"
+                    value={newCost}
+                    onChange={(e) => setNewCost(e.target.value)}
+                    className="w-full pl-6 pr-3 py-2 text-sm bg-card border border-border rounded-lg focus:outline-none focus:ring-1 focus:ring-accent-blue/50 focus:border-accent-blue text-foreground tabular-nums transition-all"
+                  />
+                </div>
+              </div>
             </div>
-            <div className="w-24">
-              <label className="text-xs text-gray-500 mb-1 block">Unit cost</label>
-              <input
-                type="number"
-                min="0"
-                step="0.01"
-                value={newCost}
-                onChange={(e) => setNewCost(e.target.value)}
-                className="w-full px-2 py-1.5 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-              />
+            <div className="flex justify-end mt-5">
+              <button
+                onClick={addMaterial}
+                disabled={!newName}
+                className="px-6 py-2.5 text-xs font-bold uppercase tracking-widest text-white bg-accent-blue hover:bg-accent-blue/80 disabled:opacity-30 rounded-lg transition-all shadow-[0_0_15px_rgba(74,144,226,0.3)] active:scale-95"
+              >
+                Save Material Item
+              </button>
             </div>
-            <button
-              onClick={addMaterial}
-              disabled={!newName}
-              className="px-3 py-1.5 text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 disabled:bg-indigo-400 rounded-lg"
-            >
-              Add
-            </button>
-            <button onClick={() => setAdding(false)} className="px-3 py-1.5 text-sm text-gray-600 hover:bg-gray-100 rounded-lg">
-              Cancel
-            </button>
           </div>
         )}
       </div>

@@ -42,37 +42,6 @@ export function WorkOrderActions({ workOrderId, status, assignedToId, currentUse
 
   return (
     <>
-      <div className="flex items-center gap-2">
-        {status === "Pending" && (
-          <button
-            onClick={() => post("accept")}
-            disabled={!!loading}
-            className="px-3 py-1.5 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 rounded-lg transition-colors"
-          >
-            {loading === "accept" ? "…" : "Accept"}
-          </button>
-        )}
-        {status === "Accepted" && assignedToId === currentUserId && (
-          <button
-            onClick={() => post("complete")}
-            disabled={!!loading}
-            className="px-3 py-1.5 text-sm font-medium text-white bg-green-600 hover:bg-green-700 disabled:bg-green-400 rounded-lg transition-colors"
-          >
-            {loading === "complete" ? "…" : "Complete"}
-          </button>
-        )}
-        {status !== "Completed" && otherUsers.length > 0 && (
-          <button
-            onClick={() => setShowReassign(!showReassign)}
-            className="px-3 py-1.5 text-sm font-medium text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
-          >
-            Reassign
-          </button>
-        )}
-        <button
-          onClick={() => setConfirmDelete(true)}
-          className="px-3 py-1.5 text-sm font-medium text-red-600 border border-red-200 rounded-lg hover:bg-red-50 transition-colors"
-        >
           Delete
         </button>
       </div>

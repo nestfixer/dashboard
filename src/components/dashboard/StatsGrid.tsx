@@ -17,11 +17,11 @@ export function StatsGrid({
   myWOs,
 }: StatsGridProps) {
   const stats = [
-    { label: "Total WOs", value: totalWOs, color: "bg-indigo-50 text-indigo-700 border-indigo-200" },
-    { label: "Pending", value: pendingWOs, color: "bg-yellow-50 text-yellow-700 border-yellow-200" },
-    { label: "In Progress", value: acceptedWOs, color: "bg-blue-50 text-blue-700 border-blue-200" },
-    { label: "Completed", value: completedWOs, color: "bg-green-50 text-green-700 border-green-200" },
-    { label: "My Open WOs", value: myWOs, color: "bg-purple-50 text-purple-700 border-purple-200" },
+    { label: "Total WOs", value: totalWOs, color: "bg-card border-border text-white accent-blue" },
+    { label: "Pending", value: pendingWOs, color: "bg-card border-border text-white accent-yellow" },
+    { label: "In Progress", value: acceptedWOs, color: "bg-card border-border text-white accent-blue" },
+    { label: "Completed", value: completedWOs, color: "bg-card border-border text-white accent-green" },
+    { label: "My Open WOs", value: myWOs, color: "bg-card border-border text-white accent-red" },
   ]
 
   return (

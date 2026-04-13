@@ -70,28 +70,36 @@ export function TimeTracker({ workOrderId, initialEntries, currentUserId }: Prop
   const totalMins = entries.reduce((sum, e) => sum + (e.durationMins ?? 0), 0)
 
   return (
-    <div className="bg-white rounded-xl border border-gray-200">
-      <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
-        <h3 className="text-sm font-semibold text-gray-900">Time Tracking ({(totalMins / 60).toFixed(1)} hrs total)</h3>
+    <div className="bg-card rounded-xl border border-border overflow-hidden">
+      <div className="flex items-center justify-between px-5 py-4 border-b border-white/5 bg-white/[0.02]">
+        <h3 className="text-sm font-semibold text-foreground flex items-center gap-2">
+          <svg className="w-4 h-4 text-accent-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          Time Tracking <span className="text-muted-foreground font-normal ml-1">({(totalMins / 60).toFixed(1)} hrs total)</span>
+        </h3>
         <button
           onClick={() => setShowManual(!showManual)}
-          className="text-xs px-2 py-1 bg-gray-100 text-gray-600 hover:bg-gray-200 rounded-lg transition-colors"
+          className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 bg-white/5 text-muted-foreground hover:bg-white/10 hover:text-foreground rounded-lg transition-all border border-white/5"
         >
           + Manual
         </button>
       </div>
       <div className="p-5 space-y-4">
         {/* Live timer */}
-        <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
+        <div className="flex items-center gap-4 p-4 bg-black/20 rounded-xl border border-white/5">
           <div className="flex-1">
             {isMyTimer ? (
-              <div className="flex items-center gap-2">
-                <span className="w-2 h-2 bg-red-500 rounded-full animate-pulse" />
-                <span className="font-mono text-lg font-semibold text-gray-900">{displayTime}</span>
-                <span className="text-xs text-gray-500">recording…</span>
+              <div className="flex items-center gap-3">
+                <div className="relative flex h-3 w-3">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+                </div>
+                <span className="font-mono text-2xl font-bold text-foreground tracking-tight">{displayTime}</span>
+                <span className="text-xs text-muted-foreground font-medium uppercase tracking-widest animate-pulse">Recording</span>
               </div>
             ) : (
-              <span className="text-sm text-gray-500">
+              <span className="text-sm text-muted-foreground">
                 {isRunning ? "Timer running for another WO" : "Start a live timer"}
               </span>
             )}
@@ -99,10 +107,10 @@ export function TimeTracker({ workOrderId, initialEntries, currentUserId }: Prop
           <button
             onClick={handleTimerToggle}
             disabled={isRunning && !isMyTimer}
-            className={`px-3 py-1.5 text-sm font-medium rounded-lg transition-colors ${
+            className={`px-6 py-2 text-sm font-bold rounded-lg transition-all shadow-sm ${
               isMyTimer
-                ? "bg-red-600 hover:bg-red-700 text-white"
-                : "bg-indigo-600 hover:bg-indigo-700 disabled:bg-gray-300 text-white"
+                ? "bg-red-500/10 text-red-500 border border-red-500/20 hover:bg-red-500 hover:text-white"
+                : "bg-accent-blue/10 text-accent-blue border border-accent-blue/20 hover:bg-accent-blue hover:text-white disabled:opacity-30 disabled:hover:bg-accent-blue/10"
             }`}
           >
             {isMyTimer ? "Stop" : "Start"}
@@ -111,60 +119,74 @@ export function TimeTracker({ workOrderId, initialEntries, currentUserId }: Prop
 
         {/* Manual entry form */}
         {showManual && (
-          <form onSubmit={saveManual} className="flex gap-2 items-end p-3 bg-blue-50 rounded-lg">
-            <div>
-              <label className="text-xs text-gray-500 mb-1 block">Minutes</label>
-              <input
-                type="number"
-                min="1"
-                required
-                value={manualMins}
-                onChange={(e) => setManualMins(e.target.value)}
-                className="w-20 px-2 py-1.5 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                placeholder="60"
-              />
+          <form onSubmit={saveManual} className="p-4 bg-accent-blue/5 rounded-xl border border-accent-blue/20 space-y-4 animate-in fade-in slide-in-from-top-2 duration-200">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+              <div>
+                <label className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground mb-1.5 block">Minutes</label>
+                <input
+                  type="number"
+                  min="1"
+                  required
+                  value={manualMins}
+                  onChange={(e) => setManualMins(e.target.value)}
+                  className="w-full px-3 py-2 text-sm bg-card border border-border rounded-lg focus:outline-none focus:ring-1 focus:ring-accent-blue/50 focus:border-accent-blue text-foreground"
+                  placeholder="60"
+                />
+              </div>
+              <div>
+                <label className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground mb-1.5 block">Date</label>
+                <input
+                  type="date"
+                  value={manualDate}
+                  onChange={(e) => setManualDate(e.target.value)}
+                  className="w-full px-3 py-2 text-sm bg-card border border-border rounded-lg focus:outline-none focus:ring-1 focus:ring-accent-blue/50 focus:border-accent-blue text-foreground"
+                />
+              </div>
+              <div className="col-span-2">
+                <label className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground mb-1.5 block">Notes</label>
+                <input
+                  value={manualNotes}
+                  onChange={(e) => setManualNotes(e.target.value)}
+                  className="w-full px-3 py-2 text-sm bg-card border border-border rounded-lg focus:outline-none focus:ring-1 focus:ring-accent-blue/50 focus:border-accent-blue text-foreground"
+                  placeholder="Optional notes…"
+                />
+              </div>
             </div>
-            <div>
-              <label className="text-xs text-gray-500 mb-1 block">Date</label>
-              <input
-                type="date"
-                value={manualDate}
-                onChange={(e) => setManualDate(e.target.value)}
-                className="px-2 py-1.5 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-              />
+            <div className="flex justify-end gap-2">
+              <button type="button" onClick={() => setShowManual(false)} className="px-4 py-2 text-xs font-bold uppercase tracking-wider text-muted-foreground hover:text-foreground transition-all">
+                Cancel
+              </button>
+              <button type="submit" disabled={saving} className="px-6 py-2 text-xs font-bold uppercase tracking-wider text-white bg-accent-blue hover:bg-accent-blue/80 rounded-lg shadow-[0_0_15px_rgba(74,144,226,0.2)] transition-all">
+                {saving ? "Saving…" : "Save Entry"}
+              </button>
             </div>
-            <div className="flex-1">
-              <label className="text-xs text-gray-500 mb-1 block">Notes</label>
-              <input
-                value={manualNotes}
-                onChange={(e) => setManualNotes(e.target.value)}
-                className="w-full px-2 py-1.5 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                placeholder="Optional notes…"
-              />
-            </div>
-            <button type="submit" disabled={saving} className="px-3 py-1.5 text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg">
-              {saving ? "…" : "Save"}
-            </button>
-            <button type="button" onClick={() => setShowManual(false)} className="px-3 py-1.5 text-sm text-gray-600 hover:bg-gray-100 rounded-lg">
-              Cancel
-            </button>
           </form>
         )}
 
         {/* Entries list */}
         {entries.length > 0 && (
-          <div className="space-y-1">
+          <div className="space-y-1 divide-y divide-white/5">
             {entries.map((e) => (
-              <div key={e.id} className="flex items-center justify-between py-2 px-3 hover:bg-gray-50 rounded-lg text-sm">
-                <div>
-                  <span className="font-medium text-gray-900">{e.user.displayName}</span>
-                  <span className="text-gray-500 ml-2">{e.durationMins ? `${(e.durationMins / 60).toFixed(1)}h` : "Running…"}</span>
-                  {e.notes && <span className="text-gray-400 ml-2 text-xs">— {e.notes}</span>}
+              <div key={e.id} className="flex items-center justify-between py-3 px-2 group hover:bg-white/[0.02] rounded-lg transition-all">
+                <div className="flex flex-col">
+                  <div className="flex items-center gap-2">
+                    <span className="font-semibold text-foreground text-sm">{e.user.displayName}</span>
+                    <span className="text-accent-blue font-bold text-sm">{e.durationMins ? `${(e.durationMins / 60).toFixed(1)}h` : "Running…"}</span>
+                  </div>
+                  {e.notes && <span className="text-muted-foreground text-xs mt-0.5 line-clamp-1 italic">{e.notes}</span>}
                 </div>
-                <div className="flex items-center gap-2">
-                  <span className="text-xs text-gray-400">{format(new Date(e.date), "MMM d")}</span>
+                <div className="flex items-center gap-4">
+                  <span className="text-xs text-muted-foreground font-medium uppercase tracking-tighter">{format(new Date(e.date), "MMM d")}</span>
                   {e.user.id === currentUserId && (
-                    <button onClick={() => deleteEntry(e.id)} className="text-gray-300 hover:text-red-500 text-xs">✕</button>
+                    <button 
+                      onClick={() => deleteEntry(e.id)} 
+                      className="text-muted-foreground hover:text-red-400 p-1 opacity-0 group-hover:opacity-100 transition-all active:scale-95"
+                      title="Delete entry"
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-4v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                      </svg>
+                    </button>
                   )}
                 </div>
               </div>

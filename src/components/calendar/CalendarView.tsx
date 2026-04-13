@@ -140,31 +140,31 @@ export function CalendarView({ compact = false }: { compact?: boolean }) {
             <>
               <button
                 onClick={goToMonth}
-                className="flex items-center gap-1.5 text-sm text-indigo-600 hover:text-indigo-800 font-medium transition-colors"
+                className="flex items-center gap-1.5 text-sm text-accent-blue hover:text-accent-blue/80 font-medium transition-colors"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                 </svg>
                 Month View
               </button>
-              <span className="text-gray-300">|</span>
-              <span className="text-base font-semibold text-gray-900">{dayLabel}</span>
+              <span className="text-border">|</span>
+              <span className="text-base font-semibold text-foreground">{dayLabel}</span>
             </>
           ) : (
-            <h2 className="text-xl font-semibold text-gray-900">Calendar</h2>
+            <h2 className="text-xl font-semibold text-foreground">Calendar</h2>
           )}
         </div>
         <div className="flex items-center gap-3">
           {loading && (
-            <span className="text-xs text-gray-400">Loading…</span>
+            <span className="text-xs text-muted-foreground animate-pulse">Loading…</span>
           )}
-          <div className="flex items-center gap-3 text-xs text-gray-500">
+          <div className="flex items-center gap-4 text-[10px] uppercase tracking-wider font-bold text-muted-foreground">
             <span className="flex items-center gap-1.5">
-              <span className="w-3 h-3 rounded-sm bg-indigo-500 inline-block" />
+              <span className="w-2.5 h-2.5 rounded-full bg-accent-blue shadow-[0_0_8px_rgba(74,144,226,0.4)]" />
               Work Order
             </span>
             <span className="flex items-center gap-1.5">
-              <span className="w-3 h-3 rounded-sm bg-indigo-200 border border-indigo-400 inline-block" />
+              <span className="w-2.5 h-2.5 rounded-full bg-accent-blue/30 border border-accent-blue/50" />
               Time Entry
             </span>
           </div>
@@ -176,16 +176,16 @@ export function CalendarView({ compact = false }: { compact?: boolean }) {
         {/* Unscheduled Sidebar */}
         {!compact && (
           <div className="w-full lg:w-72 flex-shrink-0">
-            <div className="bg-white rounded-xl border border-gray-200 p-4 h-full min-h-[400px]">
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-sm font-semibold text-gray-900 flex items-center gap-2">
-                  <svg className="w-4 h-4 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="bg-card rounded-xl border border-border p-4 h-full min-h-[400px] shadow-sm">
+              <div className="flex items-center justify-between mb-4 pb-3 border-b border-border/50">
+                <h3 className="text-sm font-semibold text-foreground flex items-center gap-2">
+                  <svg className="w-4 h-4 text-accent-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
                   </svg>
                   Unscheduled WOs
                 </h3>
                 {unscheduledWOs.length > 0 && (
-                  <span className="bg-indigo-50 text-indigo-600 text-[10px] font-bold px-2 py-0.5 rounded-full">
+                  <span className="bg-accent-blue/10 text-accent-blue text-[10px] font-bold px-2 py-0.5 rounded-full border border-accent-blue/20">
                     {unscheduledWOs.length}
                   </span>
                 )}
@@ -193,10 +193,10 @@ export function CalendarView({ compact = false }: { compact?: boolean }) {
 
               <div id="external-events" className="space-y-2 max-h-[600px] overflow-y-auto pr-1 custom-scrollbar">
                 {loadingUnscheduled ? (
-                  <div className="py-8 text-center text-xs text-gray-400">Loading work orders...</div>
+                  <div className="py-8 text-center text-xs text-muted-foreground">Loading work orders...</div>
                 ) : unscheduledWOs.length === 0 ? (
-                  <div className="py-12 border-2 border-dashed border-gray-100 rounded-lg text-center">
-                    <p className="text-xs text-gray-400">No unscheduled work orders</p>
+                  <div className="py-12 border-2 border-dashed border-white/5 rounded-lg text-center">
+                    <p className="text-xs text-muted-foreground">No unscheduled work orders</p>
                   </div>
                 ) : (
                   unscheduledWOs.map((wo) => (
@@ -206,13 +206,13 @@ export function CalendarView({ compact = false }: { compact?: boolean }) {
                       data-title={wo.title}
                       data-customer={wo.customer?.name}
                       data-status={wo.status}
-                      className="fc-event-external p-3 rounded-lg border border-gray-100 bg-white hover:border-indigo-300 hover:shadow-sm cursor-move transition-all active:scale-95 group"
+                      className="fc-event-external p-3 rounded-lg border border-border bg-white/[0.02] hover:border-accent-blue/40 hover:bg-white/[0.04] cursor-move transition-all active:scale-95 group shadow-sm"
                     >
-                      <div className="font-medium text-xs text-gray-900 group-hover:text-indigo-600 truncate mb-1.5">
+                      <div className="font-medium text-xs text-foreground group-hover:text-accent-blue truncate mb-1.5 transition-colors">
                         {wo.title}
                       </div>
                       <div className="flex items-center justify-between">
-                        <span className="text-[10px] text-gray-500 truncate max-w-[100px]">
+                        <span className="text-[10px] text-muted-foreground truncate max-w-[100px]">
                           {wo.customer?.name || "No Customer"}
                         </span>
                         <div className="scale-75 origin-right">
@@ -223,7 +223,7 @@ export function CalendarView({ compact = false }: { compact?: boolean }) {
                   ))
                 )}
               </div>
-              <p className="mt-4 text-[10px] text-gray-400 text-center">
+              <p className="mt-4 text-[10px] text-muted-foreground text-center italic">
                 Drag and drop to schedule
               </p>
             </div>
@@ -231,7 +231,7 @@ export function CalendarView({ compact = false }: { compact?: boolean }) {
         )}
 
         {/* Calendar */}
-        <div className="flex-grow bg-white rounded-xl border border-gray-200 p-4 fc-wrapper">
+        <div className="flex-grow bg-card rounded-xl border border-border p-4 fc-wrapper shadow-sm">
           <FullCalendar
             ref={calRef}
             plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
@@ -270,7 +270,7 @@ export function CalendarView({ compact = false }: { compact?: boolean }) {
 
             if (arg.view.type === "dayGridMonth") {
               return (
-                <div className="px-1.5 py-0.5 truncate text-xs font-medium w-full">
+                <div className="px-1.5 py-0.5 truncate text-[10px] font-bold w-full uppercase">
                   {arg.event.title}
                 </div>
               )
@@ -279,16 +279,10 @@ export function CalendarView({ compact = false }: { compact?: boolean }) {
             // Day view — richer content
             if (isWO) {
               return (
-                <div className="p-1.5 text-xs overflow-hidden h-full">
-                  <div className="font-semibold truncate">{arg.event.title}</div>
-                  {customer && <div className="opacity-80 truncate">{customer}</div>}
-                  {assignedTo && <div className="opacity-70 truncate">{assignedTo}</div>}
-                  {status && (
-                    <div className={`mt-0.5 inline-block px-1 py-0.5 rounded text-xs font-medium ${
-                      status === "Completed" ? "bg-white/30" :
-                      status === "Accepted" ? "bg-white/30" : "bg-white/20"
-                    }`}>{status}</div>
-                  )}
+                <div className="p-1.5 text-xs overflow-hidden h-full flex flex-col justify-center">
+                  <div className="font-bold truncate text-white">{arg.event.title}</div>
+                  {customer && <div className="opacity-80 truncate text-[10px] mt-0.5">{customer}</div>}
+                  {assignedTo && <div className="opacity-60 truncate text-[9px]">{assignedTo}</div>}
                 </div>
               )
             }
@@ -297,7 +291,7 @@ export function CalendarView({ compact = false }: { compact?: boolean }) {
               <div className="p-1.5 text-xs overflow-hidden h-full">
                 <div className="font-medium truncate">{arg.event.title}</div>
                 {!arg.event.allDay && arg.timeText && (
-                  <div className="opacity-70">{arg.timeText}</div>
+                  <div className="opacity-70 text-[10px]">{arg.timeText}</div>
                 )}
               </div>
             )
@@ -307,30 +301,45 @@ export function CalendarView({ compact = false }: { compact?: boolean }) {
       </div>
 
       <style>{`
-        .fc-wrapper .fc-toolbar-title { font-size: 1rem; font-weight: 600; color: #111827; }
-        .fc-wrapper .fc-button { background: #6366f1; border-color: #6366f1; font-size: 0.75rem; padding: 0.35rem 0.75rem; border-radius: 0.5rem; }
-        .fc-wrapper .fc-button:hover { background: #4f46e5; border-color: #4f46e5; }
-        .fc-wrapper .fc-button-active, .fc-wrapper .fc-button:focus { background: #4338ca !important; border-color: #4338ca !important; box-shadow: none !important; }
-        .fc-wrapper .fc-daygrid-day:hover { background: #f5f3ff; cursor: pointer; }
-        .fc-wrapper .fc-col-header-cell { background: #f9fafb; font-size: 0.75rem; font-weight: 600; color: #6b7280; text-transform: uppercase; letter-spacing: 0.05em; }
-        .fc-wrapper .fc-timegrid-slot { height: 3rem; }
-        .fc-wrapper .fc-timegrid-slot-label { font-size: 0.7rem; color: #9ca3af; }
-        .fc-wrapper .fc-daygrid-day-number { font-size: 0.8rem; color: #374151; padding: 4px 8px; }
-        .fc-wrapper .fc-day-today { background: #eff6ff !important; }
-        .fc-wrapper .fc-day-today .fc-daygrid-day-number { color: #6366f1; font-weight: 700; }
-        .fc-wrapper .fc-now-indicator-line { border-color: #ef4444; }
-        .fc-wrapper .fc-now-indicator-arrow { border-top-color: #ef4444; }
-        .fc-wrapper .fc-scrollgrid { border-radius: 0.5rem; overflow: hidden; }
-        .fc-wrapper .fc-event { border-radius: 0.375rem; }
-        .fc-wrapper .fc-more-link { font-size: 0.7rem; color: #6366f1; font-weight: 600; }
+        .fc-wrapper { --fc-border-color: rgba(255, 255, 255, 0.08); --fc-page-bg-color: transparent; }
+        .fc-wrapper .fc-toolbar-title { font-size: 1rem; font-weight: 700; color: rgba(255, 255, 255, 0.9); letter-spacing: -0.01em; }
+        .fc-wrapper .fc-button { background: rgba(255, 255, 255, 0.05); border-color: rgba(255, 255, 255, 0.1); font-size: 0.75rem; padding: 0.4rem 0.8rem; border-radius: 0.5rem; color: rgba(255, 255, 255, 0.8); font-weight: 600; text-transform: capitalize; transition: all 0.2s; }
+        .fc-wrapper .fc-button:hover { background: rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.2); color: #fff; }
+        .fc-wrapper .fc-button-active, .fc-wrapper .fc-button:focus { background: #4a90e2 !important; border-color: #4a90e2 !important; color: #fff !important; box-shadow: 0 0 15px rgba(74, 144, 226, 0.3) !important; }
+        .fc-wrapper .fc-button:disabled { background: rgba(255, 255, 255, 0.03); opacity: 0.5; color: rgba(255, 255, 255, 0.4); }
+        
+        .fc-wrapper .fc-daygrid-day:hover { background: rgba(255, 255, 255, 0.02); cursor: pointer; }
+        .fc-wrapper .fc-col-header-cell { background: rgba(0, 0, 0, 0.2) !important; font-size: 0.7rem; font-weight: 800; color: rgba(255, 255, 255, 0.4); text-transform: uppercase; letter-spacing: 0.1em; padding: 12px 0 !important; border-bottom: 2px solid rgba(255, 255, 255, 0.05) !important; }
+        
+        .fc-wrapper .fc-timegrid-slot { height: 3.5rem; border-bottom: 1px solid rgba(255, 255, 255, 0.03); }
+        .fc-wrapper .fc-timegrid-slot-label { font-size: 0.7rem; color: rgba(255, 255, 255, 0.3); font-weight: 500; }
+        .fc-wrapper .fc-timegrid-axis-cbox { border-color: var(--fc-border-color); }
+        
+        .fc-wrapper .fc-daygrid-day-number { font-size: 0.75rem; color: rgba(255, 255, 255, 0.5); padding: 8px 12px; font-weight: 500; }
+        .fc-wrapper .fc-day-today { background: rgba(74, 144, 226, 0.05) !important; }
+        .fc-wrapper .fc-day-today .fc-daygrid-day-number { color: #4a90e2; font-weight: 800; text-shadow: 0 0 10px rgba(74, 144, 226, 0.4); }
+        
+        .fc-wrapper .fc-now-indicator-line { border-color: #ff4d4d; border-width: 2px; }
+        .fc-wrapper .fc-now-indicator-arrow { border-top-color: #ff4d4d; border-bottom-color: #ff4d4d; }
+        
+        .fc-wrapper .fc-event { border: none; background: #4a90e2; box-shadow: 0 2px 4px rgba(0,0,0,0.2); transition: transform 0.1s; }
+        .fc-wrapper .fc-event:hover { transform: translateY(-1px); filter: brightness(1.1); }
+        .fc-wrapper .fc-v-event { background: #4a90e2; border: 1px solid rgba(255, 255, 255, 0.1); }
+        .fc-wrapper .fc-event-main { color: #fff; }
+        
+        .fc-wrapper .fc-scrollgrid { border: none; }
+        .fc-wrapper .fc-theme-standard td, .fc-wrapper .fc-theme-standard th { border-color: rgba(255, 255, 255, 0.06); }
+        
+        .fc-wrapper .fc-more-link { font-size: 0.65rem; color: #4a90e2; font-weight: 700; text-transform: uppercase; padding: 2px 4px; }
         
         .custom-scrollbar::-webkit-scrollbar { width: 4px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #e5e7eb; border-radius: 10px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #d1d5db; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.2); }
         
-        .fc-event-external:active { cursor: grabbing; }
+        .fc-event-external:active { cursor: grabbing; z-index: 9999; }
       `}</style>
+    </div>
     </div>
   )
 }

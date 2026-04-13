@@ -33,25 +33,32 @@ export function WorkOrderFilters({ users }: { users: User[] }) {
   ]
 
   return (
-    <div className="flex flex-wrap items-center gap-3 mb-4">
-      <input
-        type="search"
-        placeholder="Search work orders…"
-        value={searchValue}
-        onChange={(e) => setSearchValue(e.target.value)}
-        className="px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 w-56"
-      />
+    <div className="flex flex-wrap items-center gap-3 mb-6">
+      <div className="relative group">
+        <input
+          type="search"
+          placeholder="Search work orders…"
+          value={searchValue}
+          onChange={(e) => setSearchValue(e.target.value)}
+          className="pl-9 pr-3 py-2 text-sm bg-card border border-border rounded-lg focus:outline-none focus:ring-1 focus:ring-accent-blue/50 focus:border-accent-blue w-64 transition-all text-foreground placeholder:text-muted-foreground"
+        />
+        <div className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none text-muted-foreground group-focus-within:text-accent-blue transition-colors">
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+        </div>
+      </div>
 
       {/* Status — segmented pill control */}
-      <div className="flex gap-1 bg-gray-100 rounded-lg p-1">
+      <div className="flex gap-1 bg-white/[0.03] rounded-lg p-1 border border-border/50">
         {statuses.map(({ value, label }) => (
           <button
             key={value}
             onClick={() => update("status", value)}
-            className={`px-3 py-1.5 text-xs font-medium rounded-md transition-colors ${
+            className={`px-3 py-1.5 text-xs font-semibold rounded-md transition-all ${
               currentStatus === value
-                ? "bg-white text-gray-900 shadow-sm"
-                : "text-gray-500 hover:text-gray-700"
+                ? "bg-accent-blue scale-[1.02] text-white shadow-[0_0_15px_rgba(74,144,226,0.3)]"
+                : "text-muted-foreground hover:text-foreground hover:bg-white/5"
             }`}
           >
             {label}
@@ -60,11 +67,11 @@ export function WorkOrderFilters({ users }: { users: User[] }) {
       </div>
 
       {/* User filter — styled select */}
-      <div className="relative">
+      <div className="relative group">
         <select
           defaultValue={params.get("assignedTo") ?? ""}
           onChange={(e) => update("assignedTo", e.target.value)}
-          className="appearance-none pl-3 pr-8 py-2 text-sm bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-700 cursor-pointer"
+          className="appearance-none pl-3 pr-9 py-2 text-sm bg-card border border-border rounded-lg focus:outline-none focus:ring-1 focus:ring-accent-blue/50 focus:border-accent-blue text-foreground cursor-pointer transition-all hover:border-border/80"
         >
           <option value="">All Users</option>
           {users.map((u) => (
@@ -72,14 +79,14 @@ export function WorkOrderFilters({ users }: { users: User[] }) {
           ))}
         </select>
         <div className="pointer-events-none absolute inset-y-0 right-2 flex items-center">
-          <svg className="w-3.5 h-3.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-3.5 h-3.5 text-muted-foreground group-hover:text-accent-blue transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
           </svg>
         </div>
       </div>
 
       {/* Sort — styled select */}
-      <div className="relative">
+      <div className="relative group">
         <select
           defaultValue={`${params.get("sort") ?? "createdAt"}:${params.get("order") ?? "desc"}`}
           onChange={(e) => {
@@ -89,7 +96,7 @@ export function WorkOrderFilters({ users }: { users: User[] }) {
             sp.set("order", o)
             router.push(`/work-orders?${sp.toString()}`)
           }}
-          className="appearance-none pl-3 pr-8 py-2 text-sm bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-700 cursor-pointer"
+          className="appearance-none pl-3 pr-9 py-2 text-sm bg-card border border-border rounded-lg focus:outline-none focus:ring-1 focus:ring-accent-blue/50 focus:border-accent-blue text-foreground cursor-pointer transition-all hover:border-border/80"
         >
           <option value="createdAt:desc">Newest First</option>
           <option value="createdAt:asc">Oldest First</option>
@@ -98,7 +105,7 @@ export function WorkOrderFilters({ users }: { users: User[] }) {
           <option value="priority:desc">Priority (High First)</option>
         </select>
         <div className="pointer-events-none absolute inset-y-0 right-2 flex items-center">
-          <svg className="w-3.5 h-3.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-3.5 h-3.5 text-muted-foreground group-hover:text-accent-blue transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
           </svg>
         </div>

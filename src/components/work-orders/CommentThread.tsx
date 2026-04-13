@@ -34,49 +34,96 @@ export function CommentThread({ workOrderId, initialComments, currentUserId }: P
     if (res.ok) {
       const c = await res.json()
       setComments([...comments, c])
-      setBody("")
+      setNewComment("")
     }
     setSubmitting(false)
   }
 
   return (
-    <div className="bg-white rounded-xl border border-gray-200">
-      <div className="px-5 py-4 border-b border-gray-100">
-        <h3 className="text-sm font-semibold text-gray-900">Comments ({comments.length})</h3>
+    <div className="bg-card rounded-xl border border-border shadow-sm flex flex-col h-[600px] overflow-hidden">
+      <div className="px-6 py-4 border-b border-white/5 bg-white/[0.01] flex items-center justify-between">
+        <h3 className="text-sm font-semibold text-foreground flex items-center gap-2">
+          <svg className="w-4 h-4 text-accent-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+          </svg>
+          Activity & Comments
+        </h3>
+        <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-white/5 text-muted border border-white/10 uppercase tracking-widest">
+          {comments.length} Messages
+        </span>
       </div>
-      <div className="p-5 space-y-4">
-        {comments.length === 0 && (
-          <p className="text-sm text-gray-500 text-center py-2">No comments yet. Be the first!</p>
-        )}
-        {comments.map((c) => (
-          <div key={c.id} className="flex gap-3">
-            <UserAvatar user={c.author} size="md" className="mt-0.5" />
-            <div className="flex-1 bg-gray-50 rounded-lg px-3 py-2">
-              <div className="flex items-center gap-2 mb-1">
-                <span className="text-xs font-semibold text-gray-900">{c.author.displayName}</span>
-                <span className="text-xs text-gray-400">{format(new Date(c.createdAt), "MMM d, h:mm a")}</span>
-              </div>
-              <p className="text-sm text-gray-700 whitespace-pre-wrap">{c.body}</p>
-            </div>
-          </div>
-        ))}
 
-        <form onSubmit={submit} className="flex gap-3 pt-2">
+      <div className="flex-1 overflow-y-auto p-6 space-y-6">
+        {comments.length === 0 ? (
+          <div className="h-full flex flex-col items-center justify-center text-center opacity-50">
+            <div className="w-12 h-12 bg-white/5 rounded-full flex items-center justify-center mb-4 border border-border">
+              <svg className="w-6 h-6 text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+              </svg>
+            </div>
+            <p className="text-sm text-muted italic">Start the conversation...<br/>Log important updates here.</p>
+          </div>
+        ) : (
+          comments.map((comment) => (
+            <div key={comment.id} className="group relative">
+              <div className="flex items-start gap-4">
+                <UserAvatar user={comment.user} size="sm" className="mt-1 shadow-lg shadow-black/20 shrink-0 ring-1 ring-white/10" />
+                <div className="flex-1 space-y-1">
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm font-bold text-foreground">{comment.user.name}</span>
+                    <span className="text-[10px] font-medium text-muted/60 tabular-nums">
+                      {formatDistanceToNow(new Date(comment.createdAt), { addSuffix: true })}
+                    </span>
+                  </div>
+                  <div className="relative group/msg">
+                    <div className="p-3.5 bg-white/[0.03] border border-white/5 rounded-2xl rounded-tl-none text-sm text-foreground/90 leading-relaxed shadow-sm group-hover:bg-white/[0.05] group-hover:border-white/10 transition-all">
+                      {comment.content}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))
+        )}
+        <div ref={messagesEndRef} />
+      </div>
+
+      <div className="p-4 bg-white/[0.02] border-t border-border">
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleSend();
+          }}
+          className="relative"
+        >
           <textarea
-            value={body}
-            onChange={(e) => setBody(e.target.value)}
-            rows={2}
-            placeholder="Add a comment…"
-            className="flex-1 px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none"
+            value={newComment}
+            onChange={(e) => setNewComment(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                handleSend();
+              }
+            }}
+            placeholder="Write a comment..."
+            className="w-full bg-card border border-border rounded-xl px-4 py-3 pr-24 text-sm focus:outline-none focus:ring-1 focus:ring-accent-blue/50 focus:border-accent-blue transition-all resize-none text-foreground placeholder-muted h-[100px]"
           />
-          <button
-            type="submit"
-            disabled={submitting || !body.trim()}
-            className="px-4 py-2 text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 disabled:bg-indigo-400 rounded-lg transition-colors self-end"
-          >
-            {submitting ? "…" : "Post"}
-          </button>
+          <div className="absolute bottom-3 right-3 flex items-center gap-2">
+            <button
+              type="submit"
+              disabled={!newComment.trim() || submitting}
+              className="px-4 py-1.5 bg-accent-blue hover:bg-accent-blue/80 disabled:opacity-30 text-white text-[10px] font-black uppercase tracking-widest rounded-lg transition-all shadow-[0_4px_12px_rgba(74,144,226,0.3)] disabled:shadow-none active:scale-95"
+            >
+              {submitting ? "..." : "Post Message"}
+            </button>
+          </div>
         </form>
+        <p className="mt-2 text-[10px] text-muted text-center flex items-center justify-center gap-1 opacity-50">
+          <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          Press Enter to send
+        </p>
       </div>
     </div>
   )

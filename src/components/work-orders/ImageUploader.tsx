@@ -35,55 +35,101 @@ export function ImageUploader({ workOrderId, initialImages }: Props) {
     if (inputRef.current) inputRef.current.value = ""
   }
 
+  const removeImage = (index: number) => {
+    setImages((prev) => prev.filter((_, i) => i !== index))
+  }
+
   return (
-    <div className="bg-white rounded-xl border border-gray-200">
-      <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
-        <h3 className="text-sm font-semibold text-gray-900">Photos ({images.length})</h3>
-        <button
-          onClick={() => inputRef.current?.click()}
-          disabled={uploading}
-          className="text-xs px-2 py-1 bg-indigo-50 text-indigo-600 hover:bg-indigo-100 disabled:bg-gray-100 rounded-lg transition-colors"
-        >
-          {uploading ? "Uploading…" : "+ Upload"}
-        </button>
-        <input
-          ref={inputRef}
-          type="file"
-          multiple
-          accept="image/*"
-          className="hidden"
-          onChange={(e) => handleFiles(e.target.files)}
-        />
+    <div className="bg-card rounded-xl border border-border shadow-sm overflow-hidden">
+      <div className="px-6 py-4 border-b border-white/5 bg-white/[0.01] flex items-center justify-between">
+        <h3 className="text-sm font-semibold text-foreground flex items-center gap-2">
+          <svg className="w-4 h-4 text-accent-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+          </svg>
+          Photos & Documentation
+        </h3>
+        <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-white/5 text-muted border border-white/10 uppercase tracking-widest">
+          {images.length} Files
+        </span>
       </div>
-      <div className="p-5">
-        {images.length === 0 ? (
-          <div
-            onClick={() => inputRef.current?.click()}
-            className="border-2 border-dashed border-gray-200 rounded-lg p-8 text-center cursor-pointer hover:border-indigo-300 transition-colors"
-          >
-            <p className="text-sm text-gray-500">Click to upload photos</p>
-            <p className="text-xs text-gray-400 mt-1">JPG, PNG, HEIC up to 10MB each</p>
+
+      <div className="p-6">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mb-6">
+          {images.map((img, i) => (
+            <div key={i} className="group relative aspect-square bg-white/[0.02] border border-white/5 rounded-xl overflow-hidden hover:border-white/20 transition-all shadow-md">
+              <img src={img.url} alt={img.originalName} className="w-full h-full object-cover grayscale-[20%] group-hover:grayscale-0 transition-all duration-500 scale-100 group-hover:scale-105" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+              <button
+                onClick={() => removeImage(i)}
+                className="absolute top-2 right-2 p-1.5 bg-black/60 backdrop-blur-md text-white/80 hover:text-white hover:bg-accent-red rounded-lg opacity-0 group-hover:opacity-100 transition-all transform translate-y-[-10px] group-hover:translate-y-0"
+                title="Remove photo"
+              >
+                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+          ))}
+          
+          <div className="relative aspect-square">
+            <input
+              type="file"
+              onChange={(e) => handleFiles(e.target.files)}
+              accept="image/*"
+              className="absolute inset-0 opacity-0 cursor-pointer z-10"
+              disabled={uploading}
+              multiple
+            />
+            <div className="h-full border-2 border-dashed border-white/10 rounded-xl flex flex-col items-center justify-center bg-white/[0.01] hover:bg-white/[0.03] hover:border-accent-blue/30 transition-all group overflow-hidden">
+              <div className="relative">
+                <div className="w-12 h-12 bg-white/5 rounded-full flex items-center justify-center mb-2 group-hover:scale-110 group-hover:bg-accent-blue/10 transition-all duration-300">
+                  {uploading ? (
+                    <div className="w-6 h-6 border-2 border-accent-blue border-t-transparent rounded-full animate-spin" />
+                  ) : (
+                    <svg className="w-6 h-6 text-muted group-hover:text-accent-blue transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 4v16m8-8H4" />
+                    </svg>
+                  )}
+                </div>
+              </div>
+              <span className="text-[10px] font-black uppercase tracking-widest text-muted group-hover:text-foreground transition-colors">
+                {uploading ? 'Processing...' : 'Add Photo'}
+              </span>
+            </div>
           </div>
-        ) : (
-          <div className="grid grid-cols-3 gap-3">
-            {images.map((img) => (
-              <a key={img.id} href={img.url} target="_blank" rel="noopener noreferrer">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={img.url}
-                  alt={img.originalName}
-                  className="w-full h-28 object-cover rounded-lg border border-gray-200 hover:opacity-90 transition-opacity"
-                />
-              </a>
-            ))}
+        </div>
+
+        <div className="flex items-center justify-center p-8 border border-white/5 rounded-xl bg-white/[0.01] border-dashed">
+          <div className="text-center">
+            <div className="flex -space-x-2 justify-center mb-4 opacity-50">
+              {[1, 2, 3].map(i => (
+                <div key={i} className="w-8 h-8 rounded-lg bg-card border border-border flex items-center justify-center">
+                  <svg className="w-4 h-4 text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
+                </div>
+              ))}
+            </div>
+            <p className="text-sm text-muted mb-6">Drag and drop site photos here, or use your camera</p>
             <button
-              onClick={() => inputRef.current?.click()}
-              className="h-28 border-2 border-dashed border-gray-200 rounded-lg flex items-center justify-center text-gray-400 hover:border-indigo-300 hover:text-indigo-400 transition-colors text-2xl"
+              onClick={() => {
+                const input = document.createElement('input');
+                input.type = 'file';
+                input.accept = 'image/*';
+                input.capture = 'environment';
+                input.onchange = (e: any) => handleFiles(e.target.files);
+                input.click();
+              }}
+              className="px-8 py-3 bg-accent-blue hover:bg-accent-blue/80 text-white text-[11px] font-black uppercase tracking-[0.15em] rounded-xl transition-all shadow-[0_8px_20px_rgba(74,144,226,0.3)] active:scale-95 flex items-center gap-3 mx-auto"
             >
-              +
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+              Open Site Camera
             </button>
           </div>
-        )}
+        </div>
       </div>
     </div>
   )
