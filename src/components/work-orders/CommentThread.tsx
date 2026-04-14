@@ -1,7 +1,7 @@
 "use client"
 
-import { useState } from "react"
-import { format } from "date-fns"
+import { useState, useRef } from "react"
+import { formatDistanceToNow } from "date-fns"
 import { UserAvatar } from "@/components/shared/UserAvatar"
 
 interface Comment {
@@ -19,17 +19,17 @@ interface Props {
 
 export function CommentThread({ workOrderId, initialComments, currentUserId }: Props) {
   const [comments, setComments] = useState(initialComments)
-  const [body, setBody] = useState("")
+  const [newComment, setNewComment] = useState("")
   const [submitting, setSubmitting] = useState(false)
+  const messagesEndRef = useRef<HTMLDivElement>(null)
 
-  async function submit(e: React.FormEvent) {
-    e.preventDefault()
-    if (!body.trim()) return
+  async function handleSend() {
+    if (!newComment.trim()) return
     setSubmitting(true)
     const res = await fetch(`/api/work-orders/${workOrderId}/comments`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ body }),
+      body: JSON.stringify({ body: newComment }),
     })
     if (res.ok) {
       const c = await res.json()
@@ -67,17 +67,17 @@ export function CommentThread({ workOrderId, initialComments, currentUserId }: P
           comments.map((comment) => (
             <div key={comment.id} className="group relative">
               <div className="flex items-start gap-4">
-                <UserAvatar user={comment.user} size="sm" className="mt-1 shadow-lg shadow-black/20 shrink-0 ring-1 ring-white/10" />
+                <UserAvatar user={comment.author} size="sm" className="mt-1 shadow-lg shadow-black/20 shrink-0 ring-1 ring-white/10" />
                 <div className="flex-1 space-y-1">
                   <div className="flex items-center gap-2">
-                    <span className="text-sm font-bold text-white font-semibold">{comment.user.name}</span>
+                    <span className="text-sm font-bold text-white">{comment.author.displayName}</span>
                     <span className="text-[10px] font-medium text-gray-400 tabular-nums">
                       {formatDistanceToNow(new Date(comment.createdAt), { addSuffix: true })}
                     </span>
                   </div>
                   <div className="relative group/msg">
                     <div className="p-3.5 bg-white/[0.06] border border-white/12 rounded-2xl rounded-tl-none text-sm text-white leading-relaxed shadow-sm group-hover:bg-white/[0.08] group-hover:border-white/15 transition-all">
-                      {comment.content}
+                      {comment.body}
                     </div>
                   </div>
                 </div>
@@ -91,8 +91,8 @@ export function CommentThread({ workOrderId, initialComments, currentUserId }: P
       <div className="p-4 bg-white/[0.02] border-t border-border">
         <form
           onSubmit={(e) => {
-            e.preventDefault();
-            handleSend();
+            e.preventDefault()
+            handleSend()
           }}
           className="relative"
         >
@@ -100,9 +100,9 @@ export function CommentThread({ workOrderId, initialComments, currentUserId }: P
             value={newComment}
             onChange={(e) => setNewComment(e.target.value)}
             onKeyDown={(e) => {
-              if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                handleSend();
+              if (e.key === "Enter" && !e.shiftKey) {
+                e.preventDefault()
+                handleSend()
               }
             }}
             placeholder="Write a comment..."
