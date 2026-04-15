@@ -175,77 +175,109 @@ export default async function WorkOrderDetailPage({ params }: { params: { id: st
 
           {/* Customer Contact card */}
           {wo.customer && (
-            <div className="bg-card rounded-xl border border-border p-6 shadow-sm">
-              <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-4 flex items-center gap-2">
-                <svg className="w-3 h-3 text-accent-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                </svg>
-                Customer Contact
-              </p>
+            <div className="bg-card rounded-xl border border-border shadow-sm overflow-hidden">
 
-              <div className="flex items-center gap-4 mb-5">
-                <div 
-                  className="w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-lg flex-shrink-0 shadow-lg"
-                  style={{ backgroundColor: wo.customer.color || "#4A90E2" }}
-                >
-                  {customerInitials}
-                </div>
-                <div className="min-w-0">
-                  <p className="font-bold text-foreground text-base leading-tight">{wo.customer.name}</p>
-                  {wo.customer.notes && (
-                    <p className="text-xs text-slate-400 truncate mt-1">{wo.customer.notes}</p>
-                  )}
-                </div>
-              </div>
-
-              {/* Action buttons */}
-              <div className="flex items-center gap-2.5 mb-5">
-                {wo.customer.address && (
-                  <a
-                    href={`https://maps.google.com/?q=${encodeURIComponent(wo.customer.address)}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    title="Navigate"
-                    className="flex items-center justify-center w-9 h-9 rounded-lg border border-border bg-gray-50 text-muted hover:text-accent-blue hover:border-accent-blue/50 hover:bg-accent-blue/5 transition-all active:scale-95"
+              {/* Banner + Avatar */}
+              <div className="relative h-20 bg-[#1a2b6b]" />
+              <div className="px-5 pb-5">
+                <div className="-mt-7 mb-3">
+                  <div
+                    className="w-14 h-14 rounded-full border-4 border-card flex items-center justify-center text-white font-bold text-xl shadow-md flex-shrink-0"
+                    style={{ backgroundColor: "#4A90E2" }}
                   >
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                    </svg>
-                  </a>
+                    {customerInitials}
+                  </div>
+                </div>
+
+                {/* Name + subtitle */}
+                <p className="font-bold text-foreground text-base leading-tight">{wo.customer.name}</p>
+                {wo.customer.notes && (
+                  <p className="text-xs text-slate-400 mt-0.5 mb-4">{wo.customer.notes}</p>
                 )}
+                {!wo.customer.notes && <div className="mb-4" />}
+
+                {/* Contact row */}
                 {wo.customer.phone && (
-                  <a
-                    href={`tel:${wo.customer.phone}`}
-                    title="Call"
-                    className="flex items-center justify-center w-9 h-9 rounded-lg border border-border bg-gray-50 text-muted hover:text-accent-green hover:border-accent-green/50 hover:bg-accent-green/5 transition-all active:scale-95"
-                  >
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                    </svg>
-                  </a>
+                  <div className="flex items-center justify-between py-2.5 border-t border-border">
+                    <span className="text-xs text-slate-400">Contact</span>
+                    <a
+                      href={`tel:${wo.customer.phone}`}
+                      className="text-sm font-medium text-foreground hover:text-accent-blue transition-colors"
+                    >
+                      {wo.customer.phone}
+                    </a>
+                  </div>
                 )}
+
+                {/* Email row */}
+                {wo.customer.email && (
+                  <div className="flex items-center justify-between py-2.5 border-t border-border">
+                    <span className="text-xs text-slate-400">Email</span>
+                    <a
+                      href={`mailto:${wo.customer.email}`}
+                      className="text-sm font-medium text-foreground hover:text-accent-blue transition-colors truncate max-w-[60%] text-right"
+                    >
+                      {wo.customer.email}
+                    </a>
+                  </div>
+                )}
+
+                {/* Message button */}
                 <a
                   href="#comments"
-                  title="Message"
-                  className="flex items-center justify-center w-9 h-9 rounded-lg border border-border bg-gray-50 text-muted hover:text-accent-blue hover:border-accent-blue/50 hover:bg-accent-blue/5 transition-all active:scale-95"
+                  className="mt-4 flex items-center justify-center w-full py-2.5 rounded-lg bg-accent-blue/10 text-accent-blue text-sm font-semibold hover:bg-accent-blue/20 transition-colors"
+                >
+                  Message {wo.customer.name.split(" ")[0]}
+                </a>
+
+                {/* Remarks */}
+                {wo.remarks && (
+                  <div className="mt-4 pt-4 border-t border-border">
+                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1.5">
+                      Account Remarks
+                    </p>
+                    <p className="text-xs text-slate-500 italic leading-relaxed">{wo.remarks}</p>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* Location card */}
+          {wo.customer?.address && (
+            <div className="bg-card rounded-xl border border-border shadow-sm overflow-hidden">
+              <div className="flex items-center justify-between px-5 pt-4 pb-3">
+                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Location</p>
+                <a
+                  href={`https://maps.google.com/?q=${encodeURIComponent(wo.customer.address)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-accent-blue hover:text-accent-blue/70 transition-colors"
+                  title="Open in Maps"
                 >
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                   </svg>
                 </a>
               </div>
 
-              {wo.remarks && (
-                <div className="border-t border-border pt-4">
-                  <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1.5 leading-relaxed">
-                    Account Remarks
-                  </p>
-                  <p className="text-xs text-slate-500 italic leading-relaxed">
-                    {wo.remarks}
-                  </p>
-                </div>
-              )}
+              {/* Map preview */}
+              <div className="mx-5 mb-3 rounded-lg overflow-hidden border border-border h-32 bg-slate-100 relative">
+                <iframe
+                  title="Map"
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0 }}
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  src={`https://maps.google.com/maps?q=${encodeURIComponent(wo.customer.address)}&output=embed&z=15`}
+                />
+              </div>
+
+              {/* Address text */}
+              <div className="px-5 pb-4">
+                <p className="text-sm text-foreground font-medium leading-snug">{wo.customer.address}</p>
+              </div>
             </div>
           )}
 
