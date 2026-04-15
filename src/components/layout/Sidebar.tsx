@@ -24,14 +24,14 @@ function NavContent({ onLinkClick }: { onLinkClick?: () => void }) {
 
   return (
     <>
-      <div className="p-4 border-b border-border bg-black/20">
+      <div className="p-4 border-b border-border bg-gray-50">
         <div className="flex items-center gap-2">
-          <div className="w-8 h-8 bg-accent-blue rounded-lg flex items-center justify-center flex-shrink-0 shadow-[0_0_15px_rgba(74,144,226,0.2)]">
+          <div className="w-8 h-8 bg-[#1a2b6b] rounded-lg flex items-center justify-center flex-shrink-0">
             <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
             </svg>
           </div>
-          <span className="text-foreground font-semibold text-sm tracking-tight text-white">Field Dashboard</span>
+          <span className="font-semibold text-sm tracking-tight text-[#1a2b6b]">Field Dashboard</span>
         </div>
       </div>
 
@@ -43,10 +43,10 @@ function NavContent({ onLinkClick }: { onLinkClick?: () => void }) {
               key={item.href}
               href={item.href}
               onClick={onLinkClick}
-              className={`flex items-center gap-3 px-4 py-2.5 text-sm transition-colors ${
+              className={`flex items-center gap-3 mx-2 px-3 py-2.5 text-sm rounded-lg transition-colors ${
                 active
-                  ? "bg-accent-blue/10 text-accent-blue border-r-2 border-accent-blue"
-                  : "text-gray-300 hover:text-white hover:bg-white/10"
+                  ? "bg-[#1a2b6b] text-white"
+                  : "text-slate-500 hover:text-[#1a2b6b] hover:bg-blue-50"
               }`}
             >
               <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -58,24 +58,24 @@ function NavContent({ onLinkClick }: { onLinkClick?: () => void }) {
         })}
       </nav>
 
-      <div className="p-4 border-t border-border space-y-3 bg-black/10">
+      <div className="p-4 border-t border-border space-y-3 bg-gray-50">
         <div className="flex items-center gap-2.5">
           <UserAvatar
             user={{ displayName: session?.user?.name ?? "", color: session?.user?.color }}
             size="md"
           />
           <div className="min-w-0">
-            <p className="text-sm font-medium text-foreground truncate text-white">{session?.user?.name}</p>
-            <Link href="/settings" className="text-xs text-gray-400 hover:text-accent-blue transition-colors">
+            <p className="text-sm font-medium text-[#1a2b6b] truncate">{session?.user?.name}</p>
+            <Link href="/settings" className="text-xs text-slate-400 hover:text-[#1a2b6b] transition-colors">
               Profile &amp; Settings
             </Link>
           </div>
         </div>
         <button
           onClick={() => signOut({ callbackUrl: "/login" })}
-          className="flex items-center gap-3 text-sm text-gray-400 hover:text-white transition-colors w-full group"
+          className="flex items-center gap-3 text-sm text-slate-400 hover:text-accent-red transition-colors w-full group"
         >
-          <svg className="w-4 h-4 group-hover:text-red-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-4 h-4 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
           </svg>
           Sign Out
@@ -95,14 +95,14 @@ export function Sidebar({ open, onClose }: SidebarProps) {
             className="fixed inset-0 z-40 bg-black/50 md:hidden"
             onClick={onClose}
           />
-          <div className="fixed inset-y-0 left-0 z-50 w-64 md:hidden flex flex-col bg-[#13141b] border-r border-border">
+          <div className="fixed inset-y-0 left-0 z-50 w-64 md:hidden flex flex-col bg-white border-r border-border">
             <NavContent onLinkClick={onClose} />
           </div>
         </>
       )}
 
       {/* Desktop sidebar */}
-      <aside className="hidden md:flex md:fixed md:inset-y-0 md:left-0 md:z-30 md:w-56 md:flex-col bg-[#13141b] border-r border-border">
+      <aside className="hidden md:flex md:fixed md:inset-y-0 md:left-0 md:z-30 md:w-56 md:flex-col bg-white border-r border-border shadow-sm">
         <NavContent />
       </aside>
     </>

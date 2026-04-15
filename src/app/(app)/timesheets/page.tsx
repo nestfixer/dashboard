@@ -104,7 +104,7 @@ function TimesheetsPage() {
           <div className="flex items-center gap-2">
             <input type="date" value={startDate} onChange={(e) => updateParams({ range: "custom", startDate: e.target.value, endDate })}
               className="rounded-lg border border-gray-300 px-2 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500" />
-            <span className="text-gray-400 text-xs">to</span>
+            <span className="text-slate-400 text-xs">to</span>
             <input type="date" value={endDate} onChange={(e) => updateParams({ range: "custom", startDate, endDate: e.target.value })}
               className="rounded-lg border border-gray-300 px-2 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500" />
           </div>
@@ -150,10 +150,10 @@ function TimesheetsPage() {
 
       {/* Entries by day */}
       {loading ? (
-        <div className="text-center py-16 text-sm text-gray-400">Loading…</div>
+        <div className="text-center py-16 text-sm text-slate-400">Loading…</div>
       ) : sortedDays.length === 0 ? (
         <div className="bg-white rounded-xl border border-gray-200 py-16 text-center">
-          <p className="text-sm text-gray-400">No time entries for this period.</p>
+          <p className="text-sm text-slate-400">No time entries for this period.</p>
         </div>
       ) : (
         <div className="space-y-4">
@@ -193,7 +193,7 @@ function TimesheetsPage() {
                           </span>
                         </td>
                         <td className="px-4 py-3 w-20 font-semibold text-gray-900">
-                          {e.durationMins ? `${(e.durationMins / 60).toFixed(1)}h` : <span className="text-gray-300 font-normal">—</span>}
+                          {e.durationMins ? `${(e.durationMins / 60).toFixed(1)}h` : <span className="text-slate-400 font-normal">—</span>}
                         </td>
                         <td className="px-4 py-3 text-gray-500 text-xs max-w-xs truncate">
                           {e.notes ?? ""}

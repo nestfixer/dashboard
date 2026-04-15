@@ -87,11 +87,11 @@ export default function SettingsPage() {
 
   return (
     <div className="max-w-lg space-y-8">
-      <h2 className="text-xl font-semibold text-white">Profile &amp; Settings</h2>
+      <h2 className="text-xl font-semibold text-foreground">Profile &amp; Settings</h2>
 
       {/* Profile */}
       <div className="bg-card rounded-xl border border-border p-6">
-        <h3 className="text-sm font-semibold text-white mb-4">Profile</h3>
+        <h3 className="text-sm font-semibold text-foreground mb-4">Profile</h3>
         <form onSubmit={saveProfile} className="space-y-4">
           <div>
             <label className="block text-xs font-medium text-muted mb-1">Display Name</label>
@@ -99,7 +99,7 @@ export default function SettingsPage() {
               type="text"
               value={displayName}
               onChange={(e) => setDisplayName(e.target.value)}
-              className="w-full rounded-lg border border-border bg-card text-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent-blue"
+              className="w-full rounded-lg border border-border bg-card text-foreground px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent-blue"
               required
             />
           </div>
@@ -154,7 +154,7 @@ export default function SettingsPage() {
 
       {/* Password */}
       <div className="bg-card rounded-xl border border-border p-6">
-        <h3 className="text-sm font-semibold text-white mb-4">Change Password</h3>
+        <h3 className="text-sm font-semibold text-foreground mb-4">Change Password</h3>
         <form onSubmit={savePassword} className="space-y-4">
           <div>
             <label className="block text-xs font-medium text-muted mb-1">Current Password</label>
@@ -162,7 +162,7 @@ export default function SettingsPage() {
               type="password"
               value={currentPassword}
               onChange={(e) => setCurrentPassword(e.target.value)}
-              className="w-full rounded-lg border border-border bg-card text-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent-blue"
+              className="w-full rounded-lg border border-border bg-card text-foreground px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent-blue"
               required
             />
           </div>
@@ -172,7 +172,7 @@ export default function SettingsPage() {
               type="password"
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
-              className="w-full rounded-lg border border-border bg-card text-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent-blue"
+              className="w-full rounded-lg border border-border bg-card text-foreground px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent-blue"
               required
               minLength={6}
             />
@@ -183,7 +183,7 @@ export default function SettingsPage() {
               type="password"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
-              className="w-full rounded-lg border border-border bg-card text-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent-blue"
+              className="w-full rounded-lg border border-border bg-card text-foreground px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent-blue"
               required
               minLength={6}
             />

@@ -44,18 +44,18 @@ export function TopNav({ onMenuClick }: TopNavProps) {
   }, [])
 
   return (
-    <header className="fixed top-0 left-0 right-0 md:left-56 h-14 bg-background/80 backdrop-blur-md border-b border-border flex items-center justify-between px-3 sm:px-4 md:px-6 z-20">
+    <header className="fixed top-0 left-0 right-0 md:left-56 h-14 bg-white border-b border-border flex items-center justify-between px-3 sm:px-4 md:px-6 z-20 shadow-sm">
       <div className="flex items-center gap-2">
         <button
           onClick={onMenuClick}
-          className="md:hidden p-2 -ml-1 rounded-md text-muted hover:text-white hover:bg-white/10"
+          className="md:hidden p-2 -ml-1 rounded-md text-slate-400 hover:text-[#1a2b6b] hover:bg-gray-100"
           aria-label="Open menu"
         >
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
           </svg>
         </button>
-        <h1 className="text-base font-semibold text-white">{getPageTitle(pathname)}</h1>
+        <h1 className="text-base font-semibold text-[#1a2b6b]">{getPageTitle(pathname)}</h1>
       </div>
       <div className="flex items-center gap-4">
         {pendingRequests > 0 && (
@@ -69,11 +69,11 @@ export function TopNav({ onMenuClick }: TopNavProps) {
         <div className="flex items-center gap-2">
           <div
             className="w-7 h-7 rounded-full flex items-center justify-center text-white text-xs font-bold"
-            style={{ backgroundColor: session?.user?.color ?? "#6366f1" }}
+            style={{ backgroundColor: session?.user?.color ?? "#1a2b6b" }}
           >
             {session?.user?.name?.[0]?.toUpperCase() ?? "?"}
           </div>
-          <span className="hidden sm:inline text-sm text-white">{session?.user?.name}</span>
+          <span className="hidden sm:inline text-sm text-[#1a2b6b]">{session?.user?.name}</span>
         </div>
       </div>
     </header>

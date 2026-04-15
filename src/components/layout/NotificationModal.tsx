@@ -25,7 +25,7 @@ export function NotificationModal() {
               <Link
                 key={n.id}
                 href={`/work-orders/${n.id}`}
-                className="flex items-center justify-between p-3 rounded-lg bg-white/5 hover:bg-white/10 transition-colors border border-border"
+                className="flex items-center justify-between p-3 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors border border-border"
               >
                 <span className="text-sm text-foreground truncate">{n.title}</span>
                 {n.dueDate && (
@@ -40,7 +40,7 @@ export function NotificationModal() {
 
         <button
           onClick={dismiss}
-          className="mt-2 w-full py-2 px-4 bg-accent-blue hover:bg-accent-blue/90 text-white text-sm font-medium rounded-lg transition-colors"
+          className="mt-2 w-full py-2 px-4 bg-[#1a2b6b] hover:bg-[#152359] text-white text-sm font-medium rounded-lg transition-colors"
         >
           Dismiss
         </button>

@@ -3,10 +3,10 @@ import Link from "next/link"
 import React from "react"
 
 const variants = {
-  primary: "px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium rounded-lg transition-colors disabled:opacity-50",
-  secondary: "px-3 py-1.5 text-sm text-gray-600 border border-gray-300 hover:bg-gray-50 rounded-lg transition-colors disabled:opacity-50",
+  primary: "px-4 py-2 bg-[#1a2b6b] hover:bg-[#152359] text-white text-sm font-medium rounded-lg transition-colors disabled:opacity-50",
+  secondary: "px-3 py-1.5 text-sm text-slate-600 border border-slate-200 hover:bg-slate-50 rounded-lg transition-colors disabled:opacity-50",
   danger: "px-3 py-1.5 text-sm text-red-600 border border-red-200 hover:bg-red-50 rounded-lg transition-colors disabled:opacity-50",
-  ghost: "px-3 py-1.5 text-sm text-indigo-600 border border-indigo-200 hover:bg-indigo-50 rounded-lg transition-colors disabled:opacity-50",
+  ghost: "px-3 py-1.5 text-sm text-[#1a2b6b] border border-[#1a2b6b]/20 hover:bg-[#1a2b6b]/5 rounded-lg transition-colors disabled:opacity-50",
 }
 
 type LinkButtonProps = {

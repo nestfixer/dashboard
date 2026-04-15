@@ -50,15 +50,15 @@ export function WorkOrderFilters({ users }: { users: User[] }) {
       </div>
 
       {/* Status — segmented pill control */}
-      <div className="flex gap-1 bg-white/[0.03] rounded-lg p-1 border border-border/50">
+      <div className="flex gap-1 bg-gray-50 rounded-lg p-1 border border-border/50">
         {statuses.map(({ value, label }) => (
           <button
             key={value}
             onClick={() => update("status", value)}
             className={`px-3 py-1.5 text-xs font-semibold rounded-md transition-all ${
               currentStatus === value
-                ? "bg-accent-blue scale-[1.02] text-white shadow-[0_0_15px_rgba(74,144,226,0.3)]"
-                : "text-gray-400 hover:text-white hover:bg-white/10"
+                ? "bg-[#1a2b6b] text-white"
+                : "text-slate-400 hover:text-[#1a2b6b] hover:bg-gray-50"
             }`}
           >
             {label}

@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
       date: new Date(body.date),
       allDay: body.allDay ?? true,
       color: body.color || "#50e3c2",
-      createdById: session.user.id,
+      createdById: parseInt(session.user.id),
     },
   })
   return NextResponse.json(task, { status: 201 })

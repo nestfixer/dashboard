@@ -103,7 +103,7 @@ export function MaterialsTable({ workOrderId, initialMaterials, readonly }: Prop
 
   return (
     <div className="bg-card rounded-xl border border-border shadow-sm overflow-hidden">
-      <div className="flex items-center justify-between px-6 py-4 border-b border-white/15 bg-white/[0.05]">
+      <div className="flex items-center justify-between px-6 py-4 border-b border-border bg-gray-50">
         <h3 className="text-sm font-semibold text-foreground flex items-center gap-2">
           <svg className="w-4 h-4 text-accent-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
@@ -142,7 +142,7 @@ export function MaterialsTable({ workOrderId, initialMaterials, readonly }: Prop
             </button>
             <button
               onClick={() => setAdding(true)}
-              className="px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider bg-white/5 text-foreground hover:bg-white/10 rounded-lg transition-all border border-white/10 active:scale-95"
+              className="px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider bg-gray-100 text-foreground hover:bg-gray-200 rounded-lg transition-all border border-border active:scale-95"
             >
               + Add Item
             </button>
@@ -152,18 +152,18 @@ export function MaterialsTable({ workOrderId, initialMaterials, readonly }: Prop
       <div className="p-6">
         {materials.length === 0 && !adding && (
           <div className="text-center py-10">
-            <div className="w-12 h-12 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-4 border border-border">
+            <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4 border border-border">
               <svg className="w-6 h-6 text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
               </svg>
             </div>
-            <p className="text-sm text-gray-400">No materials or expenses logged for this order.</p>
+            <p className="text-sm text-slate-400">No materials or expenses logged for this order.</p>
           </div>
         )}
         {materials.length > 0 && (
           <table className="w-full text-sm mb-4">
             <thead>
-              <tr className="text-[10px] font-bold text-gray-400 uppercase tracking-widest border-b border-white/15">
+              <tr className="text-[10px] font-bold text-slate-400 uppercase tracking-widest border-b border-border">
                 <th className="text-left pb-3 font-bold">Item Description</th>
                 <th className="text-right pb-3 font-bold">Qty</th>
                 <th className="text-right pb-3 font-bold">Unit Cost</th>
@@ -171,12 +171,12 @@ export function MaterialsTable({ workOrderId, initialMaterials, readonly }: Prop
                 {!readonly && <th className="pb-3" />}
               </tr>
             </thead>
-            <tbody className="divide-y divide-white/[0.03]">
+            <tbody className="divide-y divide-gray-100">
               {materials.map((m) => (
-                <tr key={m.id} className="group transition-all hover:bg-white/[0.01]">
+                <tr key={m.id} className="group transition-all hover:bg-gray-50">
                   <td className="py-3.5 font-medium text-foreground">{m.name}</td>
-                  <td className="py-3.5 text-right text-gray-300 tabular-nums">{m.quantity}</td>
-                  <td className="py-3.5 text-right text-gray-300 tabular-nums">${m.unitCost.toFixed(2)}</td>
+                  <td className="py-3.5 text-right text-slate-500 tabular-nums">{m.quantity}</td>
+                  <td className="py-3.5 text-right text-slate-500 tabular-nums">${m.unitCost.toFixed(2)}</td>
                   <td className="py-3.5 text-right font-bold text-foreground tabular-nums">${(m.quantity * m.unitCost).toFixed(2)}</td>
                   {!readonly && (
                     <td className="py-3.5 text-right">
@@ -197,7 +197,7 @@ export function MaterialsTable({ workOrderId, initialMaterials, readonly }: Prop
             <tfoot>
               <tr>
                 <td colSpan={3} className="pt-6 text-right">
-                  <span className="text-[10px] font-bold text-gray-300 uppercase tracking-widest">Total Materials</span>
+                  <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Total Materials</span>
                 </td>
                 <td className="pt-6 text-right">
                   <span className="text-xl font-black text-foreground tabular-nums tracking-tighter shadow-accent-blue/10">
@@ -211,7 +211,7 @@ export function MaterialsTable({ workOrderId, initialMaterials, readonly }: Prop
         )}
 
         {adding && !readonly && (
-          <div className="mt-8 p-5 bg-white/[0.03] border border-border rounded-xl shadow-inner relative overflow-hidden group">
+          <div className="mt-8 p-5 bg-gray-50 border border-border rounded-xl shadow-inner relative overflow-hidden group">
             <div className="absolute top-0 right-0 p-4">
               <button 
                 onClick={() => setAdding(false)}
@@ -225,7 +225,7 @@ export function MaterialsTable({ workOrderId, initialMaterials, readonly }: Prop
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 items-end">
               <div className="sm:col-span-2">
-                <label className="text-[10px] font-bold text-gray-300 uppercase tracking-widest mb-1.5 block">Item name</label>
+                <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1.5 block">Item name</label>
                 <input
                   value={newName}
                   onChange={(e) => setNewName(e.target.value)}
@@ -234,7 +234,7 @@ export function MaterialsTable({ workOrderId, initialMaterials, readonly }: Prop
                 />
               </div>
               <div>
-                <label className="text-[10px] font-bold text-gray-300 uppercase tracking-widest mb-1.5 block">Quantity</label>
+                <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1.5 block">Quantity</label>
                 <input
                   type="number"
                   min="0"
@@ -245,7 +245,7 @@ export function MaterialsTable({ workOrderId, initialMaterials, readonly }: Prop
                 />
               </div>
               <div>
-                <label className="text-[10px] font-bold text-gray-300 uppercase tracking-widest mb-1.5 block">Unit cost</label>
+                <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1.5 block">Unit cost</label>
                 <div className="relative">
                   <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted text-xs">$</span>
                   <input
@@ -263,7 +263,7 @@ export function MaterialsTable({ workOrderId, initialMaterials, readonly }: Prop
               <button
                 onClick={addMaterial}
                 disabled={!newName}
-                className="px-6 py-2.5 text-xs font-bold uppercase tracking-widest text-white bg-accent-blue hover:bg-accent-blue/80 disabled:opacity-30 rounded-lg transition-all shadow-[0_0_15px_rgba(74,144,226,0.3)] active:scale-95"
+                className="px-6 py-2.5 text-xs font-bold uppercase tracking-widest text-white bg-[#1a2b6b] hover:bg-[#152359] disabled:opacity-30 rounded-lg transition-all active:scale-95"
               >
                 Save Material Item
               </button>

@@ -247,7 +247,7 @@ export function CalendarView({ compact = false }: { compact?: boolean }) {
           </button>
           <div className="flex items-center gap-4 text-[10px] uppercase tracking-wider font-bold text-muted-foreground">
             <span className="flex items-center gap-1.5">
-              <span className="w-2.5 h-2.5 rounded-full bg-accent-blue shadow-[0_0_8px_rgba(74,144,226,0.4)]" />
+              <span className="w-2.5 h-2.5 rounded-full bg-accent-blue" />
               Work Order
             </span>
             <span className="flex items-center gap-1.5">
@@ -255,7 +255,7 @@ export function CalendarView({ compact = false }: { compact?: boolean }) {
               Time Entry
             </span>
             <span className="flex items-center gap-1.5">
-              <span className="w-2.5 h-2.5 rounded-full bg-accent-green shadow-[0_0_8px_rgba(80,227,194,0.4)]" />
+              <span className="w-2.5 h-2.5 rounded-full bg-accent-green" />
               Task
             </span>
           </div>
@@ -286,7 +286,7 @@ export function CalendarView({ compact = false }: { compact?: boolean }) {
                 {loadingUnscheduled ? (
                   <div className="py-8 text-center text-xs text-muted-foreground">Loading work orders...</div>
                 ) : unscheduledWOs.length === 0 ? (
-                  <div className="py-12 border-2 border-dashed border-white/5 rounded-lg text-center">
+                  <div className="py-12 border-2 border-dashed border-gray-200 rounded-lg text-center">
                     <p className="text-xs text-muted-foreground">No unscheduled work orders</p>
                   </div>
                 ) : (
@@ -297,7 +297,7 @@ export function CalendarView({ compact = false }: { compact?: boolean }) {
                       data-title={wo.title}
                       data-customer={wo.customer?.name}
                       data-status={wo.status}
-                      className="fc-event-external p-3 rounded-lg border border-border bg-white/[0.02] hover:border-accent-blue/40 hover:bg-white/[0.04] cursor-move transition-all active:scale-95 group shadow-sm"
+                      className="fc-event-external p-3 rounded-lg border border-border bg-gray-50 hover:border-accent-blue/40 hover:bg-gray-100 cursor-move transition-all active:scale-95 group shadow-sm"
                     >
                       <div className="font-medium text-xs text-foreground group-hover:text-accent-blue truncate mb-1.5 transition-colors">
                         {wo.title}
@@ -403,10 +403,10 @@ export function CalendarView({ compact = false }: { compact?: boolean }) {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
           <div className="bg-card border border-border rounded-2xl shadow-2xl w-full max-w-md p-6">
             <div className="flex items-center justify-between mb-5">
-              <h3 className="text-base font-bold text-white">
+              <h3 className="text-base font-bold text-foreground">
                 {taskModal.task ? "Edit Task" : "New Task"}
               </h3>
-              <button onClick={() => setTaskModal({ open: false })} className="text-gray-400 hover:text-white transition-colors">
+              <button onClick={() => setTaskModal({ open: false })} className="text-slate-400 hover:text-[#1a2b6b] transition-colors">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 </svg>
@@ -415,7 +415,7 @@ export function CalendarView({ compact = false }: { compact?: boolean }) {
 
             <div className="space-y-4">
               <div>
-                <label className="block text-xs font-semibold text-gray-300 uppercase tracking-wider mb-1.5">Title *</label>
+                <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5">Title *</label>
                 <input
                   type="text"
                   value={taskForm.title}
@@ -423,11 +423,11 @@ export function CalendarView({ compact = false }: { compact?: boolean }) {
                   onKeyDown={e => e.key === "Enter" && saveTask()}
                   placeholder="Task title..."
                   autoFocus
-                  className="w-full bg-background border border-border rounded-lg px-3 py-2.5 text-sm text-white placeholder-gray-400 focus:outline-none focus:border-accent-green focus:ring-1 focus:ring-accent-green"
+                  className="w-full bg-background border border-border rounded-lg px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-accent-green focus:ring-1 focus:ring-accent-green"
                 />
               </div>
               <div>
-                <label className="block text-xs font-semibold text-gray-300 uppercase tracking-wider mb-1.5">Notes</label>
+                <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5">Notes</label>
                 <textarea
                   value={taskForm.description}
                   onChange={e => setTaskForm(f => ({ ...f, description: e.target.value }))}
@@ -449,7 +449,7 @@ export function CalendarView({ compact = false }: { compact?: boolean }) {
                 <>
                   <button
                     onClick={toggleTaskComplete}
-                    className="px-3 py-2.5 text-sm font-medium border border-border text-gray-300 hover:text-white hover:border-white/30 rounded-lg transition-colors"
+                    className="px-3 py-2.5 text-sm font-medium border border-border text-slate-500 hover:text-[#1a2b6b] hover:border-border rounded-lg transition-colors"
                     title={taskModal.task.completed ? "Mark incomplete" : "Mark complete"}
                   >
                     {taskModal.task.completed ? "↩ Undo" : "✓ Done"}
@@ -468,41 +468,41 @@ export function CalendarView({ compact = false }: { compact?: boolean }) {
       )}
 
       <style>{`
-        .fc-wrapper { --fc-border-color: rgba(255, 255, 255, 0.08); --fc-page-bg-color: transparent; }
-        .fc-wrapper .fc-toolbar-title { font-size: 1rem; font-weight: 700; color: rgba(255, 255, 255, 0.9); letter-spacing: -0.01em; }
-        .fc-wrapper .fc-button { background: rgba(255, 255, 255, 0.05); border-color: rgba(255, 255, 255, 0.1); font-size: 0.75rem; padding: 0.4rem 0.8rem; border-radius: 0.5rem; color: rgba(255, 255, 255, 0.8); font-weight: 600; text-transform: capitalize; transition: all 0.2s; }
-        .fc-wrapper .fc-button:hover { background: rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.2); color: #fff; }
-        .fc-wrapper .fc-button-active, .fc-wrapper .fc-button:focus { background: #4a90e2 !important; border-color: #4a90e2 !important; color: #fff !important; box-shadow: 0 0 15px rgba(74, 144, 226, 0.3) !important; }
-        .fc-wrapper .fc-button:disabled { background: rgba(255, 255, 255, 0.03); opacity: 0.5; color: rgba(255, 255, 255, 0.4); }
+        .fc-wrapper { --fc-border-color: rgba(0, 0, 0, 0.08); --fc-page-bg-color: transparent; }
+        .fc-wrapper .fc-toolbar-title { font-size: 1rem; font-weight: 700; color: #1e293b; letter-spacing: -0.01em; }
+        .fc-wrapper .fc-button { background: #f8fafc; border-color: #e2e8f0; font-size: 0.75rem; padding: 0.4rem 0.8rem; border-radius: 0.5rem; color: #475569; font-weight: 600; text-transform: capitalize; transition: all 0.2s; }
+        .fc-wrapper .fc-button:hover { background: #f1f5f9; border-color: #cbd5e1; color: #1e293b; }
+        .fc-wrapper .fc-button-active, .fc-wrapper .fc-button:focus { background: #1a2b6b !important; border-color: #1a2b6b !important; color: #fff !important; box-shadow: none !important; }
+        .fc-wrapper .fc-button:disabled { background: #f8fafc; opacity: 0.5; color: #94a3b8; }
 
-        .fc-wrapper .fc-daygrid-day:hover { background: rgba(255, 255, 255, 0.02); cursor: pointer; }
-        .fc-wrapper .fc-col-header-cell { background: rgba(0, 0, 0, 0.2) !important; font-size: 0.7rem; font-weight: 800; color: rgba(255, 255, 255, 0.65); text-transform: uppercase; letter-spacing: 0.1em; padding: 12px 0 !important; border-bottom: 2px solid rgba(255, 255, 255, 0.08) !important; }
+        .fc-wrapper .fc-daygrid-day:hover { background: #f8fafc; cursor: pointer; }
+        .fc-wrapper .fc-col-header-cell { background: #f8fafc !important; font-size: 0.7rem; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 0.1em; padding: 12px 0 !important; border-bottom: 2px solid #e2e8f0 !important; }
 
-        .fc-wrapper .fc-timegrid-slot { height: 3.5rem; border-bottom: 1px solid rgba(255, 255, 255, 0.03); }
-        .fc-wrapper .fc-timegrid-slot-label { font-size: 0.7rem; color: rgba(255, 255, 255, 0.55); font-weight: 500; }
+        .fc-wrapper .fc-timegrid-slot { height: 3.5rem; border-bottom: 1px solid #f1f5f9; }
+        .fc-wrapper .fc-timegrid-slot-label { font-size: 0.7rem; color: #94a3b8; font-weight: 500; }
         .fc-wrapper .fc-timegrid-axis-cbox { border-color: var(--fc-border-color); }
 
-        .fc-wrapper .fc-daygrid-day-number { font-size: 0.75rem; color: rgba(255, 255, 255, 0.7); padding: 8px 12px; font-weight: 500; }
-        .fc-wrapper .fc-day-today { background: rgba(74, 144, 226, 0.05) !important; }
-        .fc-wrapper .fc-day-today .fc-daygrid-day-number { color: #4a90e2; font-weight: 800; text-shadow: 0 0 10px rgba(74, 144, 226, 0.4); }
+        .fc-wrapper .fc-daygrid-day-number { font-size: 0.75rem; color: #475569; padding: 8px 12px; font-weight: 500; }
+        .fc-wrapper .fc-day-today { background: rgba(26, 43, 107, 0.04) !important; }
+        .fc-wrapper .fc-day-today .fc-daygrid-day-number { color: #1a2b6b; font-weight: 800; }
 
-        .fc-wrapper .fc-now-indicator-line { border-color: #ff4d4d; border-width: 2px; }
-        .fc-wrapper .fc-now-indicator-arrow { border-top-color: #ff4d4d; border-bottom-color: #ff4d4d; }
+        .fc-wrapper .fc-now-indicator-line { border-color: #ef4444; border-width: 2px; }
+        .fc-wrapper .fc-now-indicator-arrow { border-top-color: #ef4444; border-bottom-color: #ef4444; }
 
-        .fc-wrapper .fc-event { border: none; background: #4a90e2; box-shadow: 0 2px 4px rgba(0,0,0,0.2); transition: transform 0.1s; }
+        .fc-wrapper .fc-event { border: none; background: #1a2b6b; box-shadow: 0 1px 3px rgba(0,0,0,0.1); transition: transform 0.1s; }
         .fc-wrapper .fc-event:hover { transform: translateY(-1px); filter: brightness(1.1); }
-        .fc-wrapper .fc-v-event { background: #4a90e2; border: 1px solid rgba(255, 255, 255, 0.1); }
+        .fc-wrapper .fc-v-event { background: #1a2b6b; border: 1px solid rgba(26, 43, 107, 0.2); }
         .fc-wrapper .fc-event-main { color: #fff; }
 
         .fc-wrapper .fc-scrollgrid { border: none; }
-        .fc-wrapper .fc-theme-standard td, .fc-wrapper .fc-theme-standard th { border-color: rgba(255, 255, 255, 0.06); }
+        .fc-wrapper .fc-theme-standard td, .fc-wrapper .fc-theme-standard th { border-color: #e2e8f0; }
 
-        .fc-wrapper .fc-more-link { font-size: 0.65rem; color: #4a90e2; font-weight: 700; text-transform: uppercase; padding: 2px 4px; }
+        .fc-wrapper .fc-more-link { font-size: 0.65rem; color: #1a2b6b; font-weight: 700; text-transform: uppercase; padding: 2px 4px; }
 
         .custom-scrollbar::-webkit-scrollbar { width: 4px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 10px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.2); }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
 
         .fc-event-external:active { cursor: grabbing; z-index: 9999; }
       `}</style>

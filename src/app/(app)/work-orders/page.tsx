@@ -67,14 +67,14 @@ export default async function WorkOrdersPage({
         <div className="overflow-x-auto">
         {workOrders.length === 0 ? (
           <div className="py-16 text-center flex flex-col items-center gap-3">
-            <div className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center">
+            <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center">
               <svg className="w-6 h-6 text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
               </svg>
             </div>
             <div>
-              <p className="text-sm font-medium text-white">{search ? "No work orders match your search" : "No work orders yet"}</p>
-              <p className="text-xs text-gray-400 mt-0.5">{search ? "Try a different search term or filter" : "Create your first work order to get started"}</p>
+              <p className="text-sm font-medium text-foreground">{search ? "No work orders match your search" : "No work orders yet"}</p>
+              <p className="text-xs text-slate-400 mt-0.5">{search ? "Try a different search term or filter" : "Create your first work order to get started"}</p>
             </div>
             {!search && (
               <Link href="/work-orders/new" className="mt-1 px-4 py-2 bg-accent-blue hover:bg-accent-blue/90 text-white text-sm font-medium rounded-lg transition-colors">
@@ -86,12 +86,12 @@ export default async function WorkOrdersPage({
           <table className="w-full text-sm">
             <thead className="bg-background border-b border-border">
               <tr>
-                <th className="text-left px-4 py-3 text-xs font-semibold text-gray-400 uppercase tracking-wide">Title</th>
-                <th className="text-left px-4 py-3 text-xs font-semibold text-gray-400 uppercase tracking-wide">Customer</th>
-                <th className="text-left px-4 py-3 text-xs font-semibold text-gray-400 uppercase tracking-wide">Status</th>
-                <th className="text-left px-4 py-3 text-xs font-semibold text-gray-400 uppercase tracking-wide">Priority</th>
-                <th className="text-left px-4 py-3 text-xs font-semibold text-gray-400 uppercase tracking-wide">Due Date</th>
-                <th className="hidden md:table-cell text-left px-4 py-3 text-xs font-semibold text-gray-400 uppercase tracking-wide">Assigned To</th>
+                <th className="text-left px-4 py-3 text-xs font-semibold text-slate-400 uppercase tracking-wide">Title</th>
+                <th className="text-left px-4 py-3 text-xs font-semibold text-slate-400 uppercase tracking-wide">Customer</th>
+                <th className="text-left px-4 py-3 text-xs font-semibold text-slate-400 uppercase tracking-wide">Status</th>
+                <th className="text-left px-4 py-3 text-xs font-semibold text-slate-400 uppercase tracking-wide">Priority</th>
+                <th className="text-left px-4 py-3 text-xs font-semibold text-slate-400 uppercase tracking-wide">Due Date</th>
+                <th className="hidden md:table-cell text-left px-4 py-3 text-xs font-semibold text-slate-400 uppercase tracking-wide">Assigned To</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-border">
@@ -99,13 +99,13 @@ export default async function WorkOrdersPage({
                 const dueSt = getDueDateStatus(wo.dueDate)
                 const rowCls = dueSt && wo.status !== "Completed" ? dueDateRowClasses[dueSt] : ""
                 return (
-                  <tr key={wo.id} className={`hover:bg-white/5 transition-colors ${rowCls}`}>
+                  <tr key={wo.id} className={`hover:bg-gray-50 transition-colors ${rowCls}`}>
                     <td className="px-4 py-3">
-                      <Link href={`/work-orders/${wo.id}`} className="font-medium text-white hover:text-accent-blue">
+                      <Link href={`/work-orders/${wo.id}`} className="font-medium text-foreground hover:text-accent-blue">
                         {wo.title}
                       </Link>
                     </td>
-                    <td className="px-4 py-3 text-gray-200">{wo.customer?.name ?? "—"}</td>
+                    <td className="px-4 py-3 text-slate-500">{wo.customer?.name ?? "—"}</td>
                     <td className="px-4 py-3"><StatusBadge status={wo.status as WorkOrderStatus} /></td>
                     <td className="px-4 py-3"><PriorityBadge priority={wo.priority as WorkOrderPriority} /></td>
                     <td className="px-4 py-3">
@@ -115,9 +115,9 @@ export default async function WorkOrdersPage({
                       {wo.assignedTo ? (
                         <div className="flex items-center gap-1.5">
                           <UserAvatar user={wo.assignedTo} size="sm" />
-                          <span className="text-gray-200">{wo.assignedTo.displayName}</span>
+                          <span className="text-slate-500">{wo.assignedTo.displayName}</span>
                         </div>
-                      ) : <span className="text-gray-200">Unassigned</span>}
+                      ) : <span className="text-slate-500">Unassigned</span>}
                     </td>
                   </tr>
                 )

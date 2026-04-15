@@ -159,7 +159,7 @@ export function WorkOrderForm({ customers, users, currentUserId, defaultValues }
               ? "border-accent-blue bg-accent-blue/10"
               : extractedFrom
               ? "border-accent-green bg-accent-green/5"
-              : "border-white/10 bg-white/5 hover:border-accent-blue/50 hover:bg-white/[0.08]"
+              : "border-gray-200 bg-gray-50 hover:border-accent-blue/50 hover:bg-gray-100"
           }`}
         >
           <input
@@ -181,7 +181,7 @@ export function WorkOrderForm({ customers, users, currentUserId, defaultValues }
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
               </svg>
               <p className="text-sm font-medium text-accent-green">Extracted from <span className="font-semibold">{extractedFrom}</span></p>
-              <p className="text-xs text-gray-400">Review and edit the fields below, then save</p>
+              <p className="text-xs text-slate-400">Review and edit the fields below, then save</p>
             </>
           ) : (
             <>
@@ -189,7 +189,7 @@ export function WorkOrderForm({ customers, users, currentUserId, defaultValues }
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
               </svg>
               <p className="text-sm font-medium text-foreground">Drop a screenshot to auto-fill</p>
-              <p className="text-xs text-gray-400">or click to browse — works with Latchel, AppFolio, and similar apps</p>
+              <p className="text-xs text-slate-400">or click to browse — works with Latchel, AppFolio, and similar apps</p>
             </>
           )}
         </div>
@@ -201,46 +201,46 @@ export function WorkOrderForm({ customers, users, currentUserId, defaultValues }
 
       <form onSubmit={handleSubmit} className="space-y-5 bg-card rounded-xl border border-border p-6">
         <div>
-          <label className="block text-sm font-medium text-gray-300 mb-1">Title *</label>
+          <label className="block text-sm font-medium text-slate-500 mb-1">Title *</label>
           <input
             name="title"
             required
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className="w-full px-3 py-2 bg-slate-900/50 border border-white/10 rounded-lg text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all"
+            className="w-full px-3 py-2 bg-white border border-border rounded-lg text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all"
             placeholder="e.g. Install HVAC Unit"
           />
         </div>
 
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-1">Priority</label>
+            <label className="block text-sm font-medium text-slate-500 mb-1">Priority</label>
             <select
               name="priority"
               value={priority}
               onChange={(e) => setPriority(e.target.value)}
-              className="w-full px-3 py-2 bg-slate-900/50 border border-white/10 rounded-lg text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all"
+              className="w-full px-3 py-2 bg-white border border-border rounded-lg text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all"
             >
-              <option className="bg-slate-900">Low</option>
-              <option className="bg-slate-900">Medium</option>
-              <option className="bg-slate-900">High</option>
-              <option className="bg-slate-900">Urgent</option>
+              <option>Low</option>
+              <option>Medium</option>
+              <option>High</option>
+              <option>Urgent</option>
             </select>
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-1">Due Date</label>
+            <label className="block text-sm font-medium text-slate-500 mb-1">Due Date</label>
             <input
               name="dueDate"
               type="date"
               defaultValue={defaultValues?.dueDate?.split("T")[0] ?? ""}
-              className="w-full px-3 py-2 bg-slate-900/50 border border-white/10 rounded-lg text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all [color-scheme:dark]"
+              className="w-full px-3 py-2 bg-white border border-border rounded-lg text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all"
             />
           </div>
         </div>
 
         <div>
           <div className="flex items-center justify-between mb-1">
-            <label className="block text-sm font-medium text-gray-300">Customer</label>
+            <label className="block text-sm font-medium text-slate-500">Customer</label>
             <button
               type="button"
               onClick={() => { setNewCustomerMode(!newCustomerMode); setSelectedCustomer(null); setCustomerSearch("") }}
@@ -251,25 +251,25 @@ export function WorkOrderForm({ customers, users, currentUserId, defaultValues }
           </div>
 
           {newCustomerMode ? (
-            <div className="space-y-2 p-3 bg-white/5 border border-white/10 rounded-lg">
+            <div className="space-y-2 p-3 bg-gray-50 border border-border rounded-lg">
               <input
                 value={newCustomerName}
                 onChange={(e) => setNewCustomerName(e.target.value)}
                 placeholder="Full name *"
-                className="w-full px-3 py-2 bg-slate-900/50 border border-white/10 rounded-lg text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent"
+                className="w-full px-3 py-2 bg-white border border-border rounded-lg text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent"
               />
               <input
                 value={newCustomerPhone}
                 onChange={(e) => setNewCustomerPhone(e.target.value)}
                 placeholder="Phone number"
                 type="tel"
-                className="w-full px-3 py-2 bg-slate-900/50 border border-white/10 rounded-lg text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent"
+                className="w-full px-3 py-2 bg-white border border-border rounded-lg text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent"
               />
               <input
                 value={newCustomerAddress}
                 onChange={(e) => setNewCustomerAddress(e.target.value)}
                 placeholder="Address"
-                className="w-full px-3 py-2 bg-slate-900/50 border border-white/10 rounded-lg text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent"
+                className="w-full px-3 py-2 bg-white border border-border rounded-lg text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent"
               />
             </div>
           ) : (
@@ -279,16 +279,16 @@ export function WorkOrderForm({ customers, users, currentUserId, defaultValues }
                   value={selectedCustomer ? selectedCustomer.name : customerSearch}
                   onChange={(e) => { setCustomerSearch(e.target.value); setSelectedCustomer(null) }}
                   placeholder="Search customers…"
-                  className="w-full px-3 py-2 bg-slate-900/50 border border-white/10 rounded-lg text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all"
+                  className="w-full px-3 py-2 bg-white border border-border rounded-lg text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all"
                 />
                 {!selectedCustomer && customerSearch && filteredCustomers.length > 0 && (
-                  <div className="absolute top-full left-0 right-0 mt-1 bg-slate-900 border border-white/10 rounded-lg shadow-2xl z-20 max-h-40 overflow-y-auto">
+                  <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-border rounded-lg shadow-2xl z-20 max-h-40 overflow-y-auto">
                     {filteredCustomers.map((c) => (
                       <button
                         key={c.id}
                         type="button"
                         onClick={() => { setSelectedCustomer(c); setCustomerSearch("") }}
-                        className="w-full text-left px-3 py-2 text-sm hover:bg-white/10 transition-colors"
+                        className="w-full text-left px-3 py-2 text-sm hover:bg-gray-50 transition-colors"
                       >
                         <div className="font-medium text-foreground">{c.name}</div>
                         {c.phone && <div className="text-xs text-muted-foreground">{c.phone}</div>}
@@ -298,7 +298,7 @@ export function WorkOrderForm({ customers, users, currentUserId, defaultValues }
                 )}
               </div>
               {selectedCustomer && (
-                <div className="mt-2 p-3 bg-white/5 border border-white/10 rounded-lg text-sm">
+                <div className="mt-2 p-3 bg-gray-50 border border-border rounded-lg text-sm">
                   <div className="flex items-center justify-between">
                     <span className="font-medium text-foreground">{selectedCustomer.name}</span>
                     <button type="button" onClick={() => setSelectedCustomer(null)} className="text-xs text-muted-foreground hover:text-accent-red">Remove</button>
@@ -312,25 +312,25 @@ export function WorkOrderForm({ customers, users, currentUserId, defaultValues }
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-300 mb-1">Description</label>
+          <label className="block text-sm font-medium text-slate-500 mb-1">Description</label>
           <textarea
             name="description"
             rows={4}
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            className="w-full px-3 py-2 bg-slate-900/50 border border-white/10 rounded-lg text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent resize-none transition-all"
+            className="w-full px-3 py-2 bg-white border border-border rounded-lg text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent resize-none transition-all"
             placeholder="Describe the work to be done…"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-300 mb-1">Remarks</label>
+          <label className="block text-sm font-medium text-slate-500 mb-1">Remarks</label>
           <textarea
             name="remarks"
             rows={2}
             value={remarks}
             onChange={(e) => setRemarks(e.target.value)}
-            className="w-full px-3 py-2 bg-slate-900/50 border border-white/10 rounded-lg text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent resize-none transition-all"
+            className="w-full px-3 py-2 bg-white border border-border rounded-lg text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent resize-none transition-all"
             placeholder="Any additional notes…"
           />
         </div>
@@ -348,7 +348,7 @@ export function WorkOrderForm({ customers, users, currentUserId, defaultValues }
           <button
             type="button"
             onClick={() => window.history.back()}
-            className="px-4 py-2 text-sm text-gray-300 hover:bg-white/10 rounded-lg transition-colors"
+            className="px-4 py-2 text-sm text-slate-500 hover:bg-gray-100 rounded-lg transition-colors"
           >
             Cancel
           </button>

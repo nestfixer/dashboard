@@ -69,7 +69,7 @@ export default async function InvoicesPage({
         {invoices.length === 0 ? (
           <div className="py-16 text-center">
             <p className="text-gray-500 text-sm">No invoices found.</p>
-            <p className="text-xs text-gray-400 mt-1">Create invoices from a work order&apos;s detail page.</p>
+            <p className="text-xs text-slate-400 mt-1">Create invoices from a work order&apos;s detail page.</p>
           </div>
         ) : (
           <table className="w-full text-sm">
@@ -97,7 +97,7 @@ export default async function InvoicesPage({
                     </Link>
                   </td>
                   <td className="px-4 py-3 text-gray-600">
-                    {inv.workOrder.customer?.name ?? <span className="text-gray-300">—</span>}
+                    {inv.workOrder.customer?.name ?? <span className="text-slate-400">—</span>}
                   </td>
                   <td className="px-4 py-3">
                     <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${STATUS_STYLES[inv.status] ?? "bg-gray-100 text-gray-700"}`}>

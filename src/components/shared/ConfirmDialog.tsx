@@ -18,7 +18,7 @@ export function ConfirmDialog({ open, title, message, confirmLabel = "Confirm", 
         className="absolute inset-0 bg-black/80 backdrop-blur-sm animate-in fade-in duration-300" 
         onClick={onCancel} 
       />
-      <div className="relative w-full max-w-sm bg-card border border-border rounded-2xl shadow-[0_25px_60px_rgba(0,0,0,0.8)] overflow-hidden animate-in zoom-in-95 duration-200">
+      <div className="relative w-full max-w-sm bg-card border border-border rounded-2xl shadow-xl overflow-hidden animate-in zoom-in-95 duration-200">
         <div className="p-8 text-center">
           <div className="w-16 h-16 bg-accent-red/10 rounded-full flex items-center justify-center mx-auto mb-6 border border-accent-red/20">
             <svg className="w-8 h-8 text-accent-red" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -30,10 +30,10 @@ export function ConfirmDialog({ open, title, message, confirmLabel = "Confirm", 
             {message}
           </p>
         </div>
-        <div className="flex border-t border-white/5">
+        <div className="flex border-t border-border">
           <button
             onClick={onCancel}
-            className="flex-1 px-6 py-4 text-xs font-black uppercase tracking-[0.2em] text-muted hover:text-foreground hover:bg-white/5 transition-all border-r border-white/5"
+            className="flex-1 px-6 py-4 text-xs font-black uppercase tracking-[0.2em] text-muted hover:text-foreground hover:bg-gray-50 transition-all border-r border-border"
           >
             Go Back
           </button>

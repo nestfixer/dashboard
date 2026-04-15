@@ -41,14 +41,14 @@ export function ImageUploader({ workOrderId, initialImages }: Props) {
 
   return (
     <div className="bg-card rounded-xl border border-border shadow-sm overflow-hidden">
-      <div className="px-6 py-4 border-b border-white/5 bg-white/[0.01] flex items-center justify-between">
+      <div className="px-6 py-4 border-b border-border bg-gray-50 flex items-center justify-between">
         <h3 className="text-sm font-semibold text-foreground flex items-center gap-2">
           <svg className="w-4 h-4 text-accent-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
           </svg>
           Photos & Documentation
         </h3>
-        <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-white/5 text-muted border border-white/10 uppercase tracking-widest">
+        <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-gray-100 text-muted border border-border uppercase tracking-widest">
           {images.length} Files
         </span>
       </div>
@@ -56,7 +56,7 @@ export function ImageUploader({ workOrderId, initialImages }: Props) {
       <div className="p-6">
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mb-6">
           {images.map((img, i) => (
-            <div key={i} className="group relative aspect-square bg-white/[0.02] border border-white/5 rounded-xl overflow-hidden hover:border-white/20 transition-all shadow-md">
+            <div key={i} className="group relative aspect-square bg-gray-50 border border-border rounded-xl overflow-hidden hover:border-gray-300 transition-all shadow-md">
               <img src={img.url} alt={img.originalName} className="w-full h-full object-cover grayscale-[20%] group-hover:grayscale-0 transition-all duration-500 scale-100 group-hover:scale-105" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
               <button
@@ -80,9 +80,9 @@ export function ImageUploader({ workOrderId, initialImages }: Props) {
               disabled={uploading}
               multiple
             />
-            <div className="h-full border-2 border-dashed border-white/10 rounded-xl flex flex-col items-center justify-center bg-white/[0.01] hover:bg-white/[0.03] hover:border-accent-blue/30 transition-all group overflow-hidden">
+            <div className="h-full border-2 border-dashed border-gray-200 rounded-xl flex flex-col items-center justify-center bg-gray-50 hover:bg-gray-100 hover:border-accent-blue/30 transition-all group overflow-hidden">
               <div className="relative">
-                <div className="w-12 h-12 bg-white/5 rounded-full flex items-center justify-center mb-2 group-hover:scale-110 group-hover:bg-accent-blue/10 transition-all duration-300">
+                <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center mb-2 group-hover:scale-110 group-hover:bg-accent-blue/10 transition-all duration-300">
                   {uploading ? (
                     <div className="w-6 h-6 border-2 border-accent-blue border-t-transparent rounded-full animate-spin" />
                   ) : (
@@ -99,7 +99,7 @@ export function ImageUploader({ workOrderId, initialImages }: Props) {
           </div>
         </div>
 
-        <div className="flex items-center justify-center p-8 border border-white/5 rounded-xl bg-white/[0.01] border-dashed">
+        <div className="flex items-center justify-center p-8 border border-gray-200 rounded-xl bg-gray-50 border-dashed">
           <div className="text-center">
             <div className="flex -space-x-2 justify-center mb-4 opacity-50">
               {[1, 2, 3].map(i => (
@@ -120,7 +120,7 @@ export function ImageUploader({ workOrderId, initialImages }: Props) {
                 input.onchange = (e: any) => handleFiles(e.target.files);
                 input.click();
               }}
-              className="px-8 py-3 bg-accent-blue hover:bg-accent-blue/80 text-white text-[11px] font-black uppercase tracking-[0.15em] rounded-xl transition-all shadow-[0_8px_20px_rgba(74,144,226,0.3)] active:scale-95 flex items-center gap-3 mx-auto"
+              className="px-8 py-3 bg-[#1a2b6b] hover:bg-[#152359] text-white text-[11px] font-black uppercase tracking-[0.15em] rounded-xl transition-all active:scale-95 flex items-center gap-3 mx-auto"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />

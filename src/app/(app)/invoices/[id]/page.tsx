@@ -40,7 +40,7 @@ export default function InvoiceDetailPage({ params }: { params: { id: string } }
     setUpdating(false)
   }
 
-  if (loading) return <div className="flex items-center justify-center h-64"><p className="text-sm text-gray-400">Loading…</p></div>
+  if (loading) return <div className="flex items-center justify-center h-64"><p className="text-sm text-slate-400">Loading…</p></div>
   if (!invoice) return <div className="text-sm text-red-500">Invoice not found.</div>
 
   const customer = invoice.workOrder?.customer
@@ -78,7 +78,7 @@ export default function InvoiceDetailPage({ params }: { params: { id: string } }
                 {customer.address && <p className="text-gray-500 text-xs mt-1">{customer.address}</p>}
               </>
             ) : (
-              <p className="text-gray-400">No customer attached</p>
+              <p className="text-slate-400">No customer attached</p>
             )}
           </div>
           <div className="space-y-3">

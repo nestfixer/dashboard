@@ -47,7 +47,7 @@ export function WorkOrderActions({ workOrderId, status, assignedToId, currentUse
           <button
             onClick={() => post("accept")}
             disabled={loading === "accept"}
-            className="flex-1 px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-white bg-accent-blue hover:bg-accent-blue/90 disabled:opacity-50 rounded-xl transition-all shadow-[0_0_15px_rgba(74,144,226,0.2)] active:scale-95"
+            className="flex-1 px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-white bg-[#1a2b6b] hover:bg-[#152359] disabled:opacity-50 rounded-xl transition-all active:scale-95"
           >
             {loading === "accept" ? "…" : "Accept"}
           </button>
@@ -65,14 +65,14 @@ export function WorkOrderActions({ workOrderId, status, assignedToId, currentUse
           <button
             onClick={() => post("reopen")}
             disabled={loading === "reopen"}
-            className="flex-1 px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-white bg-white/10 hover:bg-white/20 disabled:opacity-50 rounded-xl transition-all active:scale-95"
+            className="flex-1 px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-foreground bg-gray-100 hover:bg-gray-200 disabled:opacity-50 rounded-xl transition-all active:scale-95"
           >
             {loading === "reopen" ? "…" : "Reopen"}
           </button>
         )}
         <button
           onClick={() => setShowReassign(!showReassign)}
-          className="px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-white bg-white/8 hover:bg-white/15 rounded-xl transition-all border border-white/15 active:scale-95"
+          className="px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-foreground bg-gray-100 hover:bg-gray-200 rounded-xl transition-all border border-border active:scale-95"
         >
           Reassign
         </button>
@@ -87,7 +87,7 @@ export function WorkOrderActions({ workOrderId, status, assignedToId, currentUse
       {showReassign && (
         <div className="flex items-center gap-2 mt-2">
           <select
-            className="px-3 py-1.5 text-sm border border-border bg-card text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-blue"
+            className="px-3 py-1.5 text-sm border border-border bg-card text-foreground rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-blue"
             onChange={(e) => setReassignTo(parseInt(e.target.value))}
           >
             <option value="">Select user…</option>
