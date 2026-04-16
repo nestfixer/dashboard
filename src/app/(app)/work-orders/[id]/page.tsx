@@ -319,7 +319,6 @@ export default async function WorkOrderDetailPage({ params }: { params: { id: st
               workOrderId={wo.id}
               status={wo.status}
               assignedToId={wo.assignedToId}
-              currentUserId={userId}
               users={users}
             />
             <Link

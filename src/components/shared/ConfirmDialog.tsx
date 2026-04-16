@@ -4,12 +4,13 @@ interface Props {
   open: boolean
   title: string
   message: string
-
+  confirmLabel?: string
+  destructive?: boolean
   onConfirm: () => void
   onCancel: () => void
 }
 
-export function ConfirmDialog({ open, title, message, onConfirm, onCancel }: Props) {
+export function ConfirmDialog({ open, title, message, confirmLabel, destructive, onConfirm, onCancel }: Props) {
   if (!open) return null
   return (
     <div className="fixed inset-0 z-[200] flex items-center justify-center p-4">
@@ -38,9 +39,13 @@ export function ConfirmDialog({ open, title, message, onConfirm, onCancel }: Pro
           </button>
           <button
             onClick={onConfirm}
-            className="flex-1 px-6 py-4 text-xs font-black uppercase tracking-[0.2em] text-accent-red hover:bg-accent-red/10 transition-all font-bold"
+            className={`flex-1 px-6 py-4 text-xs font-black uppercase tracking-[0.2em] transition-all font-bold ${
+              destructive
+                ? "text-accent-red hover:bg-accent-red/10"
+                : "text-accent-blue hover:bg-accent-blue/10"
+            }`}
           >
-            Confirm
+            {confirmLabel ?? "Confirm"}
           </button>
         </div>
       </div>

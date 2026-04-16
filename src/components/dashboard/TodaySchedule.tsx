@@ -4,6 +4,7 @@ import { format } from "date-fns"
 import { StatusBadge } from "@/components/shared/StatusBadge"
 import { DueDateBadge } from "@/components/shared/DueDateBadge"
 import { UserAvatar } from "@/components/shared/UserAvatar"
+import type { WorkOrderStatus } from "@/types"
 
 
 
@@ -11,11 +12,11 @@ interface TodayScheduleProps {
   jobs: {
     id: number
     title: string
-    status: string
+    status: WorkOrderStatus
     dueDate: Date | null
     customer?: { name: string } | null
     assignedTo?: { displayName: string; color: string } | null
-    subTasks?: { id: string; title: string; completed: boolean }[]
+    subTasks?: { id: number; title: string; completed: boolean }[]
   }[]
 }
 

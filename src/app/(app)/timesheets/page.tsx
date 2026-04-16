@@ -11,9 +11,12 @@ import { User } from "@/types"
 interface TimeEntry {
   id: number
   userId: number
+  workOrderId: number
   date: string
   durationMins: number | null
   description: string | null
+  entryType: string
+  notes: string | null
   user: User
   workOrder?: { id: number; title: string } | null
   isBilled: boolean
@@ -68,7 +71,7 @@ function TimesheetsPage() {
   const grandTotal = entries.reduce((s, e) => s + (e.durationMins ?? 0), 0)
 
   function handleExport() {
-    const csv = timesheetToCSV(entries, new Date(startDate))
+    const csv = timesheetToCSV(entries as import("@/types").TimeEntry[])
     downloadCSV(csv, `timesheet-${startDate}-to-${endDate}.csv`)
   }
 
@@ -192,8 +195,8 @@ function TimesheetsPage() {
                           </div>
                         </td>
                         <td className="px-4 py-3">
-                          <Link href={`/work-orders/${e.workOrder.id}`} className="font-medium text-gray-900 hover:text-indigo-600 transition-colors">
-                            {e.workOrder.title}
+                          <Link href={`/work-orders/${e.workOrder?.id}`} className="font-medium text-gray-900 hover:text-indigo-600 transition-colors">
+                            {e.workOrder?.title ?? "No Work Order"}
                           </Link>
                         </td>
                         <td className="px-4 py-3 w-24">

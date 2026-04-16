@@ -19,7 +19,7 @@ export function NotificationModal() {
         </h3>
 
         <div className="space-y-2 mb-4">
-          {notifications.map((n: { id: number; dueDate: string | null; title: string }) => {
+          {notifications.map((n) => {
             return (
               <Link
                 key={n.id}

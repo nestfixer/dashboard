@@ -90,11 +90,11 @@ export default async function DashboardPage() {
           <DashboardCalendar />
         </div>
 
-        <TodaySchedule jobs={todayWOs} />
+        <TodaySchedule jobs={todayWOs as React.ComponentProps<typeof TodaySchedule>["jobs"]} />
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-        <RecentWorkOrders workOrders={recentWOs} />
+        <RecentWorkOrders workOrders={recentWOs as React.ComponentProps<typeof RecentWorkOrders>["workOrders"]} />
         {otherUser && <PartnerWork user={otherUser} workOrders={partnerWOs} />}
       </div>
     </div>

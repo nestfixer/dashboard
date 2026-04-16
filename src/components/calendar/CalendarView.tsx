@@ -11,6 +11,26 @@ import { format } from "date-fns"
 import { useRouter } from "next/navigation"
 
 import { PriorityBadge } from "@/components/shared/PriorityBadge"
+import type { WorkOrderPriority } from "@/types"
+
+interface CalendarTask {
+  id: number
+  title: string
+  description?: string | null
+  date: string
+  endDate?: string | null
+  allDay?: boolean
+  color?: string | null
+  completed: boolean
+}
+
+interface UnscheduledWO {
+  id: number
+  title: string
+  status: string
+  priority: WorkOrderPriority
+  customer?: { name: string } | null
+}
 
 export function CalendarView({ compact = false }: { compact?: boolean }) {
   const router = useRouter()
@@ -19,13 +39,13 @@ export function CalendarView({ compact = false }: { compact?: boolean }) {
   const [dayLabel, setDayLabel] = useState(compact ? format(new Date(), "EEEE, MMMM d, yyyy") : "")
   const [events, setEvents] = useState<EventInput[]>([])
   const [loading, setLoading] = useState(false)
-  const [unscheduledWOs, setUnscheduledWOs] = useState<Record<string, unknown>[]>([])
+  const [unscheduledWOs, setUnscheduledWOs] = useState<UnscheduledWO[]>([])
   const [loadingUnscheduled, setLoadingUnscheduled] = useState(false)
-  const [tasks, setTasks] = useState<Record<string, unknown>[]>([])
+  const [tasks, setTasks] = useState<CalendarTask[]>([])
   const [taskModal, setTaskModal] = useState<{
     open: boolean
     date?: string
-    task?: Record<string, unknown>
+    task?: CalendarTask
   }>({ open: false })
   const [taskForm, setTaskForm] = useState({ title: "", description: "" })
 
@@ -127,7 +147,7 @@ export function CalendarView({ compact = false }: { compact?: boolean }) {
       const taskId = info.event.extendedProps?.taskId
       const task = tasks.find((t) => t.id === taskId)
       if (task) {
-        setTaskForm({ title: task.title, description: task.description || "" })
+        setTaskForm({ title: task.title, description: task.description ?? "" })
         setTaskModal({ open: true, task })
       }
       return
@@ -250,12 +270,12 @@ export function CalendarView({ compact = false }: { compact?: boolean }) {
 
   const taskEvents: EventInput[] = tasks.map((t) => ({
     id: `task-${t.id}`,
-    title: t.title,
-    start: t.date,
-    end: t.endDate,
-    allDay: t.allDay,
-    backgroundColor: t.completed ? "#374151" : (t.color || "#50e3c2"),
-    borderColor: t.completed ? "#374151" : (t.color || "#50e3c2"),
+    title: t.title as string,
+    start: t.date as string,
+    end: t.endDate ?? undefined,
+    allDay: t.allDay ?? false,
+    backgroundColor: t.completed ? "#374151" : (t.color ?? "#50e3c2"),
+    borderColor: t.completed ? "#374151" : (t.color ?? "#50e3c2"),
     textColor: "#ffffff",
     extendedProps: { type: "task", taskId: t.id, description: t.description, completed: t.completed },
   }))
@@ -354,14 +374,14 @@ export function CalendarView({ compact = false }: { compact?: boolean }) {
                       className="fc-event-external p-3 rounded-lg border border-border bg-gray-50 hover:border-accent-blue/40 hover:bg-gray-100 cursor-move transition-all active:scale-95 group shadow-sm"
                     >
                       <div className="font-medium text-xs text-foreground group-hover:text-accent-blue truncate mb-1.5 transition-colors">
-                        {wo.title}
+                        {wo.title as string}
                       </div>
                       <div className="flex items-center justify-between">
                         <span className="text-[10px] text-muted-foreground truncate max-w-[100px]">
-                          {wo.customer?.name || "No Customer"}
+                          {wo.customer?.name ?? "No Customer"}
                         </span>
                         <div className="scale-75 origin-right">
-                          <PriorityBadge priority={wo.priority} />
+                          <PriorityBadge priority={wo.priority as WorkOrderPriority} />
                         </div>
                       </div>
                     </div>
