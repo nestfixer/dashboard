@@ -21,7 +21,7 @@ export async function GET(req: Request, { params }: { params: { filename: string
         'Cache-Control': 'public, max-age=31536000, immutable',
       },
     })
-  } catch (error) {
+  } catch {
     return new NextResponse('File not found', { status: 404 })
   }
 }
