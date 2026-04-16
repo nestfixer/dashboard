@@ -4,11 +4,20 @@ import { StatusBadge } from "@/components/shared/StatusBadge"
 import { DueDateBadge } from "@/components/shared/DueDateBadge"
 import { UserAvatar } from "@/components/shared/UserAvatar"
 
-import { User, WorkOrder } from "@/types"
+import { WorkOrderStatus } from "@/types"
 
 interface PartnerWorkProps {
-  user: User
-  workOrders: Partial<WorkOrder>[]
+  user: {
+    id: number
+    displayName: string
+    color: string
+  }
+  workOrders: {
+    id: number
+    title: string
+    dueDate: Date | null
+    status: string
+  }[]
 }
 
 export function PartnerWork({ user, workOrders }: PartnerWorkProps) {
@@ -31,7 +40,7 @@ export function PartnerWork({ user, workOrders }: PartnerWorkProps) {
               <span className="text-sm text-foreground group-hover:text-accent-blue transition-colors truncate">{wo.title}</span>
               <div className="flex items-center gap-2 flex-shrink-0 ml-4">
                 <DueDateBadge dueDate={wo.dueDate} />
-                <StatusBadge status={wo.status} />
+                <StatusBadge status={wo.status as WorkOrderStatus} />
               </div>
             </Link>
           ))}

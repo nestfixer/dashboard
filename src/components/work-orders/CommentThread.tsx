@@ -17,7 +17,7 @@ interface Props {
   currentUserId: number
 }
 
-export function CommentThread({ workOrderId, initialComments, currentUserId }: Props) {
+export function CommentThread({ workOrderId, initialComments }: Props) {
   const [comments, setComments] = useState(initialComments)
   const [newComment, setNewComment] = useState("")
   const [submitting, setSubmitting] = useState(false)

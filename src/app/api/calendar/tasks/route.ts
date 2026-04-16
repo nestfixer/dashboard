@@ -25,6 +25,7 @@ export async function POST(req: NextRequest) {
       title: body.title,
       description: body.description || null,
       date: new Date(body.date),
+      endDate: body.endDate ? new Date(body.endDate) : null,
       allDay: body.allDay ?? true,
       color: body.color || "#50e3c2",
       createdById: parseInt(session.user.id),

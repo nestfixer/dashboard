@@ -4,13 +4,12 @@ interface Props {
   open: boolean
   title: string
   message: string
-  confirmLabel?: string
-  destructive?: boolean
+
   onConfirm: () => void
   onCancel: () => void
 }
 
-export function ConfirmDialog({ open, title, message, confirmLabel = "Confirm", destructive, onConfirm, onCancel }: Props) {
+export function ConfirmDialog({ open, title, message, onConfirm, onCancel }: Props) {
   if (!open) return null
   return (
     <div className="fixed inset-0 z-[200] flex items-center justify-center p-4">

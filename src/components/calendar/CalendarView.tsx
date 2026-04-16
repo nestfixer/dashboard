@@ -5,11 +5,11 @@ import FullCalendar from "@fullcalendar/react"
 import dayGridPlugin from "@fullcalendar/daygrid"
 import timeGridPlugin from "@fullcalendar/timegrid"
 import interactionPlugin, { Draggable } from "@fullcalendar/interaction"
-import type { EventInput, DatesSetArg, EventClickArg } from "@fullcalendar/core"
-import type { DateClickArg, EventReceiveArg, EventDropArg } from "@fullcalendar/interaction"
+import type { EventInput, DatesSetArg, EventClickArg, EventDropArg } from "@fullcalendar/core"
+import type { DateClickArg, EventReceiveArg, EventResizeDoneArg } from "@fullcalendar/interaction"
 import { format } from "date-fns"
 import { useRouter } from "next/navigation"
-import { StatusBadge } from "@/components/shared/StatusBadge"
+
 import { PriorityBadge } from "@/components/shared/PriorityBadge"
 
 export function CalendarView({ compact = false }: { compact?: boolean }) {
@@ -19,13 +19,13 @@ export function CalendarView({ compact = false }: { compact?: boolean }) {
   const [dayLabel, setDayLabel] = useState(compact ? format(new Date(), "EEEE, MMMM d, yyyy") : "")
   const [events, setEvents] = useState<EventInput[]>([])
   const [loading, setLoading] = useState(false)
-  const [unscheduledWOs, setUnscheduledWOs] = useState<any[]>([])
+  const [unscheduledWOs, setUnscheduledWOs] = useState<Record<string, unknown>[]>([])
   const [loadingUnscheduled, setLoadingUnscheduled] = useState(false)
-  const [tasks, setTasks] = useState<any[]>([])
+  const [tasks, setTasks] = useState<Record<string, unknown>[]>([])
   const [taskModal, setTaskModal] = useState<{
     open: boolean
     date?: string
-    task?: any
+    task?: Record<string, unknown>
   }>({ open: false })
   const [taskForm, setTaskForm] = useState({ title: "", description: "" })
 
@@ -83,12 +83,15 @@ export function CalendarView({ compact = false }: { compact?: boolean }) {
     }
   }, [unscheduledWOs])
 
-  const updateWODueDate = async (woId: number, date: Date | null) => {
+  const updateWODueDate = async (woId: number, date: Date | null, endDate?: Date | null) => {
     try {
+      const payload: { dueDate?: string; endDate?: string | null } = { dueDate: date?.toISOString() }
+      if (endDate !== undefined) payload.endDate = endDate?.toISOString() || null
+
       const res = await fetch(`/api/work-orders/${woId}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ dueDate: date?.toISOString() }),
+        body: JSON.stringify(payload),
       })
       if (!res.ok) throw new Error("Failed to update work order")
 
@@ -141,14 +144,64 @@ export function CalendarView({ compact = false }: { compact?: boolean }) {
 
   function handleEventDrop(info: EventDropArg) {
     const type = info.event.extendedProps?.type
+
+    if (type === "task") {
+      const taskId = info.event.extendedProps?.taskId
+      if (taskId) {
+        fetch(`/api/calendar/tasks/${taskId}`, {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ 
+            date: info.event.start?.toISOString(),
+            endDate: info.event.end ? info.event.end.toISOString() : null,
+            allDay: info.event.allDay 
+          }),
+        }).catch(err => {
+          console.error("Error updating task:", err)
+          info.revert()
+        })
+      }
+      return
+    }
+
     if (type === "workorder") {
       const woId = info.event.extendedProps?.woId
-      const date = info.event.start
-      if (woId) updateWODueDate(woId, date)
+      if (woId) updateWODueDate(woId, info.event.start, info.event.end)
     } else {
       info.revert()
-      alert("Only work orders can be rescheduled via drag and drop.")
+      alert("Only work orders and tasks can be rescheduled via drag and drop.")
     }
+  }
+
+  function handleEventResize(info: EventResizeDoneArg) {
+    const type = info.event.extendedProps?.type
+    
+    if (type === "task") {
+      const taskId = info.event.extendedProps?.taskId
+      if (taskId) {
+        fetch(`/api/calendar/tasks/${taskId}`, {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ 
+            date: info.event.start?.toISOString(),
+            endDate: info.event.end ? info.event.end.toISOString() : null,
+            allDay: info.event.allDay 
+          }),
+        }).catch(err => {
+          console.error("Error updating task:", err)
+          info.revert()
+        })
+      }
+      return
+    }
+
+    if (type === "workorder") {
+      const woId = info.event.extendedProps?.woId
+      if (woId) updateWODueDate(woId, info.event.start, info.event.end)
+      return
+    }
+    
+    info.revert()
   }
 
   function goToMonth() {
@@ -199,6 +252,7 @@ export function CalendarView({ compact = false }: { compact?: boolean }) {
     id: `task-${t.id}`,
     title: t.title,
     start: t.date,
+    end: t.endDate,
     allDay: t.allDay,
     backgroundColor: t.completed ? "#374151" : (t.color || "#50e3c2"),
     borderColor: t.completed ? "#374151" : (t.color || "#50e3c2"),
@@ -338,6 +392,7 @@ export function CalendarView({ compact = false }: { compact?: boolean }) {
             eventClick={handleEventClick}
             eventReceive={handleEventReceive}
             eventDrop={handleEventDrop}
+            eventResize={handleEventResize}
             events={[...events, ...taskEvents]}
             editable={true}
             droppable={true}

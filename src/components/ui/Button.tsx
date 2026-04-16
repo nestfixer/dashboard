@@ -38,6 +38,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       )
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { href: _href, variant: _variant, className: _className, children: _children, ...rest } = props as ActionButtonProps & { href?: never; variant?: keyof typeof variants; className?: string; children?: React.ReactNode }
     return (
       <button

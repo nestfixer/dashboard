@@ -4,10 +4,17 @@ import { StatusBadge } from "@/components/shared/StatusBadge"
 import { DueDateBadge } from "@/components/shared/DueDateBadge"
 import { UserAvatar } from "@/components/shared/UserAvatar"
 
-import { WorkOrder } from "@/types"
+
 
 interface RecentWorkOrdersProps {
-  workOrders: WorkOrder[]
+  workOrders: {
+    id: number
+    title: string
+    status: string
+    dueDate: Date | null
+    customer?: { name: string } | null
+    assignedTo?: { displayName: string; color: string } | null
+  }[]
 }
 
 export function RecentWorkOrders({ workOrders }: RecentWorkOrdersProps) {

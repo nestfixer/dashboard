@@ -58,10 +58,10 @@ export async function POST(req: NextRequest) {
     try {
       const items = JSON.parse(text)
       return NextResponse.json(items)
-    } catch (parseError) {
+    } catch {
       console.error("JSON Parse Error:", text)
       // Fallback: try to find JSON block if it failed
-      const jsonMatch = text.match(/\[.*\]/s)
+      const jsonMatch = text.match(/\[[\s\S]*\]/)
       if (jsonMatch) {
         return NextResponse.json(JSON.parse(jsonMatch[0]))
       }

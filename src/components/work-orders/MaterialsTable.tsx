@@ -1,9 +1,6 @@
 "use client"
 
 import { useState, useRef } from "react"
-import { useRouter } from "next/navigation"
-import Input from "@/components/ui/Input"
-import Button from "@/components/ui/Button"
 
 interface Material {
   id: number
@@ -19,7 +16,6 @@ interface Props {
 }
 
 export function MaterialsTable({ workOrderId, initialMaterials, readonly }: Props) {
-  const router = useRouter()
   const [materials, setMaterials] = useState(initialMaterials)
   const [adding, setAdding] = useState(false)
   const [newName, setNewName] = useState("")
@@ -73,7 +69,7 @@ export function MaterialsTable({ workOrderId, initialMaterials, readonly }: Prop
       if (!res.ok) throw new Error("AI processing failed")
       const items = await res.json()
 
-      const newItems = []
+      const newItems: Material[] = []
       for (const item of items) {
         const addRes = await fetch(`/api/work-orders/${workOrderId}/materials`, {
           method: "POST",

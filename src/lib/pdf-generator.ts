@@ -60,7 +60,9 @@ export function generateInvoicePDF(invoice: Invoice): void {
   })
 
   // Totals
-  const finalY = (doc as any).lastAutoTable.finalY + 10
+  const finalY = ((doc as unknown) as { lastAutoTable?: { finalY?: number } }).lastAutoTable?.finalY 
+    ? ((doc as unknown) as { lastAutoTable: { finalY: number } }).lastAutoTable.finalY + 10 
+    : 100
   const col1 = 130
   const col2 = 180
 
@@ -76,12 +78,12 @@ export function generateInvoicePDF(invoice: Invoice): void {
   doc.text(formatCurrency(invoice.laborTotal), col2, finalY + 14, { align: "right" })
 
   doc.setFontSize(12)
-  doc.setFont(undefined as any, "bold")
+  doc.setFont("helvetica", "bold")
   doc.text("Grand Total:", col1, finalY + 24)
   doc.text(formatCurrency(invoice.grandTotal), col2, finalY + 24, { align: "right" })
 
   if (invoice.notes) {
-    doc.setFont(undefined as any, "normal")
+    doc.setFont("helvetica", "normal")
     doc.setFontSize(9)
     doc.setTextColor(100)
     doc.text("Notes:", 14, finalY + 35)

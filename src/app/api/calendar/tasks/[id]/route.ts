@@ -12,6 +12,8 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
       ...(body.title !== undefined && { title: body.title }),
       ...(body.description !== undefined && { description: body.description }),
       ...(body.date !== undefined && { date: new Date(body.date) }),
+      ...(body.endDate !== undefined && { endDate: body.endDate === null ? null : new Date(body.endDate) }),
+      ...(body.allDay !== undefined && { allDay: body.allDay }),
       ...(body.completed !== undefined && { completed: body.completed }),
     },
   })

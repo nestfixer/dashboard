@@ -1,7 +1,7 @@
 import { TimeEntry } from "@/types"
 import { format } from "date-fns"
 
-export function timesheetToCSV(entries: TimeEntry[], weekStart: Date): string {
+export function timesheetToCSV(entries: TimeEntry[]): string {
   const headers = ["Date", "Work Order", "Type", "Duration (hrs)", "Notes"]
   const rows = entries.map((e) => {
     const date = format(new Date(e.date), "yyyy-MM-dd")

@@ -3,6 +3,7 @@ import { revalidatePath } from "next/cache"
 import { prisma } from "@/lib/prisma"
 import { auth } from "@/auth"
 import { CreateWorkOrderSchema } from "@/lib/validations/work-order"
+import { Prisma } from "@prisma/client"
 
 export async function GET(req: NextRequest) {
   const session = await auth()
@@ -17,7 +18,7 @@ export async function GET(req: NextRequest) {
 
   const scheduled = searchParams.get("scheduled")
   
-  const where: any = {}
+  const where: Prisma.WorkOrderWhereInput = {}
   if (search) {
     where.OR = [
       { title: { contains: search, mode: "insensitive" } },

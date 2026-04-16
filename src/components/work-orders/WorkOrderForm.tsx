@@ -21,7 +21,7 @@ interface Props {
   }
 }
 
-export function WorkOrderForm({ customers, users, currentUserId, defaultValues }: Props) {
+export function WorkOrderForm({ customers, defaultValues }: Props) {
   const router = useRouter()
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
@@ -74,8 +74,9 @@ export function WorkOrderForm({ customers, users, currentUserId, defaultValues }
         if (data.customerAddress) setNewCustomerAddress(data.customerAddress)
       }
       setExtractedFrom(file.name)
-    } catch (err: any) {
-      setExtractError(err.message ?? "Could not extract from image")
+    } catch (err) {
+      const error = err as Error
+      setExtractError(error.message ?? "Could not extract from image")
     } finally {
       setExtracting(false)
     }

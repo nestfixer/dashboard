@@ -8,8 +8,19 @@ import Link from "next/link"
 import { UserAvatar } from "@/components/shared/UserAvatar"
 import { User } from "@/types"
 
+interface TimeEntry {
+  id: number
+  userId: number
+  date: string
+  durationMins: number | null
+  description: string | null
+  user: User
+  workOrder?: { id: number; title: string } | null
+  isBilled: boolean
+}
+
 function TimesheetsPage() {
-  const [entries, setEntries] = useState<any[]>([]) // Using any for composite fetched data
+  const [entries, setEntries] = useState<TimeEntry[]>([])
   const [users, setUsers] = useState<User[]>([])
   const [loading, setLoading] = useState(true)
 
@@ -47,7 +58,7 @@ function TimesheetsPage() {
 
   useEffect(() => { fetchEntries() }, [fetchEntries])
 
-  const byDate = entries.reduce<Record<string, any[]>>((acc, e) => {
+  const byDate = entries.reduce<Record<string, TimeEntry[]>>((acc, e) => {
     const day = format(new Date(e.date), "yyyy-MM-dd")
     ;(acc[day] ??= []).push(e)
     return acc

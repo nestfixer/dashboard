@@ -52,6 +52,15 @@ export interface Comment {
   editedAt?: string | null
 }
 
+export interface SubTask {
+  id: number
+  workOrderId: number
+  title: string
+  completed: boolean
+  position: number
+  createdAt: string
+}
+
 export interface TimeEntry {
   id: number
   workOrderId: number
@@ -86,6 +95,7 @@ export interface WorkOrder {
   images?: WorkOrderImage[]
   comments?: Comment[]
   timeEntries?: TimeEntry[]
+  subTasks?: SubTask[]
 }
 
 export interface InvoiceLine {

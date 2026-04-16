@@ -8,6 +8,7 @@ export const CreateWorkOrderSchema = z.object({
   description: z.string().optional(),
   priority: WorkOrderPrioritySchema.default("Medium"),
   dueDate: z.string().optional().nullable(),
+  endDate: z.string().optional().nullable(),
   remarks: z.string().optional().nullable(),
   customerId: z.number().int().positive().optional().nullable(),
 })

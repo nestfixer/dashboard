@@ -42,7 +42,7 @@ export default async function WorkOrdersPage({
         assignedTo: { select: { id: true, displayName: true, color: true } },
         _count: { select: { comments: true, timeEntries: true } },
       },
-      orderBy: { [sortField as any]: order as "asc" | "desc" },
+      orderBy: { [sortField as keyof Prisma.WorkOrderOrderByWithRelationInput]: order as "asc" | "desc" },
     }),
     prisma.user.findMany({ select: { id: true, displayName: true } }),
   ])

@@ -3,18 +3,16 @@
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { ConfirmDialog } from "@/components/shared/ConfirmDialog"
-import Button from "@/components/ui/Button"
-import Select from "@/components/ui/Select"
 
 interface Props {
   workOrderId: number
   status: string
   assignedToId: number | null
-  currentUserId: number
+
   users: { id: number; displayName: string }[]
 }
 
-export function WorkOrderActions({ workOrderId, status, assignedToId, currentUserId, users }: Props) {
+export function WorkOrderActions({ workOrderId, status, users }: Props) {
   const router = useRouter()
   const [loading, setLoading] = useState<string | null>(null)
   const [confirmDelete, setConfirmDelete] = useState(false)
@@ -38,7 +36,6 @@ export function WorkOrderActions({ workOrderId, status, assignedToId, currentUse
     router.push("/work-orders")
   }
 
-  const otherUsers = users.filter((u) => u.id !== currentUserId)
 
   return (
     <>

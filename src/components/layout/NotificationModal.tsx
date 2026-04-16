@@ -1,7 +1,7 @@
 "use client"
 
 import { useNotifications } from "@/hooks/useNotifications"
-import { getDueDateStatus } from "@/lib/due-date"
+
 import Link from "next/link"
 import { format } from "date-fns"
 
@@ -19,8 +19,7 @@ export function NotificationModal() {
         </h3>
 
         <div className="space-y-2 mb-4">
-          {notifications.map((n: any) => {
-            const status = getDueDateStatus(n.dueDate)
+          {notifications.map((n: { id: number; dueDate: string | null; title: string }) => {
             return (
               <Link
                 key={n.id}

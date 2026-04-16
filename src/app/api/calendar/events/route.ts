@@ -56,6 +56,7 @@ export async function GET(req: NextRequest) {
       id: `wo-${wo.id}`,
       title: wo.title,
       start: wo.dueDate,
+      end: wo.endDate,
       allDay: isAllDay,
       backgroundColor: dimmed ? "#d1d5db" : color,
       borderColor: dimmed ? "#9ca3af" : color,

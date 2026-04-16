@@ -44,7 +44,8 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
     where: { id: parseInt(params.id) },
     data: {
       ...parsed.data,
-      dueDate: parsed.data.dueDate ? new Date(parsed.data.dueDate) : parsed.data.dueDate,
+      dueDate: parsed.data.dueDate !== undefined ? (parsed.data.dueDate ? new Date(parsed.data.dueDate) : null) : undefined,
+      endDate: parsed.data.endDate !== undefined ? (parsed.data.endDate ? new Date(parsed.data.endDate) : null) : undefined,
     },
     include: { customer: true, assignedTo: { select: { id: true, displayName: true, color: true } } },
   })

@@ -44,6 +44,7 @@ model WorkOrder {
   status       String    @default("Pending")
   priority     String    @default("Medium")
   dueDate      DateTime?
+  endDate      DateTime?
   remarks      String?
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @updatedAt
@@ -80,6 +81,7 @@ model CalendarTask {
   title       String
   description String?
   date        DateTime
+  endDate     DateTime?
   allDay      Boolean   @default(true)
   color       String    @default("#50e3c2")
   completed   Boolean   @default(false)

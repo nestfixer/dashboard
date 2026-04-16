@@ -5,10 +5,18 @@ import { StatusBadge } from "@/components/shared/StatusBadge"
 import { DueDateBadge } from "@/components/shared/DueDateBadge"
 import { UserAvatar } from "@/components/shared/UserAvatar"
 
-import { WorkOrder } from "@/types"
+
 
 interface TodayScheduleProps {
-  jobs: WorkOrder[]
+  jobs: {
+    id: number
+    title: string
+    status: string
+    dueDate: Date | null
+    customer?: { name: string } | null
+    assignedTo?: { displayName: string; color: string } | null
+    subTasks?: { id: string; title: string; completed: boolean }[]
+  }[]
 }
 
 export function TodaySchedule({ jobs }: TodayScheduleProps) {
@@ -30,7 +38,7 @@ export function TodaySchedule({ jobs }: TodayScheduleProps) {
       ) : (
         <div className="space-y-2">
           {jobs.map((wo) => {
-            const completedSubs = wo.subTasks?.filter((s: any) => s.completed).length ?? 0
+            const completedSubs = wo.subTasks?.filter((s: { completed: boolean }) => s.completed).length ?? 0
             const totalSubs = wo.subTasks?.length ?? 0
             
             return (
