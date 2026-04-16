@@ -8,6 +8,175 @@ const PRESET_COLORS = [
   "#3b82f6", "#8b5cf6", "#f97316", "#14b8a6",
 ]
 
+interface ApiKey {
+  id: number
+  name: string
+  keyPrefix: string
+  permissions: string[]
+  lastUsedAt: string | null
+  createdAt: string
+}
+
+function ApiKeysSection() {
+  const [keys, setKeys] = useState<ApiKey[]>([])
+  const [loading, setLoading] = useState(true)
+  const [creating, setCreating] = useState(false)
+  const [newKeyName, setNewKeyName] = useState("")
+  const [newKeyPermissions, setNewKeyPermissions] = useState<string[]>(["read"])
+  const [revealedKey, setRevealedKey] = useState<string | null>(null)
+  const [msg, setMsg] = useState<{ type: "success" | "error"; text: string } | null>(null)
+
+  useEffect(() => {
+    fetch("/api/api-keys")
+      .then((r) => r.json())
+      .then(setKeys)
+      .catch(() => {})
+      .finally(() => setLoading(false))
+  }, [])
+
+  async function createKey(e: React.FormEvent) {
+    e.preventDefault()
+    setCreating(true)
+    setMsg(null)
+    setRevealedKey(null)
+    try {
+      const res = await fetch("/api/api-keys", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: newKeyName, permissions: newKeyPermissions }),
+      })
+      const data = await res.json()
+      if (!res.ok) {
+        setMsg({ type: "error", text: data.error ?? "Failed to create key" })
+      } else {
+        setRevealedKey(data.key)
+        setNewKeyName("")
+        setKeys((prev) => [
+          { id: data.id, name: data.name, keyPrefix: data.keyPrefix, permissions: data.permissions, lastUsedAt: null, createdAt: data.createdAt },
+          ...prev,
+        ])
+        setMsg({ type: "success", text: "API key created — copy it now, it won't be shown again." })
+      }
+    } catch {
+      setMsg({ type: "error", text: "Something went wrong" })
+    } finally {
+      setCreating(false)
+    }
+  }
+
+  async function revokeKey(id: number) {
+    if (!confirm("Revoke this API key? Any integration using it will stop working.")) return
+    const res = await fetch(`/api/api-keys/${id}`, { method: "DELETE" })
+    if (res.ok) {
+      setKeys((prev) => prev.filter((k) => k.id !== id))
+    }
+  }
+
+  function togglePermission(perm: string) {
+    setNewKeyPermissions((prev) =>
+      prev.includes(perm) ? prev.filter((p) => p !== perm) : [...prev, perm]
+    )
+  }
+
+  return (
+    <div className="bg-card rounded-xl border border-border p-6">
+      <h3 className="text-sm font-semibold text-foreground mb-1">API Keys</h3>
+      <p className="text-xs text-muted mb-4">Use API keys to authenticate external integrations with <code className="bg-muted/20 px-1 rounded">/api/v1/</code> endpoints.</p>
+
+      {/* Create form */}
+      <form onSubmit={createKey} className="space-y-3 mb-6 pb-6 border-b border-border">
+        <div className="flex gap-2">
+          <input
+            type="text"
+            placeholder="Key name (e.g. Zapier integration)"
+            value={newKeyName}
+            onChange={(e) => setNewKeyName(e.target.value)}
+            className="flex-1 rounded-lg border border-border bg-card text-foreground px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent-blue"
+            required
+          />
+        </div>
+        <div className="flex items-center gap-3">
+          <span className="text-xs text-muted">Permissions:</span>
+          {(["read", "write", "webhooks"] as const).map((perm) => (
+            <label key={perm} className="flex items-center gap-1.5 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={newKeyPermissions.includes(perm)}
+                onChange={() => togglePermission(perm)}
+                className="rounded"
+              />
+              <span className="text-xs text-foreground capitalize">{perm}</span>
+            </label>
+          ))}
+        </div>
+        <button
+          type="submit"
+          disabled={creating}
+          className="px-4 py-2 bg-accent-blue hover:bg-accent-blue/90 disabled:opacity-50 text-white text-sm font-medium rounded-lg transition-colors"
+        >
+          {creating ? "Creating…" : "Create API Key"}
+        </button>
+      </form>
+
+      {/* One-time key reveal */}
+      {revealedKey && (
+        <div className="mb-4 p-3 rounded-lg bg-green-500/10 border border-green-500/30">
+          <p className="text-xs font-medium text-green-400 mb-1">Copy your new API key — it won&apos;t be shown again:</p>
+          <div className="flex items-center gap-2">
+            <code className="text-xs text-green-300 break-all flex-1">{revealedKey}</code>
+            <button
+              onClick={() => { navigator.clipboard.writeText(revealedKey); setMsg({ type: "success", text: "Copied!" }) }}
+              className="shrink-0 px-2 py-1 text-xs bg-green-500/20 hover:bg-green-500/30 text-green-300 rounded"
+            >
+              Copy
+            </button>
+          </div>
+        </div>
+      )}
+
+      {msg && (
+        <p className={`text-xs mb-4 ${msg.type === "success" ? "text-green-400" : "text-red-400"}`}>
+          {msg.text}
+        </p>
+      )}
+
+      {/* Key list */}
+      {loading ? (
+        <p className="text-xs text-muted">Loading…</p>
+      ) : keys.length === 0 ? (
+        <p className="text-xs text-muted">No API keys yet.</p>
+      ) : (
+        <ul className="space-y-3">
+          {keys.map((key) => (
+            <li key={key.id} className="flex items-center justify-between gap-3 py-2 border-b border-border/50 last:border-0">
+              <div className="min-w-0">
+                <p className="text-sm font-medium text-foreground truncate">{key.name}</p>
+                <div className="flex items-center gap-2 mt-0.5">
+                  <code className="text-xs text-muted">{key.keyPrefix}…</code>
+                  <span className="text-xs text-muted">·</span>
+                  <span className="text-xs text-muted">{key.permissions.join(", ")}</span>
+                  {key.lastUsedAt && (
+                    <>
+                      <span className="text-xs text-muted">·</span>
+                      <span className="text-xs text-muted">last used {new Date(key.lastUsedAt).toLocaleDateString()}</span>
+                    </>
+                  )}
+                </div>
+              </div>
+              <button
+                onClick={() => revokeKey(key.id)}
+                className="shrink-0 px-2 py-1 text-xs text-red-400 hover:bg-red-500/10 rounded transition-colors"
+              >
+                Revoke
+              </button>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  )
+}
+
 export default function SettingsPage() {
   const { data: session, update: updateSession } = useSession()
 
@@ -204,6 +373,9 @@ export default function SettingsPage() {
           </button>
         </form>
       </div>
+
+      {/* API Keys */}
+      <ApiKeysSection />
     </div>
   )
 }

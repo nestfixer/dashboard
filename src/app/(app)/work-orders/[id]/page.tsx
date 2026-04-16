@@ -3,16 +3,14 @@ import { requireAuth } from "@/lib/auth-helpers"
 import { notFound } from "next/navigation"
 import Link from "next/link"
 import { StatusBadge } from "@/components/shared/StatusBadge"
-import { PriorityBadge } from "@/components/shared/PriorityBadge"
-import { DueDateBadge } from "@/components/shared/DueDateBadge"
 import { MaterialsTable } from "@/components/work-orders/MaterialsTable"
 import { CommentThread } from "@/components/work-orders/CommentThread"
 import { TimeTracker } from "@/components/work-orders/TimeTracker"
 import { ImageUploader } from "@/components/work-orders/ImageUploader"
 import { WorkOrderActions } from "@/components/work-orders/WorkOrderActions"
 import { SubTaskList } from "@/components/work-orders/SubTaskList"
-import { UserAvatar } from "@/components/shared/UserAvatar"
 import { format } from "date-fns"
+import { WorkOrderStatus } from "@/types"
 
 export default async function WorkOrderDetailPage({ params }: { params: { id: string } }) {
   const { userId } = await requireAuth()
@@ -74,7 +72,7 @@ export default async function WorkOrderDetailPage({ params }: { params: { id: st
           </nav>
 
           <div className="flex items-center gap-3">
-            <StatusBadge status={wo.status as any} />
+            <StatusBadge status={wo.status as WorkOrderStatus} />
             <span className="text-[10px] font-bold text-muted uppercase tracking-widest">
               Elapsed Time:
               <span className="text-foreground ml-2">{totalHours} hrs logged</span>
@@ -165,9 +163,9 @@ export default async function WorkOrderDetailPage({ params }: { params: { id: st
           <SubTaskList workOrderId={wo.id} initialSubTasks={wo.subTasks} />
           <ImageUploader workOrderId={wo.id} initialImages={wo.images} />
           <div id="comments">
-            <CommentThread workOrderId={wo.id} initialComments={wo.comments as any} currentUserId={userId} />
+            <CommentThread workOrderId={wo.id} initialComments={wo.comments as never} currentUserId={userId} />
           </div>
-          <TimeTracker workOrderId={wo.id} initialEntries={wo.timeEntries as any} currentUserId={userId} />
+          <TimeTracker workOrderId={wo.id} initialEntries={wo.timeEntries as never} currentUserId={userId} />
         </div>
 
         {/* Right: sidebar */}
@@ -180,29 +178,32 @@ export default async function WorkOrderDetailPage({ params }: { params: { id: st
               {/* Banner + Avatar */}
               <div className="relative h-20 bg-[#1a2b6b]" />
               <div className="px-5 pb-5">
-                <div className="-mt-7 mb-3">
+                <div className="relative z-10 -mt-7 mb-3">
                   <div
-                    className="w-14 h-14 rounded-full border-4 border-card flex items-center justify-center text-white font-bold text-xl shadow-md flex-shrink-0"
-                    style={{ backgroundColor: "#4A90E2" }}
+                    className="w-14 h-14 rounded-full border-4 border-card flex items-center justify-center text-white font-bold text-xl shadow-md flex-shrink-0 bg-[#4A90E2]"
                   >
                     {customerInitials}
                   </div>
                 </div>
 
                 {/* Name + subtitle */}
-                <p className="font-bold text-foreground text-base leading-tight">{wo.customer.name}</p>
+                <p className="font-bold text-foreground text-base leading-tight break-words pr-2">
+                  {wo.customer.name}
+                </p>
                 {wo.customer.notes && (
-                  <p className="text-xs text-slate-400 mt-0.5 mb-4">{wo.customer.notes}</p>
+                  <p className="text-xs text-slate-400 mt-1 mb-4 line-clamp-3">
+                    {wo.customer.notes}
+                  </p>
                 )}
                 {!wo.customer.notes && <div className="mb-4" />}
 
                 {/* Contact row */}
                 {wo.customer.phone && (
-                  <div className="flex items-center justify-between py-2.5 border-t border-border">
-                    <span className="text-xs text-slate-400">Contact</span>
+                  <div className="flex items-center justify-between gap-4 py-2.5 border-t border-border">
+                    <span className="text-xs text-slate-400 shrink-0">Contact</span>
                     <a
                       href={`tel:${wo.customer.phone}`}
-                      className="text-sm font-medium text-foreground hover:text-accent-blue transition-colors"
+                      className="text-sm font-medium text-foreground hover:text-accent-blue transition-colors truncate text-right min-w-0"
                     >
                       {wo.customer.phone}
                     </a>
@@ -211,11 +212,11 @@ export default async function WorkOrderDetailPage({ params }: { params: { id: st
 
                 {/* Email row */}
                 {wo.customer.email && (
-                  <div className="flex items-center justify-between py-2.5 border-t border-border">
-                    <span className="text-xs text-slate-400">Email</span>
+                  <div className="flex items-center justify-between gap-4 py-2.5 border-t border-border">
+                    <span className="text-xs text-slate-400 shrink-0">Email</span>
                     <a
                       href={`mailto:${wo.customer.email}`}
-                      className="text-sm font-medium text-foreground hover:text-accent-blue transition-colors truncate max-w-[60%] text-right"
+                      className="text-sm font-medium text-foreground hover:text-accent-blue transition-colors truncate text-right min-w-0"
                     >
                       {wo.customer.email}
                     </a>
@@ -236,7 +237,9 @@ export default async function WorkOrderDetailPage({ params }: { params: { id: st
                     <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1.5">
                       Account Remarks
                     </p>
-                    <p className="text-xs text-slate-500 italic leading-relaxed">{wo.remarks}</p>
+                    <p className="text-xs text-slate-500 italic leading-relaxed break-words">
+                      {wo.remarks}
+                    </p>
                   </div>
                 )}
               </div>
@@ -265,9 +268,7 @@ export default async function WorkOrderDetailPage({ params }: { params: { id: st
               <div className="mx-5 mb-3 rounded-lg overflow-hidden border border-border h-32 bg-slate-100 relative">
                 <iframe
                   title="Map"
-                  width="100%"
-                  height="100%"
-                  style={{ border: 0 }}
+                  className="w-full h-full border-0"
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
                   src={`https://maps.google.com/maps?q=${encodeURIComponent(wo.customer.address)}&output=embed&z=15`}

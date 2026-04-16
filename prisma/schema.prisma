@@ -22,6 +22,7 @@ model User {
   editRequests  CalendarEditRequest[] @relation("RequestedBy")
   editApprovals CalendarEditRequest[] @relation("RequestedTo")
   calendarTasks CalendarTask[]
+  apiKeys       ApiKey[]
 }
 
 model Customer {
@@ -176,4 +177,43 @@ model CalendarEditRequest {
   status        String    @default("Pending")
   createdAt     DateTime  @default(now())
   resolvedAt    DateTime?
+}
+
+model ApiKey {
+  id          Int       @id @default(autoincrement())
+  name        String
+  keyHash     String    @unique
+  keyPrefix   String
+  userId      Int
+  user        User      @relation(fields: [userId], references: [id])
+  permissions String[]  @default(["read"])
+  lastUsedAt  DateTime?
+  revokedAt   DateTime?
+  createdAt   DateTime  @default(now())
+  webhooks    Webhook[]
+}
+
+model Webhook {
+  id         Int               @id @default(autoincrement())
+  url        String
+  secret     String
+  events     String[]
+  active     Boolean           @default(true)
+  apiKeyId   Int
+  apiKey     ApiKey            @relation(fields: [apiKeyId], references: [id])
+  deliveries WebhookDelivery[]
+  createdAt  DateTime          @default(now())
+}
+
+model WebhookDelivery {
+  id          Int       @id @default(autoincrement())
+  webhookId   Int
+  webhook     Webhook   @relation(fields: [webhookId], references: [id])
+  event       String
+  payload     Json
+  statusCode  Int?
+  attempts    Int       @default(0)
+  lastError   String?
+  deliveredAt DateTime?
+  createdAt   DateTime  @default(now())
 }
