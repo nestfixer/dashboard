@@ -2,6 +2,8 @@
 
 import { useState, useRef } from "react"
 import { useRouter } from "next/navigation"
+import { useImageExtraction } from "../../hooks/useImageExtraction"
+import { ImageIcon, CheckIcon } from "../ui/Icons"
 
 interface Customer { id: number; name: string; phone?: string | null; address?: string | null; email?: string | null }
 interface User { id: number; displayName: string }
@@ -42,57 +44,31 @@ export function WorkOrderForm({ customers, defaultValues }: Props) {
   const [newCustomerPhone, setNewCustomerPhone] = useState("")
   const [newCustomerAddress, setNewCustomerAddress] = useState("")
 
-  // Image extraction state
-  const [extracting, setExtracting] = useState(false)
-  const [extractError, setExtractError] = useState("")
-  const [extractedFrom, setExtractedFrom] = useState<string | null>(null)
-  const [dragOver, setDragOver] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
+  
+  const {
+    extracting,
+    extractError,
+    extractedFrom,
+    dragOver,
+    handleFileChange,
+    handleDrop,
+    handleDragOver,
+    handleDragLeave
+  } = useImageExtraction({
+    setTitle,
+    setDescription,
+    setPriority,
+    setRemarks,
+    setNewCustomerMode,
+    setNewCustomerName,
+    setNewCustomerPhone,
+    setNewCustomerAddress
+  })
 
   const filteredCustomers = customers.filter((c) =>
     c.name.toLowerCase().includes(customerSearch.toLowerCase())
   )
-
-  async function extractFromImage(file: File) {
-    setExtracting(true)
-    setExtractError("")
-    setExtractedFrom(null)
-    try {
-      const fd = new FormData()
-      fd.append("image", file)
-      const res = await fetch("/api/work-orders/extract-from-image", { method: "POST", body: fd })
-      const data = await res.json()
-      if (!res.ok) throw new Error(data.error ?? "Extraction failed")
-      if (data.title) setTitle(data.title)
-      if (data.description) setDescription(data.description)
-      if (data.priority) setPriority(data.priority)
-      if (data.remarks) setRemarks(data.remarks)
-      if (data.customerName || data.customerPhone || data.customerAddress) {
-        setNewCustomerMode(true)
-        if (data.customerName) setNewCustomerName(data.customerName)
-        if (data.customerPhone) setNewCustomerPhone(data.customerPhone)
-        if (data.customerAddress) setNewCustomerAddress(data.customerAddress)
-      }
-      setExtractedFrom(file.name)
-    } catch (err) {
-      const error = err as Error
-      setExtractError(error.message ?? "Could not extract from image")
-    } finally {
-      setExtracting(false)
-    }
-  }
-
-  function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files?.[0]
-    if (file) extractFromImage(file)
-  }
-
-  function handleDrop(e: React.DragEvent) {
-    e.preventDefault()
-    setDragOver(false)
-    const file = e.dataTransfer.files?.[0]
-    if (file && file.type.startsWith("image/")) extractFromImage(file)
-  }
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -151,8 +127,8 @@ export function WorkOrderForm({ customers, defaultValues }: Props) {
       {/* Image extraction zone — only show on new WO */}
       {!defaultValues?.id && (
         <div
-          onDragOver={(e) => { e.preventDefault(); setDragOver(true) }}
-          onDragLeave={() => setDragOver(false)}
+          onDragOver={handleDragOver}
+          onDragLeave={handleDragLeave}
           onDrop={handleDrop}
           onClick={() => fileInputRef.current?.click()}
           className={`relative flex flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed p-6 cursor-pointer transition-colors ${
@@ -178,17 +154,13 @@ export function WorkOrderForm({ customers, defaultValues }: Props) {
             </>
           ) : extractedFrom ? (
             <>
-              <svg className="w-5 h-5 text-accent-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-              </svg>
+              <CheckIcon className="w-5 h-5 text-accent-green" />
               <p className="text-sm font-medium text-accent-green">Extracted from <span className="font-semibold">{extractedFrom}</span></p>
               <p className="text-xs text-slate-400">Review and edit the fields below, then save</p>
             </>
           ) : (
             <>
-              <svg className="w-6 h-6 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-              </svg>
+              <ImageIcon className="w-6 h-6 text-muted-foreground" />
               <p className="text-sm font-medium text-foreground">Drop a screenshot to auto-fill</p>
               <p className="text-xs text-slate-400">or click to browse — works with Latchel, AppFolio, and similar apps</p>
             </>

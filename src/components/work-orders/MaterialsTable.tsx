@@ -1,6 +1,8 @@
 "use client"
 
 import { useState, useRef } from "react"
+import { useReceiptScanner } from "../../hooks/useReceiptScanner"
+import { BoxIcon, CameraIcon, XIcon } from "../ui/Icons"
 
 interface Material {
   id: number
@@ -22,7 +24,7 @@ export function MaterialsTable({ workOrderId, initialMaterials, readonly }: Prop
   const [newQty, setNewQty] = useState("1")
   const [newCost, setNewCost] = useState("0")
   const fileInputRef = useRef<HTMLInputElement>(null)
-  const [isScanning, setIsScanning] = useState(false)
+  const { isScanning, handleScanChange } = useReceiptScanner(workOrderId, setMaterials, fileInputRef)
 
   const total = materials.reduce((sum, m) => sum + m.quantity * m.unitCost, 0)
 
@@ -44,66 +46,11 @@ export function MaterialsTable({ workOrderId, initialMaterials, readonly }: Prop
     setMaterials(materials.filter((m) => m.id !== id))
   }
 
-  async function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files?.[0]
-    if (!file) return
-
-    setIsScanning(true)
-    try {
-      const reader = new FileReader()
-      const base64Promise = new Promise<string>((resolve) => {
-        reader.onloadend = () => {
-          const base64 = reader.result?.toString().split(",")[1] || ""
-          resolve(base64)
-        }
-      })
-      reader.readAsDataURL(file)
-      const imageBase64 = await base64Promise
-
-      const res = await fetch("/api/vision/process-receipt", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ imageBase64 }),
-      })
-      
-      if (!res.ok) throw new Error("AI processing failed")
-      const items = await res.json()
-
-      const newItems: Material[] = []
-      for (const item of items) {
-        const addRes = await fetch(`/api/work-orders/${workOrderId}/materials`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ 
-            name: item.name, 
-            quantity: item.quantity, 
-            unitCost: item.unitCost 
-          }),
-        })
-        if (addRes.ok) {
-          const m = await addRes.json()
-          newItems.push(m)
-        }
-      }
-      
-      setMaterials(prev => [...prev, ...newItems])
-      alert(`Successfully added ${newItems.length} items from receipt.`)
-    } catch (error) {
-      console.error("Scan error:", error)
-      alert("Failed to process receipt. Please try again.")
-    } finally {
-      setIsScanning(false)
-      if (fileInputRef.current) fileInputRef.current.value = ""
-    }
-  }
-
   return (
     <div className="bg-card rounded-xl border border-border shadow-sm overflow-hidden">
       <div className="flex items-center justify-between px-6 py-4 border-b border-border bg-gray-50">
         <h3 className="text-sm font-semibold text-foreground flex items-center gap-2">
-          <svg className="w-4 h-4 text-accent-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
-          </svg>
+          <BoxIcon className="w-4 h-4 text-accent-blue" strokeWidth={2} />
           Materials & Expenses
         </h3>
         {!readonly && (
@@ -111,7 +58,7 @@ export function MaterialsTable({ workOrderId, initialMaterials, readonly }: Prop
             <input
               type="file"
               ref={fileInputRef}
-              onChange={handleFileChange}
+              onChange={handleScanChange}
               accept="image/*"
               capture="environment"
               className="hidden"
@@ -128,10 +75,7 @@ export function MaterialsTable({ workOrderId, initialMaterials, readonly }: Prop
                 </>
               ) : (
                 <>
-                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
-                  </svg>
+                  <CameraIcon className="w-3.5 h-3.5" />
                   Scan Receipt
                 </>
               )}
@@ -149,9 +93,7 @@ export function MaterialsTable({ workOrderId, initialMaterials, readonly }: Prop
         {materials.length === 0 && !adding && (
           <div className="text-center py-10">
             <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4 border border-border">
-              <svg className="w-6 h-6 text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
-              </svg>
+              <BoxIcon className="w-6 h-6 text-muted" strokeWidth={1.5} />
             </div>
             <p className="text-sm text-slate-400">No materials or expenses logged for this order.</p>
           </div>
@@ -181,9 +123,7 @@ export function MaterialsTable({ workOrderId, initialMaterials, readonly }: Prop
                         className="p-1 text-muted hover:text-red-400 opacity-0 group-hover:opacity-100 transition-all active:scale-90"
                         title="Remove item"
                       >
-                        <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                        </svg>
+                        <XIcon className="w-3.5 h-3.5" />
                       </button>
                     </td>
                   )}
@@ -214,9 +154,7 @@ export function MaterialsTable({ workOrderId, initialMaterials, readonly }: Prop
                 className="text-muted hover:text-foreground transition-colors"
                 title="Cancel"
               >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
+                <XIcon className="w-4 h-4" />
               </button>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 items-end">
