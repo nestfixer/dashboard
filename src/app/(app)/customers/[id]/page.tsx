@@ -20,6 +20,7 @@ interface Customer {
   email: string | null
   address: string | null
   notes: string | null
+  isPropertyManagement: boolean
   createdAt: string
   workOrders: WorkOrder[]
 }
@@ -44,6 +45,7 @@ export default function CustomerDetailPage({ params }: { params: { id: string } 
   const [email, setEmail] = useState("")
   const [address, setAddress] = useState("")
   const [notes, setNotes] = useState("")
+  const [isPropertyManagement, setIsPropertyManagement] = useState(false)
 
   useEffect(() => {
     fetch(`/api/customers/${params.id}`)
@@ -55,6 +57,7 @@ export default function CustomerDetailPage({ params }: { params: { id: string } 
         setEmail(data.email ?? "")
         setAddress(data.address ?? "")
         setNotes(data.notes ?? "")
+        setIsPropertyManagement(data.isPropertyManagement ?? false)
         setLoading(false)
       })
   }, [params.id])
@@ -65,7 +68,7 @@ export default function CustomerDetailPage({ params }: { params: { id: string } 
     const res = await fetch(`/api/customers/${params.id}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name, phone: phone || null, email: email || null, address: address || null, notes: notes || null }),
+      body: JSON.stringify({ name, phone: phone || null, email: email || null, address: address || null, notes: notes || null, isPropertyManagement }),
     })
     if (res.ok) {
       const updated = await res.json()
@@ -90,6 +93,12 @@ export default function CustomerDetailPage({ params }: { params: { id: string } 
         <div className="flex items-center gap-3">
           <Link href="/customers" className="text-sm text-muted hover:text-[#1a2b6b] transition-colors">← Customers</Link>
           <h2 className="text-xl font-semibold text-foreground">{customer.name}</h2>
+          {customer.isPropertyManagement && (
+            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold bg-purple-500/15 text-purple-400">
+              <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>
+              Prop. Mgmt
+            </span>
+          )}
         </div>
         {!editing && (
           <div className="flex items-center gap-2">
@@ -136,6 +145,18 @@ export default function CustomerDetailPage({ params }: { params: { id: string } 
             <div>
               <label className="block text-xs font-medium text-muted mb-1">Notes</label>
               <textarea value={notes} onChange={(e) => setNotes(e.target.value)} rows={3} className="w-full rounded-lg border border-border bg-card text-foreground px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent-blue resize-none" />
+            </div>
+            <div className="flex items-center gap-2.5">
+              <input
+                type="checkbox"
+                id="isPropertyManagement"
+                checked={isPropertyManagement}
+                onChange={(e) => setIsPropertyManagement(e.target.checked)}
+                className="w-4 h-4 rounded border-border accent-purple-500"
+              />
+              <label htmlFor="isPropertyManagement" className="text-sm text-muted cursor-pointer select-none">
+                Property management company
+              </label>
             </div>
             <div className="flex gap-3 pt-2">
               <button type="submit" disabled={saving} className="px-4 py-2 bg-accent-blue hover:bg-accent-blue/90 disabled:opacity-50 text-white text-sm font-medium rounded-lg transition-colors">

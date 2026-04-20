@@ -147,9 +147,17 @@ export default async function WorkOrderDetailPage({ params }: { params: { id: st
             </div>
             <div className="min-w-0">
               <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-0.5">Customer</p>
-              <p className="text-sm font-semibold text-foreground truncate">
-                {wo.customer?.name ?? "—"}
-              </p>
+              <div className="flex items-center gap-1.5 flex-wrap">
+                <p className="text-sm font-semibold text-foreground truncate">
+                  {wo.customer?.name ?? "—"}
+                </p>
+                {wo.customer?.isPropertyManagement && (
+                  <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-full text-[10px] font-semibold bg-purple-500/15 text-purple-400">
+                    <svg className="w-2.5 h-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>
+                    Prop. Mgmt
+                  </span>
+                )}
+              </div>
             </div>
           </div>
         </div>
@@ -187,9 +195,17 @@ export default async function WorkOrderDetailPage({ params }: { params: { id: st
                 </div>
 
                 {/* Name + subtitle */}
-                <p className="font-bold text-foreground text-base leading-tight break-words pr-2">
-                  {wo.customer.name}
-                </p>
+                <div className="flex items-center gap-2 flex-wrap pr-2">
+                  <p className="font-bold text-foreground text-base leading-tight break-words">
+                    {wo.customer.name}
+                  </p>
+                  {wo.customer.isPropertyManagement && (
+                    <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-full text-[10px] font-semibold bg-purple-500/15 text-purple-400">
+                      <svg className="w-2.5 h-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>
+                      Prop. Mgmt
+                    </span>
+                  )}
+                </div>
                 {wo.customer.notes && (
                   <p className="text-xs text-slate-400 mt-1 mb-4 line-clamp-3">
                     {wo.customer.notes}
