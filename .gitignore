@@ -37,5 +37,6 @@ yarn-error.log*
 next-env.d.ts
 
 # IDE specific
-.claude/
+.claude/*
+!.claude/settings.json
 .omc/
