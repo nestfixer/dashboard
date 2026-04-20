@@ -1,5 +1,4 @@
 import React from "react"
-import { StatCard } from "@/components/shared/StatCard"
 
 interface StatsGridProps {
   totalWOs: number
@@ -9,25 +8,22 @@ interface StatsGridProps {
   myWOs: number
 }
 
-export function StatsGrid({
-  totalWOs,
-  pendingWOs,
-  acceptedWOs,
-  completedWOs,
-  myWOs,
-}: StatsGridProps) {
+export function StatsGrid({ totalWOs, pendingWOs, acceptedWOs, completedWOs, myWOs }: StatsGridProps) {
   const stats = [
-    { label: "Total WOs", value: totalWOs, color: "bg-card border-border text-white accent-blue" },
-    { label: "Pending", value: pendingWOs, color: "bg-card border-border text-white accent-yellow" },
-    { label: "In Progress", value: acceptedWOs, color: "bg-card border-border text-white accent-blue" },
-    { label: "Completed", value: completedWOs, color: "bg-card border-border text-white accent-green" },
-    { label: "My Open WOs", value: myWOs, color: "bg-card border-border text-white accent-red" },
+    { label: "Total WOs", value: totalWOs },
+    { label: "Pending", value: pendingWOs },
+    { label: "In Progress", value: acceptedWOs },
+    { label: "Completed", value: completedWOs },
+    { label: "My Open WOs", value: myWOs },
   ]
 
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+    <div className="bg-card border border-border rounded-xl px-4 py-3 flex items-center divide-x divide-border">
       {stats.map((s) => (
-        <StatCard key={s.label} {...s} />
+        <div key={s.label} className="flex items-center gap-2.5 px-4 first:pl-0 last:pr-0">
+          <span className="text-xl font-bold text-[#1a2b6b] tabular-nums">{s.value}</span>
+          <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider leading-tight">{s.label}</span>
+        </div>
       ))}
     </div>
   )
