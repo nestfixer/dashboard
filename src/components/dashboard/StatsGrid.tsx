@@ -20,9 +20,9 @@ export function StatsGrid({ totalWOs, pendingWOs, acceptedWOs, completedWOs, myW
   return (
     <div className="rounded-xl border border-border bg-card flex divide-x divide-border">
       {stats.map((s) => (
-        <div key={s.label} className="flex-1 px-4 py-3 text-center">
-          <div className="text-lg font-bold text-[#1a2b6b] tabular-nums">{s.value}</div>
-          <div className="text-[9px] font-bold text-slate-400 uppercase tracking-wider mt-0.5">{s.label}</div>
+        <div key={s.label} className="flex-1 px-3 py-2 flex items-center gap-2">
+          <span className="text-sm font-bold text-[#1a2b6b] tabular-nums">{s.value}</span>
+          <span className="text-[9px] font-semibold text-slate-400 uppercase tracking-wide leading-tight">{s.label}</span>
         </div>
       ))}
     </div>
