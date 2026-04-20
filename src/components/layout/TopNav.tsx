@@ -24,9 +24,10 @@ function getPageTitle(pathname: string): string {
 
 interface TopNavProps {
   onMenuClick: () => void
+  sidebarCollapsed?: boolean
 }
 
-export function TopNav({ onMenuClick }: TopNavProps) {
+export function TopNav({ onMenuClick, sidebarCollapsed }: TopNavProps) {
   const { data: session } = useSession()
   const pathname = usePathname()
   const [pendingRequests, setPendingRequests] = useState(0)
@@ -44,7 +45,7 @@ export function TopNav({ onMenuClick }: TopNavProps) {
   }, [])
 
   return (
-    <header className="fixed top-0 left-0 right-0 md:left-56 h-14 bg-white border-b border-border flex items-center justify-between px-3 sm:px-4 md:px-6 z-20 shadow-sm">
+    <header className={`fixed top-0 left-0 right-0 h-14 bg-white border-b border-border flex items-center justify-between px-3 sm:px-4 md:px-6 z-20 shadow-sm transition-all duration-300 ${sidebarCollapsed ? "md:left-16" : "md:left-56"}`}>
       <div className="flex items-center gap-2">
         <button
           onClick={onMenuClick}

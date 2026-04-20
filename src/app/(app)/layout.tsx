@@ -17,7 +17,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         collapsed={sidebarCollapsed}
         onToggleCollapse={() => setSidebarCollapsed((prev) => !prev)}
       />
-      <TopNav onMenuClick={() => setSidebarOpen(true)} />
+      <TopNav onMenuClick={() => setSidebarOpen(true)} sidebarCollapsed={sidebarCollapsed} />
       <NotificationModal />
       <main className={`pt-14 min-h-screen transition-all duration-300 ${sidebarCollapsed ? "md:ml-16" : "md:ml-56"}`}>
         <div className="p-3 sm:p-4 md:p-6">{children}</div>
