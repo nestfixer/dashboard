@@ -1,3 +1,5 @@
+'use client'
+
 import { prisma } from "@/lib/prisma"
 import { requireAuth } from "@/lib/auth-helpers"
 import { notFound } from "next/navigation"
