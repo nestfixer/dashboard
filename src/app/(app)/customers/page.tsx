@@ -83,9 +83,17 @@ export default async function CustomersPage({
               {customers.map((c) => (
                 <tr key={c.id} className="hover:bg-gray-50 transition-colors">
                   <td className="px-4 py-3">
-                    <Link href={`/customers/${c.id}`} className="font-medium text-foreground hover:text-accent-blue transition-colors">
-                      {c.name}
-                    </Link>
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <Link href={`/customers/${c.id}`} className="font-medium text-foreground hover:text-accent-blue transition-colors">
+                        {c.name}
+                      </Link>
+                      {c.isPropertyManagement && (
+                        <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full text-[10px] font-semibold bg-purple-500/15 text-purple-500">
+                          <svg className="w-2.5 h-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>
+                          Prop. Mgmt
+                        </span>
+                      )}
+                    </div>
                     {c.address && (
                       <p className="text-xs text-slate-400 truncate max-w-xs mt-0.5">{c.address}</p>
                     )}

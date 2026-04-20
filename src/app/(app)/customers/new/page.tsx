@@ -26,6 +26,7 @@ export default function NewCustomerPage() {
           email: get("email"),
           address: get("address"),
           notes: get("notes"),
+          isPropertyManagement: (form.elements.namedItem("isPropertyManagement") as HTMLInputElement).checked,
         }),
       })
       if (!res.ok) { setError("Failed to create customer"); return }
@@ -88,6 +89,17 @@ export default function NewCustomerPage() {
               rows={3}
               className="w-full rounded-lg border border-border bg-card text-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent-blue resize-none"
             />
+          </div>
+          <div className="flex items-center gap-2.5">
+            <input
+              type="checkbox"
+              name="isPropertyManagement"
+              id="isPropertyManagement"
+              className="w-4 h-4 rounded border-border accent-purple-500"
+            />
+            <label htmlFor="isPropertyManagement" className="text-sm text-muted cursor-pointer select-none">
+              Property management company
+            </label>
           </div>
           {error && <p className="text-sm text-red-400">{error}</p>}
           <div className="flex gap-3 pt-2">

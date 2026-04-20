@@ -6,6 +6,7 @@ export const CreateCustomerSchema = z.object({
   email: z.string().email().optional().nullable().or(z.literal("")),
   address: z.string().optional().nullable(),
   notes: z.string().optional().nullable(),
+  isPropertyManagement: z.boolean().optional().default(false),
 })
 
 export const UpdateCustomerSchema = CreateCustomerSchema.partial()
